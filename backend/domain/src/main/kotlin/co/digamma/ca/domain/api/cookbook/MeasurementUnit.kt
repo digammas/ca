@@ -1,4 +1,4 @@
-package co.digamma.ca.domain.api.model.cookbook
+package co.digamma.ca.domain.api.cookbook
 
 import java.util.Locale
 

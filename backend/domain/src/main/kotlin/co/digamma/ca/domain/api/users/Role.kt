@@ -1,4 +1,4 @@
-package co.digamma.ca.domain.api.model.users
+package co.digamma.ca.domain.api.users
 
 enum class Role {
     ADMIN,

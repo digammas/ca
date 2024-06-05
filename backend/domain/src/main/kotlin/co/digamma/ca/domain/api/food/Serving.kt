@@ -1,4 +1,4 @@
-package co.digamma.ca.domain.api.model.food
+package co.digamma.ca.domain.api.food
 
 import co.digamma.ca.domain.api.model.LocalizedModel
 import java.util.*

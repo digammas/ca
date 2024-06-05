@@ -1,10 +1,10 @@
-package co.digamma.ca.domain.api.model.cookbook
+package co.digamma.ca.domain.api.food
 
 import co.digamma.ca.domain.api.model.LocalizedModel
 import java.util.Locale
 
-class PreparationStep(
+class Cuisine(
     override val id: String,
     override val locale: Locale,
-    val description: String,
+    val name: String,
 ): LocalizedModel
