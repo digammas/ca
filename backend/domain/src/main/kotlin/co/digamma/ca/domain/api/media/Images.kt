@@ -1,4 +1,4 @@
-package co.digamma.ca.domain.api.common
+package co.digamma.ca.domain.api.media
 
 import co.digamma.ca.domain.api.model.LocalizedModel
 import java.util.Locale

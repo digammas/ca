@@ -1,8 +1,8 @@
 package co.digamma.ca.domain.api.cookbook
 
 import co.digamma.ca.domain.api.model.LocalizedModel
-import co.digamma.ca.domain.api.common.Images
-import co.digamma.ca.domain.api.common.noImages
+import co.digamma.ca.domain.api.media.Images
+import co.digamma.ca.domain.api.media.noImages
 import java.util.Locale
 
 class Ingredient(

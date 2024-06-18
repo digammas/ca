@@ -6,7 +6,7 @@ import co.digamma.ca.domain.api.model.Model
 
 interface RetrieveRepository<T: Model> {
 
-    fun retrieve(id: String): T
+    fun retrieve(id: String): T?
     fun retrieve(pageSpecs: PageSpecs): Page<T>
     fun retrieveAll(): List<T>
 }

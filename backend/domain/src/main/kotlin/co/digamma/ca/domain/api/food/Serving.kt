@@ -7,5 +7,5 @@ class Serving(
     override val id: String,
     override val locale: Locale,
     val name: String,
-    val temperature: IntRange = -100..100,
+    val temperature: IntRange,
 ): LocalizedModel

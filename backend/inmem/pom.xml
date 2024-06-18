@@ -9,18 +9,17 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>cookalchemy-domain</artifactId>
+    <artifactId>cooalchemy-persistence-inmem</artifactId>
 
     <dependencies>
+        <dependency>
+            <groupId>co.digamma.ca</groupId>
+            <artifactId>cookalchemy-domain</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-test-junit5</artifactId>
-        </dependency>
     </dependencies>
-
 </project>
