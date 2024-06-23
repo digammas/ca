@@ -12,12 +12,15 @@
     <modules>
         <module>domain</module>
         <module>inmem</module>
+        <module>graphql</module>
+        <module>app</module>
     </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <kotlin.code.style>official</kotlin.code.style>
         <kotlin.version>2.0.0</kotlin.version>
+        <kotlin.compiler.jvmTarget>21</kotlin.compiler.jvmTarget>
     </properties>
 
     <build>
@@ -28,6 +31,9 @@
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-maven-plugin</artifactId>
                 <extensions>true</extensions>
+                <configuration>
+                    <javaParameters>true</javaParameters>
+                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -43,8 +49,26 @@
             </dependency>
 
             <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-parent</artifactId>
+                <version>3.3.1</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
                 <groupId>co.digamma.ca</groupId>
                 <artifactId>cookalchemy-domain</artifactId>
+                <version>${version}</version>
+            </dependency>
+            <dependency>
+                <groupId>co.digamma.ca</groupId>
+                <artifactId>cookalchemy-inmem</artifactId>
+                <version>${version}</version>
+            </dependency>
+            <dependency>
+                <groupId>co.digamma.ca</groupId>
+                <artifactId>cookalchemy-graphql</artifactId>
                 <version>${version}</version>
             </dependency>
         </dependencies>

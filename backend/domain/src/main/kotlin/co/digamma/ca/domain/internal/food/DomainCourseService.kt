@@ -1,16 +1,16 @@
 package co.digamma.ca.domain.internal.food
 
+import co.digamma.ca.domain.api.common.stereotypes.Singleton
 import co.digamma.ca.domain.api.food.Course
 import co.digamma.ca.domain.api.food.CourseCreation
 import co.digamma.ca.domain.api.food.CourseModification
 import co.digamma.ca.domain.api.food.CourseService
-import co.digamma.ca.domain.api.common.stereotypes.Singleton
 import co.digamma.ca.domain.internal.DefaultCurdService
-import co.digamma.ca.domain.spi.CrudRepository
+import co.digamma.ca.domain.spi.food.CourseRepository
 
 @Singleton
 class DomainCourseService(
-    override val repository: CrudRepository<Course>,
+    override val repository: CourseRepository,
 ) : DefaultCurdService<Course>(), CourseService {
 
     override fun create(creation: CourseCreation): Course {
@@ -19,7 +19,7 @@ class DomainCourseService(
             locale = creation.locale,
             name = creation.name,
         )
-        return this.repository.create(course);
+        return this.repository.create(course)
     }
 
     override fun update(modification: CourseModification): Course {

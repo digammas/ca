@@ -1,0 +1,122 @@
+type Query {
+    image(id: ID!): Image
+    images(first: Int, after: Int): ImageConnection
+
+    course(id: ID!): Course
+    courses(query: PageQuery): CourseConnection
+
+    cuisine(id: ID!): Cuisine
+    cuisines(query: PageQuery): CuisineConnection
+
+    serving(id: ID!): Serving
+    servings(query: PageQuery): ServingConnection
+
+    dish(id: ID!): Dish
+    dishes(query: PageQuery): DishConnection
+}
+
+type Mutation {
+    createImage(creation: ImageCreation!): Image
+    deleteImage(id: ID!): Boolean
+
+    createCourse(creation: CourseCreation): Course
+    deleteCourse(id: ID!): Boolean
+
+    createCuisine(creation: CuisineCreation): Course
+    deleteCuisine(id: ID!): Boolean
+
+    createServing(creation: ServingCreation): Course
+    deleteServing(id: ID!): Boolean
+
+    createDish(creation: DishCreation): Course
+    deleteDish(id: ID!): Boolean
+}
+
+interface LocalizedModel {
+    id: ID!
+    locale: String!
+}
+
+input PageQuery {
+    index: Int
+    size: Int
+}
+
+type Page {
+    index: Int
+    size: Int
+    totalPages: Int
+    isLast: Boolean
+}
+
+type Image {
+    id: ID!
+    url: String!
+    description: String!
+}
+
+input ImageCreation {
+    locale: String!
+    url: String!
+    description: String!
+}
+
+type Course implements LocalizedModel {
+    id: ID!
+    locale: String!
+    name: String!
+}
+
+input CourseCreation {
+    locale: String!
+    name: String!
+}
+
+type Cuisine implements LocalizedModel {
+    id: ID!
+    locale: String!
+    name: String!
+}
+
+input CuisineCreation {
+    locale: String!
+    name: String!
+}
+
+type Serving implements LocalizedModel {
+    id: ID!
+    locale: String!
+    name: String!
+    lowerTemperature: Float
+    upperTemperature: Float
+}
+
+input ServingCreation {
+    locale: String!
+    name: String!
+    lowerTemperature: Float
+    upperTemperature: Float
+}
+
+type Dish implements LocalizedModel {
+    id: ID!
+    locale: String!
+    name: String!
+    course: Course!
+    cuisine: Cuisine!
+    serving: Serving!
+    sideDishes: [Dish]
+    images: [String]
+}
+
+input DishCreation {
+    locale: String!
+    name: String!
+    courseId: String!
+    cuisineId: String!
+    servingId: String!
+    sideDishes: [String!]
+    images: [String!]
+}
+
+
