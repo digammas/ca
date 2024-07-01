@@ -1,13 +1,9 @@
 package co.digamma.ca.domain.api.food
 
-import co.digamma.ca.domain.api.DeleteService
-import co.digamma.ca.domain.api.RetrieveService
+import co.digamma.ca.domain.api.CrudService
 import java.util.Locale
 
-interface CuisineService: RetrieveService<Cuisine>, DeleteService {
-    fun create(creation: CuisineCreation): Cuisine
-    fun update(modification: CuisineModification): Cuisine
-}
+interface CuisineService: CrudService<Cuisine, CuisineCreation, CuisineModification>
 
 interface CuisineMutation {
     val name: String?
