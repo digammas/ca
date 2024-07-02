@@ -14,6 +14,7 @@
         <module>inmem</module>
         <module>graphql</module>
         <module>app</module>
+        <module>sql</module>
     </modules>
 
     <properties>
@@ -69,6 +70,11 @@
             <dependency>
                 <groupId>co.digamma.ca</groupId>
                 <artifactId>cookalchemy-graphql</artifactId>
+                <version>${version}</version>
+            </dependency>
+            <dependency>
+                <groupId>co.digamma.ca</groupId>
+                <artifactId>cookalchemy-sql</artifactId>
                 <version>${version}</version>
             </dependency>
         </dependencies>
