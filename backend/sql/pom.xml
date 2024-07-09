@@ -82,6 +82,9 @@
                                 </property>
                             </properties>
                         </database>
+                        <target>
+                            <packageName>co.digamma.ca.persistence.jooq</packageName>
+                        </target>
                     </generator>
                 </configuration>
             </plugin>
