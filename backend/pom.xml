@@ -60,17 +60,17 @@
             <dependency>
                 <groupId>co.digamma.ca</groupId>
                 <artifactId>cookalchemy-domain</artifactId>
-                <version>${version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>co.digamma.ca</groupId>
                 <artifactId>cookalchemy-inmem</artifactId>
-                <version>${version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>co.digamma.ca</groupId>
                 <artifactId>cookalchemy-graphql</artifactId>
-                <version>${version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>co.digamma.ca</groupId>
