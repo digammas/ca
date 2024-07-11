@@ -9,25 +9,4 @@ import org.jooq.DSLContext
 
 class SqlImageRepository(dsl: DSLContext):
     SqlCrudRepository<Image, ImageRecord>(IMAGE, IMAGE.ID, dsl, Image::class),
-    ImageRepository {
-
-    override fun create(model: Image): Image {
-        dsl.insertInto(IMAGE)
-            .set(IMAGE.ID, model.id)
-            .set(IMAGE.LOCALE, model.locale.toString())
-            .set(IMAGE.URL, model.url)
-            .set(IMAGE.DESCRIPTION, model.description)
-            .execute()
-        return model
-    }
-
-    override fun update(model: Image): Image {
-        dsl.update(IMAGE)
-            .set(IMAGE.LOCALE, model.locale.toString())
-            .set(IMAGE.URL, model.url)
-            .set(IMAGE.DESCRIPTION, model.description)
-            .where(IMAGE.ID.eq(model.id))
-            .execute()
-        return model
-    }
-}
+    ImageRepository
