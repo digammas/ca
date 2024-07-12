@@ -6,11 +6,11 @@ import co.digamma.ca.domain.api.media.ImageCreation
 import co.digamma.ca.domain.api.media.ImageModification
 import co.digamma.ca.domain.api.media.ImageService
 import co.digamma.ca.domain.internal.DefaultCurdService
-import co.digamma.ca.domain.spi.CrudRepository
+import co.digamma.ca.domain.spi.media.ImageRepository
 
 @Singleton
 class DomainImageService(
-    override val repository: CrudRepository<Image>
+    override val repository: ImageRepository
 ) : DefaultCurdService<Image>(), ImageService {
 
     override fun create(creation: ImageCreation): Image {

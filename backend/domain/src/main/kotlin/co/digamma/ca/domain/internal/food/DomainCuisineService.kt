@@ -4,11 +4,9 @@ import co.digamma.ca.domain.api.food.Cuisine
 import co.digamma.ca.domain.api.food.CuisineCreation
 import co.digamma.ca.domain.api.food.CuisineModification
 import co.digamma.ca.domain.api.food.CuisineService
-import co.digamma.ca.domain.api.common.stereotypes.Singleton
 import co.digamma.ca.domain.internal.DefaultCurdService
 import co.digamma.ca.domain.spi.CrudRepository
 
-@Singleton
 class DomainCuisineService(
     override val repository: CrudRepository<Cuisine>
 ) : DefaultCurdService<Cuisine>(), CuisineService {

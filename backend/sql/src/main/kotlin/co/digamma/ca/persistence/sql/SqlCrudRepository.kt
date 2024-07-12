@@ -5,9 +5,11 @@ import co.digamma.ca.domain.api.PageSpecs
 import co.digamma.ca.domain.api.model.Model
 import co.digamma.ca.domain.spi.CrudRepository
 import co.digamma.ca.persistence.jooq.media.tables.references.IMAGE
+import org.jooq.Field
 import org.jooq.Table
 import org.jooq.TableField
 import org.jooq.UpdatableRecord
+import org.jooq.impl.SQLDataType
 import java.time.LocalDateTime
 import kotlin.reflect.KClass
 
@@ -60,8 +62,11 @@ abstract class SqlCrudRepository<T: Model, R: UpdatableRecord<R>>(
         return model
     }
 
-    private val timestampField get() =
-        table.field(TIMESTAMP_FIELD_NAME, LocalDateTime::class.java)
+    private val timestampField get(): Field<LocalDateTime>? {
+        val tsField = this.table.fields()
+                .find { it.name.equals(TIMESTAMP_FIELD_NAME, true) && it.dataType.isTimestamp }
+        return tsField?.coerce(SQLDataType.LOCALDATETIME)
+    }
 
     private fun timestamp(record: R) {
         this.timestampField?.let { record.set(it, LocalDateTime.now()) }

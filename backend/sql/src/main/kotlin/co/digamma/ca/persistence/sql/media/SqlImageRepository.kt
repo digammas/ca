@@ -6,7 +6,9 @@ import co.digamma.ca.persistence.jooq.media.tables.records.ImageRecord
 import co.digamma.ca.persistence.jooq.media.tables.references.IMAGE
 import co.digamma.ca.persistence.sql.SqlCrudRepository
 import org.jooq.DSLContext
+import org.springframework.stereotype.Repository
 
-class SqlImageRepository(dsl: DSLContext):
+@Repository
+open class SqlImageRepository(dsl: DSLContext):
     SqlCrudRepository<Image, ImageRecord>(IMAGE, IMAGE.ID, dsl, Image::class),
     ImageRepository

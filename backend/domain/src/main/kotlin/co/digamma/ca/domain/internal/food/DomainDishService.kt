@@ -1,20 +1,18 @@
 package co.digamma.ca.domain.internal.food
 
-import co.digamma.ca.domain.api.media.Images
 import co.digamma.ca.domain.api.food.Dish
 import co.digamma.ca.domain.api.food.DishCreation
 import co.digamma.ca.domain.api.food.DishModification
 import co.digamma.ca.domain.api.food.DishService
-import co.digamma.ca.domain.api.common.stereotypes.Singleton
+import co.digamma.ca.domain.api.media.Images
 import co.digamma.ca.domain.internal.DefaultCurdService
 import co.digamma.ca.domain.internal.retrieveOrThrow
 import co.digamma.ca.domain.spi.CrudRepository
-import co.digamma.ca.domain.spi.media.ImageRepository
 import co.digamma.ca.domain.spi.food.CourseRepository
 import co.digamma.ca.domain.spi.food.CuisineRepository
 import co.digamma.ca.domain.spi.food.ServingRepository
+import co.digamma.ca.domain.spi.media.ImageRepository
 
-@Singleton
 class DomainDishService(
     override val repository: CrudRepository<Dish>,
     private val courseRepository: CourseRepository,
