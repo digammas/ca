@@ -64,18 +64,16 @@
                         <name>org.jooq.codegen.KotlinGenerator</name>
                         <database>
                             <name>org.jooq.meta.extensions.liquibase.LiquibaseDatabase</name>
+                            <recordTimestampFields>timestamp</recordTimestampFields>
                             <properties>
-
                                 <property>
                                     <key>rootPath</key>
                                     <value>${basedir}/src/main/resources</value>
                                 </property>
-
                                 <property>
                                     <key>scripts</key>
                                     <value>db/changelog/db.changelog-master.yaml</value>
                                 </property>
-
                                 <property>
                                     <key>database.liquibaseSchemaName</key>
                                     <value>changelog</value>

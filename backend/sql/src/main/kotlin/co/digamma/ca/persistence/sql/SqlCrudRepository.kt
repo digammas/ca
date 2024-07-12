@@ -8,7 +8,10 @@ import co.digamma.ca.persistence.jooq.media.tables.references.IMAGE
 import org.jooq.Table
 import org.jooq.TableField
 import org.jooq.UpdatableRecord
+import java.time.LocalDateTime
 import kotlin.reflect.KClass
+
+private const val TIMESTAMP_FIELD_NAME = "timestamp"
 
 abstract class SqlCrudRepository<T: Model, R: UpdatableRecord<R>>(
     protected val table: Table<R>,
@@ -45,21 +48,30 @@ abstract class SqlCrudRepository<T: Model, R: UpdatableRecord<R>>(
 
     override fun create(model: T): T {
         val record = this.toRecord(model)
+        this.timestamp(record)
         this.dsl.executeInsert(record)
         return model
     }
 
     override fun update(model: T): T {
         val record = this.toRecord(model)
+        this.timestamp(record)
         this.dsl.executeUpdate(record)
         return model
     }
 
-    protected fun toRecord(model: T): R {
+    private val timestampField get() =
+        table.field(TIMESTAMP_FIELD_NAME, LocalDateTime::class.java)
+
+    private fun timestamp(record: R) {
+        this.timestampField?.let { record.set(it, LocalDateTime.now()) }
+    }
+
+    protected open fun toRecord(model: T): R {
         return this.dsl.newRecord(this.table, model)
     }
 
-    protected fun toModel(record: R): T {
+    protected open fun toModel(record: R): T {
         return record.into(this.modelType.java)
     }
 }
