@@ -79,6 +79,14 @@
                 <artifactId>cookalchemy-sql</artifactId>
                 <version>${version}</version>
             </dependency>
+            <dependency>
+                <groupId>co.digamma.ca</groupId>
+                <artifactId>cookalchemy-domain</artifactId>
+                <classifier>tests</classifier>
+                <type>test-jar</type>
+                <scope>test</scope>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

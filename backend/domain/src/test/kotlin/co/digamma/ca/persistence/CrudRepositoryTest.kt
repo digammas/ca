@@ -1,13 +1,14 @@
-package co.digamma.ca.persistence.inmem
+package co.digamma.ca.persistence
 
 import co.digamma.ca.domain.api.common.DuplicateKeyException
 import co.digamma.ca.domain.api.common.NotFoundException
 import co.digamma.ca.domain.api.model.Model
+import co.digamma.ca.domain.spi.CrudRepository
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
-abstract class InMemCrudRepositoryTest<T : Model>(
-    private val sut: InMemCrudRepository<T>
+abstract class CrudRepositoryTest<T : Model>(
+    private val sut: CrudRepository<T>
 ) {
     abstract fun newModel(): T
     abstract fun modifyModel(model: T): T

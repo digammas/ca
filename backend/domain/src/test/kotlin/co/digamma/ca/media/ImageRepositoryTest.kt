@@ -1,13 +1,17 @@
-package co.digamma.ca.persistence.inmem.media
+package co.digamma.ca.media
 
 import co.digamma.ca.domain.api.media.Image
-import co.digamma.ca.media.ImageRepositoryTest
+import co.digamma.ca.domain.spi.media.ImageRepository
+import co.digamma.ca.persistence.CrudRepositoryTest
 import java.util.Locale
+import java.util.UUID
 
-class InMemImageRepositoryTest : ImageRepositoryTest(InMemImageRepository()) {
+abstract class ImageRepositoryTest(
+    sut: ImageRepository
+) : CrudRepositoryTest<Image>(sut) {
 
     override fun newModel(): Image = Image(
-        id = "id",
+        id = UUID.randomUUID().toString(),
         locale = Locale.of("en"),
         url = "https://example.com/image.png",
         description = "Image description"
