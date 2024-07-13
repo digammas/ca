@@ -4,7 +4,9 @@ import co.digamma.ca.domain.api.media.Image
 import co.digamma.ca.media.ImageRepositoryTest
 import java.util.Locale
 
-class InMemImageRepositoryTest : ImageRepositoryTest(InMemImageRepository()) {
+class InMemImageRepositoryTest : ImageRepositoryTest() {
+
+    override val sut = InMemImageRepository()
 
     override fun newModel(): Image = Image(
         id = "id",

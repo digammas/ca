@@ -6,9 +6,9 @@ import co.digamma.ca.persistence.CrudRepositoryTest
 import java.util.Locale
 import java.util.UUID
 
-abstract class ImageRepositoryTest(
-    sut: ImageRepository
-) : CrudRepositoryTest<Image>(sut) {
+abstract class ImageRepositoryTest: CrudRepositoryTest<Image>() {
+
+    abstract override val sut: ImageRepository
 
     override fun newModel(): Image = Image(
         id = UUID.randomUUID().toString(),

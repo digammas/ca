@@ -7,11 +7,10 @@ import co.digamma.ca.domain.spi.CrudRepository
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
-abstract class CrudRepositoryTest<T : Model>(
-    private val sut: CrudRepository<T>
-) {
+abstract class CrudRepositoryTest<T : Model> {
     abstract fun newModel(): T
     abstract fun modifyModel(model: T): T
+    abstract val sut: CrudRepository<T>
 
     @Test
     fun `test retrieve`() {
