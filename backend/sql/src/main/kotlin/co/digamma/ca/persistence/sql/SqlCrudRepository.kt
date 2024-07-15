@@ -4,16 +4,19 @@ import co.digamma.ca.domain.api.Page
 import co.digamma.ca.domain.api.PageSpecs
 import co.digamma.ca.domain.api.common.DuplicateKeyException
 import co.digamma.ca.domain.api.common.NotFoundException
+import co.digamma.ca.domain.api.common.utils.Perhaps
+import co.digamma.ca.domain.api.common.utils.asPerhaps
 import co.digamma.ca.domain.api.model.Model
 import co.digamma.ca.domain.spi.CrudRepository
 import co.digamma.ca.persistence.jooq.media.tables.references.IMAGE
+import java.time.LocalDateTime
+import java.util.logging.Logger
 import org.jooq.DSLContext
 import org.jooq.Field
 import org.jooq.Table
 import org.jooq.TableField
 import org.jooq.UpdatableRecord
 import org.jooq.impl.SQLDataType
-import java.time.LocalDateTime
 import kotlin.reflect.KClass
 
 private const val TIMESTAMP_FIELD_NAME = "timestamp"
@@ -22,8 +25,14 @@ abstract class SqlCrudRepository<T: Model, R: UpdatableRecord<R>>(
     protected val table: Table<R>,
     protected val idField: TableField<R, String?>,
     protected val dsl: DSLContext,
-    protected val modelType: KClass<T>
+    protected val modelType: KClass<T>,
+    protected val log: Logger
 ) : CrudRepository<T> {
+
+    private var timestampField: Perhaps<Field<LocalDateTime>> = this.table.fields()
+        .find { it.name.equals(TIMESTAMP_FIELD_NAME, true) && it.dataType.isTimestamp }
+        ?.coerce(SQLDataType.LOCALDATETIME)
+        .asPerhaps()
 
     override fun retrieve(id: String): T? {
         return this.dsl.selectFrom(this.table)
@@ -74,14 +83,13 @@ abstract class SqlCrudRepository<T: Model, R: UpdatableRecord<R>>(
             .fetchOne() != null
     }
 
-    private val timestampField get(): Field<LocalDateTime>? {
-        val tsField = this.table.fields()
-                .find { it.name.equals(TIMESTAMP_FIELD_NAME, true) && it.dataType.isTimestamp }
-        return tsField?.coerce(SQLDataType.LOCALDATETIME)
-    }
-
-    private fun timestamp(record: R) {
-        this.timestampField?.let { record.set(it, LocalDateTime.now()) }
+    protected open fun timestamp(record: R) {
+        this.timestampField.ifPresent {
+            record.set(it, LocalDateTime.now())
+        }.orElse {
+            // If the following message is being logged, consider overriding this method.
+            this.log.warning { "Timestamp field not found for table ${this.table.name}." }
+        }
     }
 
     protected open fun toRecord(model: T): R {
