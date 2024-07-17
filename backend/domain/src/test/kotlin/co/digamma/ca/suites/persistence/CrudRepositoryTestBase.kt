@@ -1,4 +1,4 @@
-package co.digamma.ca.persistence
+package co.digamma.ca.suites.persistence
 
 import co.digamma.ca.domain.api.common.DuplicateKeyException
 import co.digamma.ca.domain.api.common.NotFoundException
@@ -7,7 +7,7 @@ import co.digamma.ca.domain.spi.CrudRepository
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
-abstract class CrudRepositoryTest<T : Model> {
+abstract class CrudRepositoryTestBase<T : Model> {
     abstract fun newModel(): T
     abstract fun modifyModel(model: T): T
     abstract val sut: CrudRepository<T>

@@ -1,4 +1,4 @@
-package co.digamma.ca.persistence.inmem
+package co.digamma.ca.fixtures.inmem
 
 import co.digamma.ca.domain.api.Page
 import co.digamma.ca.domain.api.PageSpecs

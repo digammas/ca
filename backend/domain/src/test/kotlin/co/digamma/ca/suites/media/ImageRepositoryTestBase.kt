@@ -1,12 +1,12 @@
-package co.digamma.ca.media
+package co.digamma.ca.suites.media
 
 import co.digamma.ca.domain.api.media.Image
 import co.digamma.ca.domain.spi.media.ImageRepository
-import co.digamma.ca.persistence.CrudRepositoryTest
+import co.digamma.ca.suites.persistence.CrudRepositoryTestBase
 import java.util.Locale
 import java.util.UUID
 
-abstract class ImageRepositoryTest: CrudRepositoryTest<Image>() {
+abstract class ImageRepositoryTestBase: CrudRepositoryTestBase<Image>() {
 
     abstract override val sut: ImageRepository
 

@@ -1,10 +1,11 @@
-package co.digamma.ca.persistence.inmem.media
+package co.digamma.ca.tests.inmem.media
 
 import co.digamma.ca.domain.api.media.Image
-import co.digamma.ca.media.ImageRepositoryTest
+import co.digamma.ca.fixtures.inmem.media.InMemImageRepository
+import co.digamma.ca.suites.media.ImageRepositoryTestBase
 import java.util.Locale
 
-class InMemImageRepositoryTest : ImageRepositoryTest() {
+class InMemImageRepositoryTest : ImageRepositoryTestBase() {
 
     override val sut = InMemImageRepository()
 

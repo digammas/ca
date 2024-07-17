@@ -59,7 +59,9 @@
         <!-- use in-mem persistence -->
         <dependency>
             <groupId>co.digamma.ca</groupId>
-            <artifactId>cookalchemy-inmem</artifactId>
+            <artifactId>cookalchemy-domain</artifactId>
+            <classifier>tests</classifier>
+            <type>test-jar</type>
             <scope>test</scope>
         </dependency>
     </dependencies>

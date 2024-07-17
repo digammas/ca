@@ -32,6 +32,12 @@
                         <goals>
                             <goal>test-jar</goal>
                         </goals>
+                        <configuration>
+                            <excludes>
+                                <exclude>co/digamma/ca/tests/**</exclude>
+                                <exclude>co/digamma/ca/domain/internal/**</exclude>
+                            </excludes>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
