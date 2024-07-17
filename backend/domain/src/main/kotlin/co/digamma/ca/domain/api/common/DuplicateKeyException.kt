@@ -3,7 +3,7 @@ package co.digamma.ca.domain.api.common
 class DuplicateKeyException(
     message: String?,
     cause: Throwable? = null
-): DomainException(message, cause) {
+) : DomainException(message, cause) {
 
     companion object {
         fun of(kass: Class<*>, id: String, cause: Throwable? = null): DuplicateKeyException {

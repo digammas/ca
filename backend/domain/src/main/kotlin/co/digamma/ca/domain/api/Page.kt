@@ -10,7 +10,7 @@ data class Page<T>(
         results: List<T>,
         index: Int,
         totalPages: Int,
-    ): this(results, index, results.size, totalPages)
+    ) : this(results, index, results.size, totalPages)
 }
 
 data class PageSpecs(

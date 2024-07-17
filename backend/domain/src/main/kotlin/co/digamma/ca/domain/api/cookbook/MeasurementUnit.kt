@@ -8,7 +8,7 @@ class MeasurementUnit(
     override val locale: Locale,
     val name: String,
     val dimension: Dimension,
-): LocalizedModel {
+) : LocalizedModel {
 
     enum class Dimension {
         QUANTITY,

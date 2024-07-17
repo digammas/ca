@@ -3,7 +3,7 @@ package co.digamma.ca.domain.api.cookbook
 import co.digamma.ca.domain.api.DeleteService
 import co.digamma.ca.domain.api.RetrieveService
 
-interface RecipeService: RetrieveService<Recipe>, DeleteService {
+interface RecipeService : RetrieveService<Recipe>, DeleteService {
     fun create(recipe: RecipeCreation): Recipe
     fun update(recipe: RecipeModification): Recipe
 }
@@ -38,7 +38,7 @@ data class RecipeCreation(
     override val yield: Int,
     override val imageIds: List<String> = emptyList(),
     override val estimatedTime: Int?,
-): RecipeMutation
+) : RecipeMutation
 
 data class RecipeModification(
     val id: String,
@@ -51,7 +51,7 @@ data class RecipeModification(
     val addedSteps: List<PreparationStepCreation>?,
     val removedStepIds: List<String>?,
     val updatedIngredients: List<QuantifiedIngredientCreation>?,
-): RecipeMutation {
+) : RecipeMutation {
     init {
         require(steps == null || (addedSteps == null && removedStepIds == null)) {
             "Cannot add or remove steps when updating existing steps"

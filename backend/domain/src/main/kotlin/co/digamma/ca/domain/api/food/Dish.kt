@@ -14,4 +14,4 @@ class Dish(
     val serving: Serving,
     val images: Images = noImages(),
     val sideDishes: List<Dish> = emptyList(),
-): LocalizedModel
+) : LocalizedModel

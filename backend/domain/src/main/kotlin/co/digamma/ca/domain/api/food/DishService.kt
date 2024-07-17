@@ -3,7 +3,7 @@ package co.digamma.ca.domain.api.food
 import co.digamma.ca.domain.api.CrudService
 import java.util.Locale
 
-interface DishService: CrudService<Dish, DishCreation, DishModification>
+interface DishService : CrudService<Dish, DishCreation, DishModification>
 
 interface DishMutation {
     val name: String?
@@ -22,7 +22,7 @@ data class DishCreation(
     override val servingId: String,
     override val imageIds: List<String> = emptyList(),
     override val sideDishIds: List<String> = emptyList(),
-): DishMutation
+) : DishMutation
 
 
 class DishModification(
@@ -33,4 +33,4 @@ class DishModification(
     override val servingId: String?,
     override val imageIds: List<String>?,
     override val sideDishIds: List<String>?,
-): DishMutation
+) : DishMutation

@@ -7,4 +7,4 @@ class Course(
     override val id: String,
     override val locale: Locale,
     val name: String,
-): LocalizedModel
+) : LocalizedModel

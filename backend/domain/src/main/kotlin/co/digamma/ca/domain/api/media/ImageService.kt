@@ -5,7 +5,7 @@ import co.digamma.ca.domain.api.DeleteService
 import co.digamma.ca.domain.api.UpdateService
 import java.util.Locale
 
-interface ImageService:
+interface ImageService :
     CreateService<Image, ImageCreation>,
     UpdateService<Image, ImageModification>,
     DeleteService {
@@ -21,10 +21,10 @@ data class ImageCreation(
     val locale: Locale,
     override val url: String,
     override val description: String
-): ImageMutation
+) : ImageMutation
 
 data class ImageModification(
     val id: String,
     override val url: String?,
     override val description: String?
-): ImageMutation
+) : ImageMutation

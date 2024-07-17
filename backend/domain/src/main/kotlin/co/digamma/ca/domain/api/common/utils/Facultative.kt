@@ -36,7 +36,7 @@ sealed interface Facultative<T> {
      *
      * *Presence* doesn't imply non-nullability. The value can be present yet null.
      */
-    class Present<T>(val value: T): Facultative<T> {
+    class Present<T>(val value: T) : Facultative<T> {
         override fun <R> ifPresent(f: (T) -> R): Present<R> = present(f(value))
         override fun <I> elseIfPresent(p: Facultative<I>, f: (I) -> T): Facultative<T> = this
         override fun orElse(f: () -> T): T = this.value
@@ -45,7 +45,7 @@ sealed interface Facultative<T> {
     /**
      * A [Facultative] implementation where the value is presumed absent.
      */
-    class Absent<T>: Facultative<T> {
+    class Absent<T> : Facultative<T> {
         override fun <R> ifPresent(f: (T) -> R): Absent<R> = absent()
         override fun <I> elseIfPresent(p: Facultative<I>, f: (I) -> T): Facultative<T> = p.ifPresent(f)
         override fun orElse(f: () -> T): T = f()

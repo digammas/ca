@@ -8,4 +8,4 @@ class PreparationStep(
     override val locale: Locale,
     val description: String,
     val estimatedTime: Int,
-): LocalizedModel
+) : LocalizedModel

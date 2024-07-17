@@ -3,7 +3,7 @@ package co.digamma.ca.domain.api.users
 import co.digamma.ca.domain.api.DeleteService
 import co.digamma.ca.domain.api.RetrieveService
 
-interface UserService: RetrieveService<User>, DeleteService {
+interface UserService : RetrieveService<User>, DeleteService {
     fun create(user: UserCreation): User
     fun update(user: UserModification): User
 }
@@ -17,10 +17,10 @@ data class UserCreation(
     val username: String,
     override val email: String,
     override val password: String,
-): UserMutation
+) : UserMutation
 
 data class UserModification(
     val username: String,
     override val email: String?,
     override val password: String?,
-): UserMutation
+) : UserMutation

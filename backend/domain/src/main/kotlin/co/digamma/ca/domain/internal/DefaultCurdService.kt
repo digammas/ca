@@ -9,7 +9,7 @@ import co.digamma.ca.domain.api.model.Model
 import co.digamma.ca.domain.spi.CrudRepository
 import co.digamma.ca.domain.spi.RetrieveRepository
 
-abstract class DefaultCurdService<T: Model>: RetrieveService<T>, DeleteService {
+abstract class DefaultCurdService<T : Model> : RetrieveService<T>, DeleteService {
 
     protected abstract val repository: CrudRepository<T>
 
@@ -34,6 +34,6 @@ abstract class DefaultCurdService<T: Model>: RetrieveService<T>, DeleteService {
     }
 }
 
-inline fun <reified T: Model> RetrieveRepository<T>.retrieveOrThrow(id: String): T {
+inline fun <reified T : Model> RetrieveRepository<T>.retrieveOrThrow(id: String): T {
     return this.retrieve(id) ?: throw NotFoundException.of(T::class.java, id)
 }

@@ -20,4 +20,4 @@ class Recipe(
     val author: User,
     val images: Images = noImages(),
     val estimatedTime: Int = steps.sumOf { it.estimatedTime },
-): LocalizedModel
+) : LocalizedModel

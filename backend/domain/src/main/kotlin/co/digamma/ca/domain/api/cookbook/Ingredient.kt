@@ -11,4 +11,4 @@ class Ingredient(
     val name: String,
     val description: String,
     val images: Images = noImages(),
-): LocalizedModel
+) : LocalizedModel

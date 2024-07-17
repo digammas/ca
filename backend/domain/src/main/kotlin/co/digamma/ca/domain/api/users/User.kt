@@ -6,7 +6,7 @@ class User(
     val username: String,
     val password: String,
     val email: String,
-): Model {
+) : Model {
 
     override val id: String = username
 }

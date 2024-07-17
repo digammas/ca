@@ -8,11 +8,11 @@ data class Image(
     override val locale: Locale,
     val url: String,
     val description: String,
-): LocalizedModel
+) : LocalizedModel
 
 class Images(
     images: List<Image>
-): List<Image> by images {
+) : List<Image> by images {
     fun principal(): Image? = firstOrNull()
 }
 
