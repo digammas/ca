@@ -1,7 +1,7 @@
 package co.digamma.ca.controllers.graphql.media
 
 import co.digamma.ca.domain.api.media.ImageCreation
-import java.util.*
+import java.util.Locale
 
 class ImageCreationInput(
     private val locale: String,
