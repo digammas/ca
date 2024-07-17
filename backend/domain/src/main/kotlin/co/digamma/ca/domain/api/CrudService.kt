@@ -8,11 +8,20 @@ interface RetrieveService<T: Model> {
     fun retrieveAll(): List<T>
 }
 
+interface CreateService<T: Model, C> {
+    fun create(creation: C): T
+}
+
+interface UpdateService<T: Model, M> {
+    fun update(modification: M): T
+}
+
 interface DeleteService {
     fun delete(id: String)
 }
 
-interface CrudService<T: Model, C, M>: RetrieveService<T>, DeleteService {
-    fun create(creation: C): T
-    fun update(modification: M): T
-}
+interface CrudService<T: Model, C, M>:
+    RetrieveService<T>,
+    CreateService<T, C>,
+    UpdateService<T, M>,
+    DeleteService
