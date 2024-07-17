@@ -4,7 +4,7 @@ import co.digamma.ca.domain.api.Page
 import co.digamma.ca.domain.api.PageSpecs
 import co.digamma.ca.domain.api.common.DuplicateKeyException
 import co.digamma.ca.domain.api.common.NotFoundException
-import co.digamma.ca.domain.api.common.utils.Perhaps
+import co.digamma.ca.domain.api.common.utils.Facultative
 import co.digamma.ca.domain.api.common.utils.asPerhaps
 import co.digamma.ca.domain.api.model.Model
 import co.digamma.ca.domain.spi.CrudRepository
@@ -29,7 +29,7 @@ abstract class SqlCrudRepository<T: Model, R: UpdatableRecord<R>>(
     protected val log: Logger
 ) : CrudRepository<T> {
 
-    private var timestampField: Perhaps<Field<LocalDateTime>> = this.table.fields()
+    private var timestampField: Facultative<Field<LocalDateTime>> = this.table.fields()
         .find { it.name.equals(TIMESTAMP_FIELD_NAME, true) && it.dataType.isTimestamp }
         ?.coerce(SQLDataType.LOCALDATETIME)
         .asPerhaps()
