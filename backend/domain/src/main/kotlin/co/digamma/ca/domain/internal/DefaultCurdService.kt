@@ -21,7 +21,7 @@ abstract class DefaultCurdService<T : Model> : RetrieveService<T>, DeleteService
         return this.repository.retrieve(pageSpecs)
     }
 
-    override fun retrieveAll(): List<T> {
+    override fun retrieve(): List<T> {
         return this.repository.retrieveAll()
     }
 

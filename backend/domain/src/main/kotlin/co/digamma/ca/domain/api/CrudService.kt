@@ -5,7 +5,7 @@ import co.digamma.ca.domain.api.model.Model
 interface RetrieveService<T : Model> {
     fun retrieve(id: String): T
     fun retrieve(pageSpecs: PageSpecs): Page<T>
-    fun retrieveAll(): List<T>
+    fun retrieve(): List<T>
 }
 
 interface CreateService<T : Model, C> {
