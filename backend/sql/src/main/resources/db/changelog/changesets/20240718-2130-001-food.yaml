@@ -1,0 +1,200 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20240718-2130-001-food-schema
+      author: Ahmad
+      rollback:
+        - sql:
+            sql: "DROP SCHEMA IF EXISTS food CASCADE;"
+      changes:
+        - sql:
+            sql: "CREATE SCHEMA IF NOT EXISTS food;"
+  - changeSet:
+      id: 20240718-2130-001-food-tables
+      author: Ahmad
+      changes:
+        - createTable:
+            schemaName: food
+            tableName: course
+            ifNotExists: true
+            columns:
+              - column:
+                  name: id
+                  type: char(36)
+                  constraints:
+                      primaryKey: true
+              - column:
+                  name: locale
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: timestamp
+                  type: timestamp
+                  constraints:
+                    nullable: false
+        - createTable:
+            schemaName: food
+            tableName: cuisine
+            ifNotExists: true
+            columns:
+              - column:
+                  name: id
+                  type: char(36)
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: locale
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: timestamp
+                  type: timestamp
+                  constraints:
+                    nullable: false
+        - createTable:
+            schemaName: food
+            tableName: serving
+            ifNotExists: true
+            columns:
+              - column:
+                  name: id
+                  type: char(36)
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: locale
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: temp_min
+                  type: int
+              - column:
+                  name: temp_max
+                  type: int
+              - column:
+                  name: timestamp
+                  type: timestamp
+                  constraints:
+                    nullable: false
+        - createTable:
+            schemaName: food
+            tableName: dish
+            ifNotExists: true
+            columns:
+              - column:
+                  name: id
+                  type: char(36)
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: locale
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: course_id
+                  type: char(36)
+                  constraints:
+                    foreignKeyName: dish__course_fk
+                    referencedTableSchemaName: food
+                    referencedTableName: course
+                    referencedColumnNames: id
+              - column:
+                  name: cuisine_id
+                  type: char(36)
+                  constraints:
+                    foreignKeyName: dish__cuisine_fk
+                    referencedTableSchemaName: food
+                    referencedTableName: cuisine
+                    referencedColumnNames: id
+              - column:
+                  name: serving_id
+                  type: char(36)
+                  constraints:
+                    foreignKeyName: dish__serving_fk
+                    referencedTableSchemaName: food
+                    referencedTableName: serving
+                    referencedColumnNames: id
+              - column:
+                  name: timestamp
+                  type: timestamp
+                  constraints:
+                    nullable: false
+        - createTable:
+            schemaName: food
+            tableName: dish_image
+            ifNotExists: true
+            columns:
+              - column:
+                  name: dish_id
+                  type: char(36)
+                  constraints:
+                    primaryKey: true
+                    foreignKeyName: dish__dish_image_fk
+                    referencedTableSchemaName: food
+                    referencedTableName: dish
+                    referencedColumnNames: id
+              - column:
+                  name: image_id
+                  type: char(36)
+                  constraints:
+                    primaryKey: true
+                    foreignKeyName: image__dish_image_fk
+                    referencedTableSchemaName: media
+                    referencedTableName: image
+                    referencedColumnNames: id
+              - column:
+                  name: timestamp
+                  type: timestamp
+                  constraints:
+                    nullable: false
+        - createTable:
+            schemaName: food
+            tableName: side_dish
+            ifNotExists: true
+            columns:
+              - column:
+                  name: main_dish_id
+                  type: char(36)
+                  constraints:
+                    primaryKey: true
+                    foreignKeyName: dish__side_dish__main_dish_fk
+                    referencedTableSchemaName: food
+                    referencedTableName: dish
+                    referencedColumnNames: id
+              - column:
+                  name: side_dish_id
+                  type: char(36)
+                  constraints:
+                    primaryKey: true
+                    foreignKeyName: dish__side_dish__side_dish_fk
+                    referencedTableSchemaName: food
+                    referencedTableName: dish
+                    referencedColumnNames: id
+              - column:
+                  name: timestamp
+                  type: timestamp
+                  constraints:
+                    nullable: false
