@@ -10,10 +10,10 @@ data class Image(
     val description: String,
 ) : LocalizedModel
 
-class Images(
-    images: List<Image>
+data class Images(
+    val images: List<Image>
 ) : List<Image> by images {
-    fun principal(): Image? = firstOrNull()
+    val principal: Image? = firstOrNull()
 }
 
 fun noImages(): Images = Images(emptyList())

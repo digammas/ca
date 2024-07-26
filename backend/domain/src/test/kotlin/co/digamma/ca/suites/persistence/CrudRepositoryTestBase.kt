@@ -4,7 +4,9 @@ import co.digamma.ca.domain.api.common.DuplicateKeyException
 import co.digamma.ca.domain.api.common.NotFoundException
 import co.digamma.ca.domain.api.model.Model
 import co.digamma.ca.domain.spi.CrudRepository
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 
 abstract class CrudRepositoryTestBase<T : Model> {

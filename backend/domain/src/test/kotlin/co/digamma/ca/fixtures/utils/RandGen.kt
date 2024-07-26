@@ -2,6 +2,7 @@ package co.digamma.ca.fixtures.utils
 
 import java.util.Base64
 import java.util.Random
+import java.util.UUID
 import kotlin.math.ceil
 
 val random = Random()
@@ -26,4 +27,6 @@ object RandGen {
         random.nextBytes(bytes)
         return Base64.getUrlEncoder().encodeToString(bytes)
     }
+
+    fun uuid() = UUID.randomUUID().toString()
 }

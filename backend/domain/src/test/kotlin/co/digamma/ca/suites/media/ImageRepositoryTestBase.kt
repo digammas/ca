@@ -2,16 +2,16 @@ package co.digamma.ca.suites.media
 
 import co.digamma.ca.domain.api.media.Image
 import co.digamma.ca.domain.spi.media.ImageRepository
+import co.digamma.ca.fixtures.utils.RandGen
 import co.digamma.ca.suites.persistence.CrudRepositoryTestBase
 import java.util.Locale
-import java.util.UUID
 
-abstract class ImageRepositoryTestBase: CrudRepositoryTestBase<Image>() {
+abstract class ImageRepositoryTestBase : CrudRepositoryTestBase<Image>() {
 
     abstract override val sut: ImageRepository
 
     override fun newModel(): Image = Image(
-        id = UUID.randomUUID().toString(),
+        id = RandGen.uuid(),
         locale = Locale.of("en"),
         url = "https://example.com/image.png",
         description = "Image description"

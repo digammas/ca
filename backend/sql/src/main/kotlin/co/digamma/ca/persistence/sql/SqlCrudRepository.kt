@@ -8,16 +8,18 @@ import co.digamma.ca.domain.api.common.utils.Facultative
 import co.digamma.ca.domain.api.common.utils.asPerhaps
 import co.digamma.ca.domain.api.model.Model
 import co.digamma.ca.domain.spi.CrudRepository
-import co.digamma.ca.persistence.jooq.media.tables.references.IMAGE
 import java.time.LocalDateTime
 import java.util.logging.Logger
+import kotlin.reflect.KClass
 import org.jooq.DSLContext
 import org.jooq.Field
+import org.jooq.Path
+import org.jooq.Record
+import org.jooq.SelectJoinStep
 import org.jooq.Table
 import org.jooq.TableField
 import org.jooq.UpdatableRecord
 import org.jooq.impl.SQLDataType
-import kotlin.reflect.KClass
 
 private const val TIMESTAMP_FIELD_NAME = "timestamp"
 
@@ -34,15 +36,21 @@ abstract class SqlCrudRepository<T: Model, R: UpdatableRecord<R>>(
         ?.coerce(SQLDataType.LOCALDATETIME)
         .asPerhaps()
 
+    open val joinPaths: List<Path<*>> = emptyList()
+
+    private fun joining(step: SelectJoinStep<*>): SelectJoinStep<*> {
+        return this.joinPaths.fold(step) { acc, value -> acc.join(value) }
+    }
+
     override fun retrieve(id: String): T? {
-        return this.dsl.selectFrom(this.table)
+        return this.joining(this.dsl.select().from(this.table))
             .where(this.idField.eq(id))
             .fetchOne(this::toModel)
     }
 
     override fun retrieve(pageSpecs: PageSpecs): Page<T> {
-        val total = this.dsl.selectCount().from(IMAGE).fetchOne(0, Int::class.java)!!
-        val list =  this.dsl.selectFrom(this.table)
+        val total = this.dsl.selectCount().from(this.table).fetchOne(0, Int::class.java)!!
+        val list =  this.joining(this.dsl.select().from(this.table))
             .offset(pageSpecs.index * pageSpecs.size)
             .limit(pageSpecs.size)
             .fetch(this::toModel)
@@ -50,7 +58,7 @@ abstract class SqlCrudRepository<T: Model, R: UpdatableRecord<R>>(
     }
 
     override fun retrieveAll(): List<T> {
-        return this.dsl.selectFrom(this.table)
+        return this.joining(this.dsl.select().from(this.table))
             .fetch(this::toModel)
     }
 
@@ -96,7 +104,7 @@ abstract class SqlCrudRepository<T: Model, R: UpdatableRecord<R>>(
         return this.dsl.newRecord(this.table, model)
     }
 
-    protected open fun toModel(record: R): T {
+    protected open fun toModel(record: Record): T {
         return record.into(this.modelType.java)
     }
 }
