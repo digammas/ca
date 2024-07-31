@@ -33,4 +33,13 @@ class SqlServingRepository(
     ServingRepository {
 
     override fun toModel(record: Record) = toServing(record)
+
+    override fun toRecord(model: Serving): ServingRecord {
+        return super.toRecord(model).also {
+            if (model.temperature != IntRange.EMPTY) {
+                it.tempMin = model.temperature.first
+                it.tempMax = model.temperature.last
+            }
+        }
+    }
 }
