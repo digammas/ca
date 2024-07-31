@@ -14,7 +14,7 @@ import java.util.Locale
 
 abstract class DishRepositoryTestBase : CrudRepositoryTestBase<Dish>() {
 
-    abstract override val sut : DishRepository
+    abstract override val sut: DishRepository
     abstract val courseRepository: CourseRepository
     abstract val cuisineRepository: CuisineRepository
     abstract val servingRepository: ServingRepository

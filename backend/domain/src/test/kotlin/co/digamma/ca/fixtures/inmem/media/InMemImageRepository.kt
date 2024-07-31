@@ -6,4 +6,4 @@ import co.digamma.ca.domain.spi.media.ImageRepository
 import co.digamma.ca.fixtures.inmem.InMemCrudRepository
 
 @Singleton
-class InMemImageRepository: InMemCrudRepository<Image>(), ImageRepository
+class InMemImageRepository : InMemCrudRepository<Image>(), ImageRepository

@@ -8,7 +8,7 @@ import java.util.Locale
 
 abstract class ServingRepositoryTestBase : CrudRepositoryTestBase<Serving>() {
 
-    abstract override val sut : ServingRepository
+    abstract override val sut: ServingRepository
 
     override fun newModel() = Serving(
         id = RandGen.uuid(),

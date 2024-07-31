@@ -7,7 +7,7 @@ import co.digamma.ca.domain.api.common.NotFoundException
 import co.digamma.ca.domain.api.model.Model
 import co.digamma.ca.domain.spi.CrudRepository
 
-open class InMemCrudRepository<T: Model>: CrudRepository<T> {
+open class InMemCrudRepository<T : Model> : CrudRepository<T> {
     private val data: MutableMap<String, T> = HashMap()
 
     override fun retrieve(id: String): T? = data[id]

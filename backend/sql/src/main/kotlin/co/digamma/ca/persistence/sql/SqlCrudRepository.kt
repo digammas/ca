@@ -23,7 +23,7 @@ import org.jooq.impl.SQLDataType
 
 private const val TIMESTAMP_FIELD_NAME = "timestamp"
 
-abstract class SqlCrudRepository<T: Model, R: UpdatableRecord<R>>(
+abstract class SqlCrudRepository<T : Model, R : UpdatableRecord<R>>(
     protected val table: Table<R>,
     protected val idField: TableField<R, String?>,
     protected val dsl: DSLContext,
@@ -50,7 +50,7 @@ abstract class SqlCrudRepository<T: Model, R: UpdatableRecord<R>>(
 
     override fun retrieve(pageSpecs: PageSpecs): Page<T> {
         val total = this.dsl.selectCount().from(this.table).fetchOne(0, Int::class.java)!!
-        val list =  this.joining(this.dsl.select().from(this.table))
+        val list = this.joining(this.dsl.select().from(this.table))
             .offset(pageSpecs.index * pageSpecs.size)
             .limit(pageSpecs.size)
             .fetch(this::toModel)

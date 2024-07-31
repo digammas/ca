@@ -6,4 +6,4 @@ import co.digamma.ca.domain.spi.food.DishRepository
 import co.digamma.ca.fixtures.inmem.InMemCrudRepository
 
 @Singleton
-class InMemDishRepository: InMemCrudRepository<Dish>(), DishRepository
+class InMemDishRepository : InMemCrudRepository<Dish>(), DishRepository

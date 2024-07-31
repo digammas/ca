@@ -8,7 +8,7 @@ import java.util.Locale
 
 abstract class CuisineRepositoryTestBase : CrudRepositoryTestBase<Cuisine>() {
 
-    abstract override val sut : CuisineRepository
+    abstract override val sut: CuisineRepository
 
     override fun newModel() = Cuisine(
         id = RandGen.uuid(),

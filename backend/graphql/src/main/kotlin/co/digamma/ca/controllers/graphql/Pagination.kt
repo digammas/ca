@@ -22,7 +22,7 @@ data class PageQuery(
 
 private fun Int.toCursor() = DefaultConnectionCursor(this.toString())
 
-fun <T: Model> Page<T>.asConnection(): Connection<T> {
+fun <T : Model> Page<T>.asConnection(): Connection<T> {
     return DefaultConnection(
         this.results.mapIndexed { index, item -> DefaultEdge(item, index.toCursor()) },
         DefaultPageInfo(

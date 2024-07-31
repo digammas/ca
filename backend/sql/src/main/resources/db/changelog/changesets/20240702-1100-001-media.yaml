@@ -21,7 +21,7 @@ databaseChangeLog:
                   name: id
                   type: char(36)
                   constraints:
-                      primaryKey: true
+                    primaryKey: true
               - column:
                   name: locale
                   type: varchar(255)

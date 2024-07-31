@@ -49,13 +49,15 @@ class ImageControllerTest {
     @Autowired
     private lateinit var mockMvc: MockMvc
 
-    private val client get(): WebTestClient =
-        MockMvcWebTestClient.bindTo(mockMvc)
-            .baseUrl("/graphql")
-            .build()
+    private val client
+        get(): WebTestClient =
+            MockMvcWebTestClient.bindTo(mockMvc)
+                .baseUrl("/graphql")
+                .build()
 
-    private val tester get(): HttpGraphQlTester =
-        HttpGraphQlTester.create(client)
+    private val tester
+        get(): HttpGraphQlTester =
+            HttpGraphQlTester.create(client)
 
     @Test
     fun image() {
@@ -68,10 +70,11 @@ class ImageControllerTest {
         tester.document(GET_IMAGE_DOCUMENT)
             .variables(mapOf("id" to createdId))
             .execute()
-            .path("data.image") { it
-                .path("id").entity(String::class.java).isEqualTo(createdId)
-                .path("description").entity(String::class.java).isEqualTo(DESCRIPTION)
-                .path("url").entity(String::class.java).isEqualTo(URL)
+            .path("data.image") {
+                it
+                    .path("id").entity(String::class.java).isEqualTo(createdId)
+                    .path("description").entity(String::class.java).isEqualTo(DESCRIPTION)
+                    .path("url").entity(String::class.java).isEqualTo(URL)
             }
     }
 
@@ -101,7 +104,7 @@ class ImageControllerTest {
             .variables(mapOf("id" to createdId))
             .execute()
             .errors()
-            .expect { it.errorType.toString() === "NOT_FOUND"  }
+            .expect { it.errorType.toString() === "NOT_FOUND" }
             .verify()
     }
 }

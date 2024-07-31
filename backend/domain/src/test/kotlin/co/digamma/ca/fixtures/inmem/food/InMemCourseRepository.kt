@@ -6,4 +6,4 @@ import co.digamma.ca.domain.spi.food.CourseRepository
 import co.digamma.ca.fixtures.inmem.InMemCrudRepository
 
 @Singleton
-class InMemCourseRepository: InMemCrudRepository<Course>(), CourseRepository
+class InMemCourseRepository : InMemCrudRepository<Course>(), CourseRepository

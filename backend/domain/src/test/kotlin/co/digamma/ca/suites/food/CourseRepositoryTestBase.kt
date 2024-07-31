@@ -8,7 +8,7 @@ import java.util.Locale
 
 abstract class CourseRepositoryTestBase : CrudRepositoryTestBase<Course>() {
 
-    abstract override val sut : CourseRepository
+    abstract override val sut: CourseRepository
 
     override fun newModel() = Course(
         id = RandGen.uuid(),
