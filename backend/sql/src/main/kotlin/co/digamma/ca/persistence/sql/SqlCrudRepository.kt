@@ -4,8 +4,6 @@ import co.digamma.ca.domain.api.Page
 import co.digamma.ca.domain.api.PageSpecs
 import co.digamma.ca.domain.api.common.DuplicateKeyException
 import co.digamma.ca.domain.api.common.NotFoundException
-import co.digamma.ca.domain.api.common.utils.Facultative
-import co.digamma.ca.domain.api.common.utils.asPerhaps
 import co.digamma.ca.domain.api.model.Model
 import co.digamma.ca.domain.spi.CrudRepository
 import java.time.LocalDateTime
@@ -31,10 +29,9 @@ abstract class SqlCrudRepository<T : Model, R : UpdatableRecord<R>>(
     protected val log: Logger
 ) : CrudRepository<T> {
 
-    private var timestampField: Facultative<Field<LocalDateTime>> = this.table.fields()
+    private var timestampField: Field<LocalDateTime>? = this.table.fields()
         .find { it.name.equals(TIMESTAMP_FIELD_NAME, true) && it.dataType.isTimestamp }
         ?.coerce(SQLDataType.LOCALDATETIME)
-        .asPerhaps()
 
     open val joinPaths: List<Path<*>> = emptyList()
 
@@ -92,9 +89,9 @@ abstract class SqlCrudRepository<T : Model, R : UpdatableRecord<R>>(
     }
 
     protected open fun timestamp(record: R) {
-        this.timestampField.ifPresent {
+        this.timestampField?.also {
             record.set(it, LocalDateTime.now())
-        }.orElse {
+        } ?: run {
             // If the following message is being logged, consider overriding this method.
             this.log.warning { "Timestamp field not found for table ${this.table.name}." }
         }
