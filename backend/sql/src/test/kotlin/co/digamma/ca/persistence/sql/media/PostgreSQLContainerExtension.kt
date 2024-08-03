@@ -15,7 +15,7 @@ import org.junit.jupiter.api.extension.ParameterContext
 import org.junit.jupiter.api.extension.ParameterResolver
 import org.testcontainers.containers.PostgreSQLContainer
 
-val postgres = PostgreSQLContainer("postgres:16-alpine")
+private val postgres = PostgreSQLContainer("postgres:16-alpine")
 
 class PostgreSQLContainerExtension : BeforeAllCallback, AfterAllCallback, ParameterResolver {
 
