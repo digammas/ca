@@ -11,6 +11,10 @@
 
     <artifactId>cookalchemy-sql</artifactId>
 
+    <properties>
+        <jook.version>3.20.2</jook.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>co.digamma.ca</groupId>
@@ -20,6 +24,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jooq</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jooq</groupId>
+            <artifactId>jooq</artifactId>
+            <version>${jook.version}</version>
         </dependency>
 
         <dependency>
@@ -65,7 +75,7 @@
                     <dependency>
                         <groupId>org.jooq</groupId>
                         <artifactId>jooq-meta-extensions-liquibase</artifactId>
-                        <version>3.19.10</version>
+                        <version>${jook.version}</version>
                     </dependency>
                 </dependencies>
 
