@@ -25,7 +25,7 @@ fun toServing(record: Record): Serving {
 }
 
 @Repository
-class SqlServingRepository(
+open class SqlServingRepository(
     dsl: DSLContext,
     log: Logger = LoggerFactory.forClass()
 ) :

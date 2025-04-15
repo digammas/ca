@@ -21,7 +21,7 @@ fun toCourse(record: Record): Course {
 }
 
 @Repository
-class SqlCourseRepository(
+open class SqlCourseRepository(
     dsl: DSLContext,
     log: Logger = LoggerFactory.forClass()
 ) :

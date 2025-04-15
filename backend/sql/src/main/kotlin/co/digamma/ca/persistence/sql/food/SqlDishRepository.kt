@@ -28,7 +28,7 @@ fun toDish(record: Record): Dish {
 }
 
 @Repository
-class SqlDishRepository(
+open class SqlDishRepository(
     dsl: DSLContext,
     log: Logger = LoggerFactory.forClass()
 ) :

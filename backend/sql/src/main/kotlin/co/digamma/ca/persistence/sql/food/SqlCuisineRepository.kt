@@ -21,7 +21,7 @@ fun toCuisine(record: Record): Cuisine {
 }
 
 @Repository
-class SqlCuisineRepository(
+open class SqlCuisineRepository(
     dsl: DSLContext,
     log: Logger = LoggerFactory.forClass()
 ) :
