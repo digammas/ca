@@ -12,7 +12,7 @@
     <artifactId>cookalchemy-sql</artifactId>
 
     <properties>
-        <jook.version>3.20.2</jook.version>
+        <jooq.version>3.20.2</jooq.version>
     </properties>
 
     <dependencies>
@@ -29,7 +29,7 @@
         <dependency>
             <groupId>org.jooq</groupId>
             <artifactId>jooq</artifactId>
-            <version>${jook.version}</version>
+            <version>${jooq.version}</version>
         </dependency>
 
         <dependency>
@@ -75,7 +75,7 @@
                     <dependency>
                         <groupId>org.jooq</groupId>
                         <artifactId>jooq-meta-extensions-liquibase</artifactId>
-                        <version>${jook.version}</version>
+                        <version>${jooq.version}</version>
                     </dependency>
                 </dependencies>
 
