@@ -1,5 +1,6 @@
 package co.digamma.ca.domain.internal.food
 
+import co.digamma.ca.domain.api.common.stereotypes.Singleton
 import co.digamma.ca.domain.api.food.Serving
 import co.digamma.ca.domain.api.food.ServingCreation
 import co.digamma.ca.domain.api.food.ServingModification
@@ -7,7 +8,8 @@ import co.digamma.ca.domain.api.food.ServingService
 import co.digamma.ca.domain.internal.DefaultCurdService
 import co.digamma.ca.domain.spi.CrudRepository
 
-class DomainServingService(
+@Singleton
+open class DomainServingService(
     override val repository: CrudRepository<Serving>
 ) : DefaultCurdService<Serving>(), ServingService {
 

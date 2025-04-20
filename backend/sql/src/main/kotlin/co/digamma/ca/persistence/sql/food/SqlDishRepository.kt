@@ -1,5 +1,7 @@
 package co.digamma.ca.persistence.sql.food
 
+import co.digamma.ca.domain.api.Page
+import co.digamma.ca.domain.api.PageSpecs
 import co.digamma.ca.domain.api.common.utils.LoggerFactory
 import co.digamma.ca.domain.api.food.Dish
 import co.digamma.ca.domain.spi.food.DishRepository
@@ -50,4 +52,8 @@ open class SqlDishRepository(
     }
 
     override fun toModel(record: Record) = toDish(record)
+
+    override fun retrieveSideDishes(dishId: String, pageSpecs: PageSpecs): Page<Dish> {
+        return Page(emptyList(), 0, 0)
+    }
 }

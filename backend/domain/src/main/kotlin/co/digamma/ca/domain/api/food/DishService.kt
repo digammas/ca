@@ -1,9 +1,13 @@
 package co.digamma.ca.domain.api.food
 
 import co.digamma.ca.domain.api.CrudService
+import co.digamma.ca.domain.api.Page
+import co.digamma.ca.domain.api.PageSpecs
 import java.util.Locale
 
-interface DishService : CrudService<Dish, DishCreation, DishModification>
+interface DishService : CrudService<Dish, DishCreation, DishModification> {
+    fun retrieveSideDishes(dishId: String, pageSpecs: PageSpecs? = null): Page<Dish>
+}
 
 interface DishMutation {
     val name: String?

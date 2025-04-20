@@ -13,12 +13,14 @@ abstract class DefaultCurdService<T : Model> : RetrieveService<T>, DeleteService
 
     protected abstract val repository: CrudRepository<T>
 
+    protected val defaultPageSpecs get() = PageSpecs(0, 50)
+
     override fun retrieve(id: String): T {
         return this.repository.retrieve(id) ?: throw NotFoundException.of(id)
     }
 
-    override fun retrieve(pageSpecs: PageSpecs): Page<T> {
-        return this.repository.retrieve(pageSpecs)
+    override fun retrieve(pageSpecs: PageSpecs?): Page<T> {
+        return this.repository.retrieve(pageSpecs ?: this.defaultPageSpecs)
     }
 
     override fun retrieve(): List<T> {
@@ -29,7 +31,7 @@ abstract class DefaultCurdService<T : Model> : RetrieveService<T>, DeleteService
         this.repository.delete(id)
     }
 
-    fun generateId(): String {
+    protected fun generateId(): String {
         return java.util.UUID.randomUUID().toString()
     }
 }

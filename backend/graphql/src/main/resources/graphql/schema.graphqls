@@ -1,34 +1,33 @@
 type Query {
-    image(id: ID!): Image
-    images(first: Int, after: Int): ImageConnection
+    image(id: ID!): ImageOutput
 
-    course(id: ID!): Course
-    courses(query: PageQuery): CourseConnection
+    course(id: ID!): CourseOutput
+    courses(query: PageQuery): CourseOutputConnection
 
-    cuisine(id: ID!): Cuisine
-    cuisines(query: PageQuery): CuisineConnection
+    cuisine(id: ID!): CuisineOutput
+    cuisines(query: PageQuery): CuisineOutputConnection
 
-    serving(id: ID!): Serving
-    servings(query: PageQuery): ServingConnection
+    serving(id: ID!): ServingOutput
+    servings(query: PageQuery): ServingOutputConnection
 
-    dish(id: ID!): Dish
-    dishes(query: PageQuery): DishConnection
+    dish(id: ID!): DishOutput
+    dishes(query: PageQuery): DishOutputConnection
 }
 
 type Mutation {
-    createImage(creation: ImageCreation!): Image
+    createImage(creation: ImageCreation!): ImageOutput
     deleteImage(id: ID!): Boolean
 
-    createCourse(creation: CourseCreation): Course
+    createCourse(creation: CourseCreation): CourseOutput
     deleteCourse(id: ID!): Boolean
 
-    createCuisine(creation: CuisineCreation): Course
+    createCuisine(creation: CuisineCreation): CourseOutput
     deleteCuisine(id: ID!): Boolean
 
-    createServing(creation: ServingCreation): Course
+    createServing(creation: ServingCreation): CourseOutput
     deleteServing(id: ID!): Boolean
 
-    createDish(creation: DishCreation): Course
+    createDish(creation: DishCreation): CourseOutput
     deleteDish(id: ID!): Boolean
 }
 
@@ -49,7 +48,7 @@ type Page {
     isLast: Boolean
 }
 
-type Image {
+type ImageOutput {
     id: ID!
     url: String!
     description: String!
@@ -61,7 +60,7 @@ input ImageCreation {
     description: String!
 }
 
-type Course implements LocalizedModel {
+type CourseOutput implements LocalizedModel {
     id: ID!
     locale: String!
     name: String!
@@ -72,7 +71,7 @@ input CourseCreation {
     name: String!
 }
 
-type Cuisine implements LocalizedModel {
+type CuisineOutput implements LocalizedModel {
     id: ID!
     locale: String!
     name: String!
@@ -83,12 +82,12 @@ input CuisineCreation {
     name: String!
 }
 
-type Serving implements LocalizedModel {
+type ServingOutput implements LocalizedModel {
     id: ID!
     locale: String!
     name: String!
-    lowerTemperature: Float
-    upperTemperature: Float
+    temperatureMin: Float
+    temperatureMax: Float
 }
 
 input ServingCreation {
@@ -98,15 +97,15 @@ input ServingCreation {
     upperTemperature: Float
 }
 
-type Dish implements LocalizedModel {
+type DishOutput implements LocalizedModel {
     id: ID!
     locale: String!
     name: String!
-    course: Course!
-    cuisine: Cuisine!
-    serving: Serving!
-    sideDishes: [Dish]
+    course: CourseOutput!
+    cuisine: CuisineOutput!
+    serving: ServingOutput!
     images: [String]
+    sideDishes: [DishOutput]
 }
 
 input DishCreation {
@@ -115,8 +114,8 @@ input DishCreation {
     courseId: String!
     cuisineId: String!
     servingId: String!
-    sideDishes: [String!]
     images: [String!]
+    sideDishes: [String!]
 }
 
 
