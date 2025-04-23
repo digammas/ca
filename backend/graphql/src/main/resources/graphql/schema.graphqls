@@ -36,6 +36,11 @@ interface LocalizedModel {
     locale: String!
 }
 
+interface Connection {
+    edges: [LocalizedModel!]!
+    pageInfo: PageInfo
+}
+
 input PageQuery {
     index: Int
     size: Int
@@ -46,6 +51,13 @@ type Page {
     size: Int
     totalPages: Int
     isLast: Boolean
+}
+
+type PageInfo {
+    startCursor: String
+    endCursor: String
+    hasPreviousPage: Boolean
+    hasNextPage: Boolean
 }
 
 type ImageOutput {
@@ -66,6 +78,11 @@ type CourseOutput implements LocalizedModel {
     name: String!
 }
 
+type CourseOutputConnection implements Connection {
+    edges: [CourseOutput!]!
+    pageInfo: PageInfo
+}
+
 input CourseCreation {
     locale: String!
     name: String!
@@ -75,6 +92,11 @@ type CuisineOutput implements LocalizedModel {
     id: ID!
     locale: String!
     name: String!
+}
+
+type CuisineOutputConnection implements Connection {
+    edges: [CuisineOutput!]!
+    pageInfo: PageInfo
 }
 
 input CuisineCreation {
@@ -88,6 +110,11 @@ type ServingOutput implements LocalizedModel {
     name: String!
     temperatureMin: Float
     temperatureMax: Float
+}
+
+type ServingOutputConnection implements Connection {
+    edges: [ServingOutput!]!
+    pageInfo: PageInfo
 }
 
 input ServingCreation {
@@ -106,6 +133,11 @@ type DishOutput implements LocalizedModel {
     serving: ServingOutput!
     images: [String]
     sideDishes: [DishOutput]
+}
+
+type DishOutputConnection implements Connection {
+    edges: [DishOutput!]!
+    pageInfo: PageInfo
 }
 
 input DishCreation {
