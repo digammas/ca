@@ -19,8 +19,8 @@ class CuisineController(
     }
 
     @QueryMapping
-    fun cuisines(@Argument query: PageQuery): Connection<CuisineOutput> {
-        return service.retrieve(query.asSpecs())
+    fun cuisines(@Argument query: PageQuery?): Connection<CuisineOutput> {
+        return service.retrieve(query?.asSpecs())
             .asConnection { it.toCuisineOutput() }
     }
 

@@ -9,12 +9,12 @@ import graphql.relay.DefaultEdge
 import graphql.relay.DefaultPageInfo
 
 data class PageQuery(
-    val first: Int = 10,
-    val from: Int = 0,
+    val first: Int,
+    val from: String,
 ) {
     fun asSpecs(): PageSpecs {
         val size = if (first == 0) 10 else first
-        val index = from / size
+        val index = (from.toIntOrNull() ?: 0) / size
         return PageSpecs(index, size)
     }
 }

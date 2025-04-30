@@ -20,8 +20,8 @@ class DishController(
     }
 
     @QueryMapping
-    fun dishes(@Argument query: PageQuery): Connection<DishOutput> {
-        return service.retrieve(query.asSpecs())
+    fun dishes(@Argument query: PageQuery?): Connection<DishOutput> {
+        return service.retrieve(query?.asSpecs())
             .asConnection { it.toDishOutput() }
     }
 

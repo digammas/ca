@@ -19,8 +19,8 @@ class ServingController(
     }
 
     @QueryMapping
-    fun servings(@Argument query: PageQuery): Connection<ServingOutput> {
-        return service.retrieve(query.asSpecs())
+    fun servings(@Argument query: PageQuery?): Connection<ServingOutput> {
+        return service.retrieve(query?.asSpecs())
             .asConnection { it.toServingOutput() }
     }
 

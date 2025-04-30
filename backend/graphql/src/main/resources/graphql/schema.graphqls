@@ -42,8 +42,8 @@ interface Connection {
 }
 
 input PageQuery {
-    index: Int
-    size: Int
+    first: Int
+    from: String
 }
 
 type Page {

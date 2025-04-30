@@ -19,8 +19,8 @@ class CourseController(
     }
 
     @QueryMapping
-    fun courses(@Argument query: PageQuery): Connection<CourseOutput> {
-        return service.retrieve(query.asSpecs())
+    fun courses(@Argument query: PageQuery?): Connection<CourseOutput> {
+        return service.retrieve(query?.asSpecs())
             .asConnection { it.toCourseOutput() }
     }
 
