@@ -3,9 +3,9 @@
 </script>
 
 <template>
-  <ol>
-    <li><NuxtLink to="/food">Food</NuxtLink></li>
-  </ol>
+  <h1>CookAlchemy</h1>
+  <NuxtLink to="/">Home</NuxtLink>
+  <slot></slot>
 </template>
 
 <style scoped>

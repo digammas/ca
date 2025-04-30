@@ -4,7 +4,7 @@
 
 <template>
   <ol>
-    <li><NuxtLink to="/food">Food</NuxtLink></li>
+    <li><NuxtLink to="/food/cuisine">Cuisine</NuxtLink></li>
   </ol>
 </template>
 
