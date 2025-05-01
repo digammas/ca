@@ -37,8 +37,13 @@ interface LocalizedModel {
 }
 
 interface Connection {
-    edges: [LocalizedModel!]!
+    edges: [Edge!]!
     pageInfo: PageInfo
+}
+
+interface Edge {
+    node: LocalizedModel!
+    cursor: String
 }
 
 input PageQuery {
@@ -78,8 +83,13 @@ type CourseOutput implements LocalizedModel {
     name: String!
 }
 
+type CourseOutputEdge implements Edge {
+    node: CourseOutput!
+    cursor: String
+}
+
 type CourseOutputConnection implements Connection {
-    edges: [CourseOutput!]!
+    edges: [CourseOutputEdge!]!
     pageInfo: PageInfo
 }
 
@@ -94,8 +104,13 @@ type CuisineOutput implements LocalizedModel {
     name: String!
 }
 
+type CuisineOutputEdge implements Edge {
+    node: CuisineOutput!
+    cursor: String
+}
+
 type CuisineOutputConnection implements Connection {
-    edges: [CuisineOutput!]!
+    edges: [CuisineOutputEdge!]!
     pageInfo: PageInfo
 }
 
@@ -112,8 +127,13 @@ type ServingOutput implements LocalizedModel {
     temperatureMax: Float
 }
 
+type ServingOutputEdge implements Edge {
+    node: ServingOutput!
+    cursor: String
+}
+
 type ServingOutputConnection implements Connection {
-    edges: [ServingOutput!]!
+    edges: [ServingOutputEdge!]!
     pageInfo: PageInfo
 }
 
@@ -135,8 +155,13 @@ type DishOutput implements LocalizedModel {
     sideDishes: [DishOutput]
 }
 
+type DishOutputEdge implements Edge {
+    node: DishOutput!
+    cursor: String
+}
+
 type DishOutputConnection implements Connection {
-    edges: [DishOutput!]!
+    edges: [DishOutputEdge!]!
     pageInfo: PageInfo
 }
 
