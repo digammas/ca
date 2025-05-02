@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import gql from "graphql-tag";
-
 import type {Cuisines} from "~/model/food";
 import {useQuery} from "@vue/apollo-composable";
-
 
 const query = gql`
     query {
@@ -23,8 +21,8 @@ const query = gql`
     }
 `;
 
-const { result } = useQuery<Cuisines>(query);
-const cuisines = result.value?.edges || [];
+const {result} = useQuery<{cuisines: Cuisines}>(query);
+const cuisines = computed(() => result.value?.cuisines.edges.map(e => e.node) || []);
 
 </script>
 
