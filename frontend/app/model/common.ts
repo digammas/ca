@@ -13,7 +13,12 @@ export interface PageInfo {
     readonly hasNextPage: boolean;
 }
 
+export interface Edge<M extends Model> {
+    readonly node: M;
+    readonly cursor: string;
+}
+
 export interface Connection<M extends Model> {
-    readonly edges: readonly M[];
+    readonly edges: readonly Edge<M>[];
     readonly pageInfo: PageInfo;
 }

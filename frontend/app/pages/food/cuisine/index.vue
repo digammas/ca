@@ -9,9 +9,11 @@ const query = gql`
     query {
         cuisines {
             edges {
-                id
-                locale
-                name
+                node {
+                    id
+                    locale
+                    name
+                }
             }
             pageInfo {
                 hasNextPage
