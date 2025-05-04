@@ -41,28 +41,28 @@ const removeMutation = gql`
         deleteCuisine(id: $id)
     }
 `;
-const {data, error, pending, refresh} = useAsyncQuery<{cuisines: Cuisines}>("cuisines", query);
+const {result, error, loading, refetch} = useAsyncQuery<{cuisines: Cuisines}>("cuisines", query);
 const {mutate: createCuisine} = useMutation(createMutation);
 const {mutate: removeCuisine} = useMutation(removeMutation);
-const cuisines = computed(() => data.value?.cuisines.edges.map(e => e.node) || []);
+const cuisines = computed(() => result.value?.cuisines.edges.map(e => e.node) || []);
 
 function create() {
   createCuisine( {creation: cuisineCreation.value})
       // refetch needed since creation doesn't update cache automatically
-      .then(() => refresh());
+      .then(() => refetch());
 }
 
 function remove(id: string) {
   removeCuisine( {id})
       // refetch needed since deletion doesn't update cache automatically
-      .then(() => refresh());
+      .then(() => refetch());
 }
 
 </script>
 
 <template>
   <h2>Cuisines</h2>
-  <div v-if="pending">
+  <div v-if="loading">
     Loading cuisines...
   </div>
   <div v-else-if="error">
