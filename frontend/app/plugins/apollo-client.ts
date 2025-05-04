@@ -3,10 +3,8 @@ import {DefaultApolloClient} from "@vue/apollo-composable";
 
 type FetchRequestParams = Parameters<typeof fetch>[1];
 
-type $Fetch = typeof $fetch;
-
-type $ExtendedFetch = $Fetch & {
-    native: $Fetch,
+type $ExtendedFetch = typeof $fetch & {
+    native: typeof fetch,
 }
 
 function customFetch(_: unknown, params: FetchRequestParams): Promise<Response> {
