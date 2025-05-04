@@ -83,7 +83,7 @@ function remove(id: string) {
   <form>
     <label for="cuisine-name-input">Cuisine name</label>
     <input id="cuisine-name-input" v-model="cuisineCreation.name" @keyup.enter="create"/>
-    <button @click="create">Create</button>
+    <button type="button" @click="create">Create</button>
   </form>
 
 </template>
