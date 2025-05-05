@@ -2,7 +2,6 @@
 import gql from "graphql-tag";
 import type {Cuisines} from "~/model/food";
 import {useMutation, useQuery} from "@vue/apollo-composable";
-import ItemList from "~/components/ItemList.vue";
 
 const cuisineCreation = ref({
   name: "",
@@ -63,7 +62,7 @@ function remove(id: string) {
 
 <template>
   <h2>Cuisines</h2>
-  <ItemList :items="cuisines" :error="error" :loading="loading">
+  <AppItemList :items="cuisines" :error="error" :loading="loading">
     <template #loading>Loading cuisines...</template>
     <template #error>Error fetching cuisines!</template>
     <template #header><h3>Available cuisines</h3></template>
@@ -71,7 +70,7 @@ function remove(id: string) {
       <span>{{ cuisine.name }}</span>&nbsp;
       <a href="#" @click.stop="remove(cuisine.id)">remove</a>
     </template>
-  </ItemList>
+  </AppItemList>
 
   <h3>Create a new cuisine</h3>
   <form>
