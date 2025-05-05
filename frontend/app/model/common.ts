@@ -3,7 +3,7 @@ export interface Model {
 }
 
 export interface LocalizedModel extends Model {
-    readonly local: string;
+    readonly locale: string;
 }
 
 export interface PageInfo {
