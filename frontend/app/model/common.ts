@@ -6,6 +6,10 @@ export interface LocalizedModel extends Model {
     readonly locale: string;
 }
 
+export interface NamedModel extends LocalizedModel {
+    readonly name: string;
+}
+
 export interface PageInfo {
     readonly startCursor?: string;
     readonly endCursor: string;
