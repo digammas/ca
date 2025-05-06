@@ -31,6 +31,16 @@ const createMutation = gql`
     }
 `;
 
+const updateMutation = gql`
+    mutation ($modification: CuisineModification) {
+        updateCuisine(modification: $modification) {
+            id
+            name
+            locale
+        }
+    }
+`;
+
 const removeMutation = gql`
     mutation ($id: ID!) {
         deleteCuisine(id: $id)
@@ -39,6 +49,7 @@ const removeMutation = gql`
 
 const {result, error, loading, refetch} = useAsyncQuery<{cuisines: Cuisines}>("cuisines", query);
 const {mutate: createCuisine} = useMutation(createMutation);
+const {mutate: updateCuisine} = useMutation(updateMutation);
 const {mutate: removeCuisine} = useMutation(removeMutation);
 const cuisines = computed(() => result.value?.cuisines.edges.map(e => e.node) || []);
 
@@ -54,8 +65,12 @@ function add(creation: {name: string}) {
       .then(() => refetch());
 }
 
-function edit() {
-  // not implemented yet
+function edit(cuisine: Cuisine) {
+  const modification = {
+    id: cuisine.id,
+    name: cuisine.name,
+  };
+  updateCuisine( {modification});
 }
 
 </script>

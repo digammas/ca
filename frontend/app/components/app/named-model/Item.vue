@@ -48,7 +48,7 @@ function remove() {
       <UiIconButton @click="remove" action="cancel" />
     </template>
     <template v-else>
-      <input v-model="editingText" ref="input" @keyup.esc="cancelEditing" autofocus />
+      <input v-model="editingText" autofocus ref="input" @keyup.esc="cancelEditing" @keyup.enter="confirmEditing" />
       <UiIconButton @click="confirmEditing" action="confirm" />
     </template>
   </div>
