@@ -34,4 +34,9 @@ class CuisineController(
     fun createCuisine(@Argument creation: CuisineCreationInput): CuisineOutput {
         return service.create(creation.toCuisineCreation()).toCuisineOutput()
     }
+
+    @MutationMapping
+    fun updateCuisine(@Argument modification: CuisineModificationInput): CuisineOutput {
+        return service.update(modification.toCuisineModification()).toCuisineOutput()
+    }
 }
