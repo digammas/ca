@@ -3,7 +3,7 @@ import gql from "graphql-tag";
 
 const query = gql`
     query {
-        models: cuisines {
+        models: courses {
             edges {
                 node {
                     id
@@ -20,8 +20,8 @@ const query = gql`
 `;
 
 const createMutation = gql`
-    mutation ($creation: CuisineCreation) {
-        createCuisine(creation: $creation) {
+    mutation ($creation: CourseCreation) {
+        createCourse(creation: $creation) {
             id
             name
             locale
@@ -30,8 +30,8 @@ const createMutation = gql`
 `;
 
 const updateMutation = gql`
-    mutation ($modification: CuisineModification) {
-        updateCuisine(modification: $modification) {
+    mutation ($modification: CourseModification) {
+        updateCourse(modification: $modification) {
             id
             name
             locale
@@ -41,18 +41,17 @@ const updateMutation = gql`
 
 const removeMutation = gql`
     mutation ($id: ID!) {
-        deleteCuisine(id: $id)
+        deleteCourse(id: $id)
     }
 `;
-
 
 </script>
 
 <template>
-  <h2>Cuisines</h2>
+  <h2>Courses</h2>
 
   <AppNamedModelPage :query :createMutation :updateMutation :removeMutation
-        loadingMessage="Loading cuisines..." errorMessage="Error fetching cuisines!" />
+        loadingMessage="Loading courses..." errorMessage="Error fetching courses!" />
 
 </template>
 
