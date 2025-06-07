@@ -14,10 +14,11 @@ const {item} = defineProps<Props>();
 const emit = defineEmits<Emits>();
 const editing = ref(false);
 const editingText = ref<string>(item.name);
-
+const input = ref<HTMLInputElement>();
 
 function startEditing() {
   editing.value = true;
+  nextTick().then(() => input?.value?.focus())
 }
 
 function confirmEditing() {
@@ -42,13 +43,14 @@ function remove() {
 </script>
 
 <template>
-  <div class="container" :class="{editing}" @focusout="cancelEditing" >
+  <div class="container" :class="{editing}" >
     <template v-if="!editing">
       <span @click="startEditing" class="editable">{{ item.name }}</span>
       <UiIconButton @click="remove" action="cancel" />
     </template>
     <template v-else>
-      <input v-model="editingText" autofocus ref="input" @keyup.esc="cancelEditing" @keyup.enter="confirmEditing" />
+      <input v-model="editingText" ref="input"
+             @keyup.esc="cancelEditing" @keyup.enter="confirmEditing" @focusout="cancelEditing" />
       <UiIconButton @click="confirmEditing" action="confirm" />
     </template>
   </div>
