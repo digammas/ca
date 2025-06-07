@@ -43,8 +43,6 @@ function edit(model: NamedModel) {
 </script>
 
 <template>
-  <h2>Cuisines</h2>
-
   <AppNamedModelList
       :items="models" :error="error" :loading="loading" creation-placeholder="New cuisine"
       @remove="remove" @edit="edit" @add="add">
