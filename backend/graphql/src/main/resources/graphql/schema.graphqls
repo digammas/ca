@@ -19,6 +19,7 @@ type Mutation {
     deleteImage(id: ID!): Boolean
 
     createCourse(creation: CourseCreation): CourseOutput
+    updateCourse(modification: CourseModification): CourseOutput
     deleteCourse(id: ID!): Boolean
 
     createCuisine(creation: CuisineCreation): CuisineOutput
@@ -96,6 +97,11 @@ type CourseOutputConnection implements Connection {
 
 input CourseCreation {
     locale: String!
+    name: String!
+}
+
+input CourseModification {
+    id: ID!
     name: String!
 }
 

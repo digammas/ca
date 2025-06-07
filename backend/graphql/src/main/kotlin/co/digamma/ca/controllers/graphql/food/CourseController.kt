@@ -34,4 +34,9 @@ class CourseController(
     fun createCourse(@Argument creation: CourseCreationInput): CourseOutput {
         return service.create(creation.toCourseCreation()).toCourseOutput()
     }
+
+    @MutationMapping
+    fun updateCourse(@Argument modification: CourseModificationInput): CourseOutput {
+        return service.update(modification.toCourseModification()).toCourseOutput()
+    }
 }
