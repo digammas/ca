@@ -1,7 +1,5 @@
-import type {Connection, LocalizedModel} from "~/model/common";
+import type {Connection, NamedModel} from "~/model/common";
 
-export interface Cuisine extends LocalizedModel {
-    name: string;
-}
+export interface Cuisine extends NamedModel {}
 
 export type Cuisines = Connection<Cuisine>;
