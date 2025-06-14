@@ -31,7 +31,10 @@ function postFetch<T, V extends Record<string, unknown>>(
             document: ref(document),
         }
     }
-    // Fetch client-side to update Apollo cache
+    /* Fetch client-side to update Apollo cache
+     * Note that using useAsyncData is still useful, and important to remove warnings.
+     * Async data is used upon dehydration, before being updated by fresh client-side fired query.
+     */
     const queryResult = useQuery<T, V | {}>(document, variables || {});
     return {
         ...queryResult,
