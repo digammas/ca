@@ -13,14 +13,10 @@ import org.jooq.Record
 import org.springframework.stereotype.Repository
 
 fun toServing(record: Record): Serving {
-    val tempMin = record[SERVING.TEMP_MIN]
-    val tempMax = record[SERVING.TEMP_MAX]
-    val temperature = if (tempMin != null && tempMax != null) tempMin..tempMax else IntRange.EMPTY
     return Serving(
         id = record[SERVING.ID]!!,
         locale = Locale.of(record[SERVING.LOCALE]),
         name = record[SERVING.NAME]!!,
-        temperature = temperature
     )
 }
 
@@ -33,13 +29,4 @@ open class SqlServingRepository(
     ServingRepository {
 
     override fun toModel(record: Record) = toServing(record)
-
-    override fun toRecord(model: Serving): ServingRecord {
-        return super.toRecord(model).also {
-            if (model.temperature != IntRange.EMPTY) {
-                it.tempMin = model.temperature.first
-                it.tempMax = model.temperature.last
-            }
-        }
-    }
 }

@@ -14,6 +14,5 @@ data class ServingCreationInput(
     fun toServingCreation() = ServingCreation(
         locale = Locale.forLanguageTag(this.locale),
         name = this.name,
-        temperatureMin?.rangeTo(temperatureMax ?: temperatureMin),
     )
 }

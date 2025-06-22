@@ -18,7 +18,6 @@ open class DomainServingService(
             id = generateId(),
             locale = creation.locale,
             name = creation.name,
-            temperature = creation.temperature ?: IntRange.EMPTY,
         )
         return this.repository.create(serving)
     }
@@ -29,7 +28,6 @@ open class DomainServingService(
             id = existing.id,
             locale = existing.locale,
             name = modification.name ?: existing.name,
-            temperature = modification.temperature ?: existing.temperature,
         )
         return this.repository.update(serving)
     }
