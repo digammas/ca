@@ -65,5 +65,4 @@ function cancelCreation() {
   }
 }
 
-
 </style>

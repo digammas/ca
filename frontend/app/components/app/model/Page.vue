@@ -1,7 +1,7 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="T extends LocalizedModel, C">
 import {useMutation} from "@vue/apollo-composable";
 import type {DocumentNode} from "graphql/language";
-import type {Connection, Model, NamedModel} from "~/model/common";
+import type {Connection, LocalizedModel, Model} from "~/model/common";
 
 type Props = {
   query: DocumentNode,
@@ -18,11 +18,11 @@ const {
   removeMutation,
 } = defineProps<Props>();
 
-const {result, error, loading, refetch} = useAsyncQuery<{models: Connection<NamedModel>}>(query);
+const {result, error, loading, refetch} = useAsyncQuery<{models: Connection<T>}>(query);
 const {mutate: createModel} = useMutation(createMutation);
 const {mutate: updateModel} = useMutation(updateMutation);
 const {mutate: removeModel} = useMutation(removeMutation);
-const  models = computed(() => result.value?.models.edges.map(e => e.node) || []);
+const models = computed(() => result.value?.models.edges.map(e => e.node) || []);
 
 function remove({id}: Model) {
   removeModel( {id})
@@ -30,31 +30,31 @@ function remove({id}: Model) {
       .then(() => refetch());
 }
 
-function add(creation: {name: string}) {
+function add(creation: C) {
   createModel( {creation: {...creation, locale: "en"}})
       // refetch needed since creation doesn't update cache automatically
       .then(() => refetch());
 }
 
-function edit(model: NamedModel) {
+function edit(model: T) {
   updateModel( {modification: model});
 }
 
 </script>
 
 <template>
-  <!-- @vue-generic {NamedModel, {name: string}} -->
-  <AppModelPage
-      :loadingMessage :errorMessage
-      :items="models" :error="error" :loading="loading">
+  <AppModelList
+      :items="models" :error="error" :loading="loading"
+      @remove="remove" @edit="edit" @add="add">
     <template #item="item">
-      <AppNamedModelItem :item  @remove="remove" @edit="edit" />
+      <slot name="item" v-bind="item"></slot>
     </template>
-    <template #addItem>
-      <AppNamedModelAdd placeholder="New Item" @add="add" />
+    <template #addItem="creationPlaceholder">
+      <slot name="addItem" v-bind="creationPlaceholder" @add="add"></slot>
     </template>
-  </AppModelPage>
-
+    <template #loading>{{ loadingMessage }}</template>
+    <template #error>{{ errorMessage }}</template>
+  </AppModelList>
 </template>
 
 <style scoped>
