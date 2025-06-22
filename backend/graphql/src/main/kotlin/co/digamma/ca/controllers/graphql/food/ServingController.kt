@@ -34,4 +34,9 @@ class ServingController(
     fun createServing(@Argument creation: ServingCreationInput): ServingOutput {
         return service.create(creation.toServingCreation()).toServingOutput()
     }
+
+    @MutationMapping
+    fun updateServing(@Argument modification: ServingModificationInput): ServingOutput {
+        return service.update(modification.toServingModification()).toServingOutput()
+    }
 }

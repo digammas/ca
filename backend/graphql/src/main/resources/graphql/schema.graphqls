@@ -27,6 +27,7 @@ type Mutation {
     deleteCuisine(id: ID!): Boolean
 
     createServing(creation: ServingCreation): ServingOutput
+    updateServing(modification: ServingModification): ServingOutput
     deleteServing(id: ID!): Boolean
 
     createDish(creation: DishCreation): DishOutput
@@ -152,8 +153,15 @@ type ServingOutputConnection implements Connection {
 input ServingCreation {
     locale: String!
     name: String!
-    lowerTemperature: Float
-    upperTemperature: Float
+    temperatureMin: Float
+    temperatureMax: Float
+}
+
+input ServingModification {
+    id: ID!
+    name: String
+    temperatureMix: Int
+    temperatureMax: Int
 }
 
 type DishOutput implements LocalizedModel {
