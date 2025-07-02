@@ -1,7 +1,9 @@
 <script setup lang="ts">
 
+import type {Creation, NamedModel} from "~/model/common";
+
 type Emits = {
-  add: [{name: string}],
+  add: [Creation<NamedModel>],
 };
 
 type Props = {

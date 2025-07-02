@@ -26,3 +26,5 @@ export interface Connection<M extends Model> {
     readonly edges: readonly Edge<M>[];
     readonly pageInfo: PageInfo;
 }
+
+export type Creation<T extends LocalizedModel> = Omit<T, keyof LocalizedModel>

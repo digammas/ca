@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import {useMutation} from "@vue/apollo-composable";
 import type {DocumentNode} from "graphql/language";
-import type {Connection, Model, NamedModel} from "~/model/common";
+import {useModelStore} from "~/composables/useModelStore";
 
 type Props = {
   query: DocumentNode,
@@ -18,43 +17,35 @@ const {
   removeMutation,
 } = defineProps<Props>();
 
-const {result, error, loading, refetch} = useAsyncQuery<{models: Connection<NamedModel>}>(query);
-const {mutate: createModel} = useMutation(createMutation);
-const {mutate: updateModel} = useMutation(updateMutation);
-const {mutate: removeModel} = useMutation(removeMutation);
-const  models = computed(() => result.value?.models.edges.map(e => e.node) || []);
+const {
+  models: items,
+  remove,
+  edit,
+  add,
+  error,
+  loading,
 
-function remove({id}: Model) {
-  removeModel( {id})
-      // refetch needed since deletion doesn't update cache automatically
-      .then(() => refetch());
-}
-
-function add(creation: {name: string}) {
-  createModel( {creation: {...creation, locale: "en"}})
-      // refetch needed since creation doesn't update cache automatically
-      .then(() => refetch());
-}
-
-function edit(model: NamedModel) {
-  updateModel( {modification: model});
-}
+} = useModelStore(
+    query,
+    createMutation,
+    updateMutation,
+    removeMutation,
+);
 
 </script>
 
 <template>
-  <!-- @vue-generic {NamedModel, {name: string}} -->
-  <AppModelPage
-      :loadingMessage :errorMessage
-      :items="models" :error="error" :loading="loading">
+  <AppModelList :items :error :loading
+      @remove="remove" @edit="edit">
     <template #item="item">
       <AppNamedModelItem :item  @remove="remove" @edit="edit" />
     </template>
-    <template #addItem>
+    <template #addItem="creationPlaceholder">
       <AppNamedModelAdd placeholder="New Item" @add="add" />
     </template>
-  </AppModelPage>
-
+    <template #loading>{{ loadingMessage }}</template>
+    <template #error>{{ errorMessage }}</template>
+  </AppModelList>
 </template>
 
 <style scoped>

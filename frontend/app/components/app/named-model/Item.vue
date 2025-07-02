@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type {NamedModel} from "~/model/common";
+import type {Model, NamedModel} from "~/model/common";
 
 type Props = {
   item: NamedModel,
@@ -7,7 +7,7 @@ type Props = {
 
 type Emits = {
   edit: [model: NamedModel],
-  remove: [model: NamedModel],
+  remove: [model: Model],
 };
 
 const {item} = defineProps<Props>();
