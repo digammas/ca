@@ -14,12 +14,10 @@ abstract class ServingRepositoryTestBase : CrudRepositoryTestBase<Serving>() {
         id = RandGen.uuid(),
         locale = Locale.ENGLISH,
         name = RandGen.string(),
-        temperature = IntRange.EMPTY
     )
 
     override fun modifyModel(model: Serving) = model.copy(
         locale = Locale.FRENCH,
         name = RandGen.string(),
-        temperature = 25..30
     )
 }

@@ -43,7 +43,6 @@ abstract class DishRepositoryTestBase : CrudRepositoryTestBase<Dish>() {
             id = RandGen.uuid(),
             locale = Locale.ENGLISH,
             name = RandGen.string(),
-            temperature = IntRange.EMPTY
         )
         return servingRepository.create(serving)
     }
