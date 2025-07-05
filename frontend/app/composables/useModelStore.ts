@@ -15,19 +15,19 @@ export function useModelStore<T extends LocalizedModel, C = Creation<T>>(
     const models = computed(() => result.value?.models.edges.map(e => e.node) || []);
 
     function remove({id}: Model) {
-        return removeModel( {id})
+        return removeModel({id})
             // refetch needed since deletion doesn't update cache automatically
             .then(() => refetch());
     }
 
     function add(creation: C) {
-        return createModel( {creation: {...creation, locale: "en"}})
+        return createModel({creation: {...creation, locale: "en"}})
             // refetch needed since creation doesn't update cache automatically
             .then(() => refetch());
     }
 
     function edit(model: T) {
-        return updateModel( {modification: model});
+        return updateModel({modification: model});
     }
 
     return {
