@@ -35,8 +35,7 @@ const {
 </script>
 
 <template>
-  <AppModelList :items :error :loading
-      @remove="remove" @edit="edit">
+  <AppModelList :items :error :loading>
     <template #item="item">
       <AppNamedModelItem :item  @remove="remove" @edit="edit" />
     </template>
