@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type {Model, NamedModel} from "~/model/common";
+import type {Model, Modification, NamedModel} from "~/model/common";
 
 type Props = {
   item: NamedModel,
 };
 
 type Emits = {
-  edit: [model: NamedModel],
+  edit: [model: Modification<NamedModel>],
   remove: [model: Model],
 };
 
@@ -24,7 +24,7 @@ function startEditing() {
 function confirmEditing() {
   if (editingText.value) {
     emit("edit", {
-      ...item,
+      id: item.id,
       name: editingText.value,
     });
   }

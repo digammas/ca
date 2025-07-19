@@ -28,3 +28,4 @@ export interface Connection<M extends Model> {
 }
 
 export type Creation<T extends LocalizedModel> = Omit<T, keyof LocalizedModel>
+export type Modification<T extends LocalizedModel> = Omit<T, 'locale'>

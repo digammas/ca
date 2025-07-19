@@ -39,7 +39,7 @@ const {
     <template #item="item">
       <AppNamedModelItem :item  @remove="remove" @edit="edit" />
     </template>
-    <template #addItem="creationPlaceholder">
+    <template #addItem>
       <AppNamedModelAdd placeholder="New Item" @add="add" />
     </template>
     <template #loading>{{ loadingMessage }}</template>
