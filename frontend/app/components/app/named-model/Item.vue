@@ -32,7 +32,6 @@ function confirmEditing() {
 }
 
 function cancelEditing() {
-  editingText.value = item.name;
   editing.value = false;
 }
 
