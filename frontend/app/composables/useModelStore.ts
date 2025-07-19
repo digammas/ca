@@ -8,22 +8,19 @@ export function useModelStore<T extends LocalizedModel, C = Creation<T>>(
     updateMutation: DocumentNode,
     removeMutation: DocumentNode,
 ) {
-    const {result, error, loading, refetch} = useAsyncQuery<{models: Connection<T>}>(query);
-    const {mutate: createModel} = useMutation(createMutation);
-    const {mutate: updateModel} = useMutation(updateMutation);
-    const {mutate: removeModel} = useMutation(removeMutation);
+    const {result, error, loading} = useAsyncQuery<{models: Connection<T>}>(query);
+    const mutationParams = {refetchQueries: [query]};
+    const {mutate: createModel} = useMutation(createMutation, mutationParams);
+    const {mutate: updateModel} = useMutation(updateMutation, mutationParams);
+    const {mutate: removeModel} = useMutation(removeMutation, mutationParams);
     const models = computed(() => result.value?.models.edges.map(e => e.node) || []);
 
     function remove({id}: Model) {
-        return removeModel({id})
-            // refetch needed since deletion doesn't update cache automatically
-            .then(() => refetch());
+        return removeModel({id});
     }
 
     function add(creation: C) {
-        return createModel({creation: {...creation, locale: "en"}})
-            // refetch needed since creation doesn't update cache automatically
-            .then(() => refetch());
+        return createModel({creation: {...creation, locale: "en"}});
     }
 
     function edit(model: T) {
