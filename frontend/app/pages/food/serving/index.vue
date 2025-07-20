@@ -21,7 +21,7 @@ const query = gql`
 
 const createMutation = gql`
     mutation ($creation: ServingCreation) {
-        createServing(creation: $creation) {
+        created: createServing(creation: $creation) {
             id
             name
             locale
@@ -31,7 +31,7 @@ const createMutation = gql`
 
 const updateMutation = gql`
     mutation ($modification: ServingModification) {
-        updateServing(modification: $modification) {
+        updated: updateServing(modification: $modification) {
             id
             name
             locale
@@ -41,7 +41,7 @@ const updateMutation = gql`
 
 const removeMutation = gql`
     mutation ($id: ID!) {
-        deleteServing(id: $id)
+        deleted: deleteServing(id: $id)
     }
 `;
 

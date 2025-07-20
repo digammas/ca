@@ -1,5 +1,5 @@
 import {ApolloClient, HttpLink, InMemoryCache} from "@apollo/client/core";
-import {DefaultApolloClient} from "@vue/apollo-composable";
+import {DefaultApolloClient, provideApolloClient} from "@vue/apollo-composable";
 
 type FetchRequestParams = Parameters<typeof fetch>[1];
 
@@ -22,5 +22,6 @@ export default defineNuxtPlugin((nuxtApp) => {
             fetch: customFetch,
         }),
     });
+    provideApolloClient(apolloClient);
     nuxtApp.vueApp.provide(DefaultApolloClient, apolloClient);
 });

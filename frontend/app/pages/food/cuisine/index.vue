@@ -21,7 +21,7 @@ const query = gql`
 
 const createMutation = gql`
     mutation ($creation: CuisineCreation) {
-        createCuisine(creation: $creation) {
+        created: createCuisine(creation: $creation) {
             id
             name
             locale
@@ -31,7 +31,7 @@ const createMutation = gql`
 
 const updateMutation = gql`
     mutation ($modification: CuisineModification) {
-        updateCuisine(modification: $modification) {
+        updated: updateCuisine(modification: $modification) {
             id
             name
             locale
@@ -41,7 +41,7 @@ const updateMutation = gql`
 
 const removeMutation = gql`
     mutation ($id: ID!) {
-        deleteCuisine(id: $id)
+        deleted: deleteCuisine(id: $id)
     }
 `;
 

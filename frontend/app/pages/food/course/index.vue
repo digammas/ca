@@ -21,7 +21,7 @@ const query = gql`
 
 const createMutation = gql`
     mutation ($creation: CourseCreation) {
-        createCourse(creation: $creation) {
+        created: createCourse(creation: $creation) {
             id
             name
             locale
@@ -31,7 +31,7 @@ const createMutation = gql`
 
 const updateMutation = gql`
     mutation ($modification: CourseModification) {
-        updateCourse(modification: $modification) {
+        updated: updateCourse(modification: $modification) {
             id
             name
             locale
@@ -41,7 +41,7 @@ const updateMutation = gql`
 
 const removeMutation = gql`
     mutation ($id: ID!) {
-        deleteCourse(id: $id)
+        deleted: deleteCourse(id: $id)
     }
 `;
 
