@@ -45,7 +45,9 @@ function remove() {
   <div class="container" :class="{editing}" >
     <template v-if="!editing">
       <span @click="startEditing" class="editable">{{ item.name }}</span>
-      <UiIconButton @click="remove" action="cancel" />
+      <client-only>
+        <UiIconButton @click="remove" action="cancel" />
+      </client-only>
     </template>
     <template v-else>
       <input v-model="editingText" ref="input"

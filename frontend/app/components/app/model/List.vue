@@ -25,9 +25,11 @@ const listTag = ordered ? "ol" : "ul";
       <li v-for="item in items" :key="item.id">
         <slot name="item" v-bind="item"></slot>
       </li>
-      <li>
-        <slot name="addItem"></slot>
-      </li>
+      <client-only>
+        <li>
+          <slot name="addItem"></slot>
+        </li>
+      </client-only>
     </component>
   </div>
 </template>
