@@ -14,6 +14,7 @@ const {placeholder} = defineProps<Props>();
 const emit = defineEmits<Emits>();
 const editing = ref(false);
 const creationText = ref("");
+const confirmButton = ref();
 
 function startCreation() {
   editing.value = true;
@@ -30,7 +31,9 @@ function resetValue() {
   creationText.value = "";
 }
 
-function cancelCreation() {
+function handleFocusOut(event: FocusEvent) {
+  // Skip when confirm button is pressed
+  if (event.relatedTarget === confirmButton.value?.$el) return;
   resetValue();
   editing.value = false;
 }
@@ -38,7 +41,7 @@ function cancelCreation() {
 </script>
 
 <template>
-  <div class="container" :class="{editing}" @focusout="cancelCreation">
+  <div class="container" :class="{editing}" @focusout="handleFocusOut">
     <input
         v-model="creationText"
         ref="input"
@@ -47,7 +50,7 @@ function cancelCreation() {
         @keyup.enter="confirmCreation"
         @focus="startCreation" />
     <template v-if="editing">
-      <UiIconButton @click="confirmCreation" action="confirm" />
+      <UiIconButton ref="confirmButton" @click="confirmCreation" action="confirm" />
     </template>
   </div>
 </template>

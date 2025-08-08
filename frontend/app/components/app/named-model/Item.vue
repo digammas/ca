@@ -15,6 +15,7 @@ const emit = defineEmits<Emits>();
 const editing = ref(false);
 const editingText = ref<string>(item.name);
 const input = ref<HTMLInputElement>();
+const confirmButton = ref<UiIconButton>();
 
 function startEditing() {
   editing.value = true;
@@ -31,7 +32,13 @@ function confirmEditing() {
   editing.value = false;
 }
 
-function cancelEditing() {
+async function handleFocusOut(event: FocusEvent) {
+  // Skip when confirm button is pressed
+  if (event.relatedTarget === confirmButton.value?.$el) return;
+  editing.value = false;
+}
+
+function handleEscape() {
   editing.value = false;
 }
 
@@ -42,18 +49,16 @@ function remove() {
 </script>
 
 <template>
-  <div class="container" :class="{editing}" >
-    <template v-if="!editing">
-      <span @click="startEditing" class="editable">{{ item.name }}</span>
-      <client-only>
-        <UiIconButton @click="remove" action="cancel" />
-      </client-only>
-    </template>
-    <template v-else>
-      <input v-model="editingText" ref="input"
-             @keyup.esc="cancelEditing" @keyup.enter="confirmEditing" @focusout="cancelEditing" />
-      <UiIconButton @click="confirmEditing" action="confirm" />
-    </template>
+  <div v-if="!editing" class="container">
+    <span @click="startEditing" class="editable">{{ item.name }}</span>
+    <client-only>
+      <UiIconButton action="cancel" @click="remove" />
+    </client-only>
+  </div>
+  <div v-else class="container editing" @focusout="handleFocusOut">
+    <input v-model="editingText" ref="input"
+           @keyup.esc="handleEscape" @keyup.enter="confirmEditing" />
+    <UiIconButton ref="confirmButton" action="confirm" @click="confirmEditing" />
   </div>
 </template>
 
