@@ -2,7 +2,7 @@ import type {DocumentNode} from "graphql/language";
 import {useApolloClient, useMutation} from "@vue/apollo-composable";
 import type {Connection, Creation, Edge, LocalizedModel, Model, Modification} from "~/model/common";
 
-type QueryResult<T extends LocalizedModel> = {models: Connection<T>}
+type QueryResult<T extends LocalizedModel> = {models: Connection<T>};
 
 type Mapper<S, T extends LocalizedModel> = (source: S) => T;
 
@@ -16,13 +16,13 @@ const defaultOptions = {
     refetch: false,
     optimistic: true,
     updateCacheOnSuccess: true,
-}
+};
 
 function mergeOptions(options: Options): Required<Options> {
     return {
         ...defaultOptions,
         ...options,
-    }
+    };
 }
 
 export function useModelStore<T extends LocalizedModel, M = Modification<T>, C = Creation<T>>(
@@ -60,13 +60,13 @@ export function useModelStore<T extends LocalizedModel, C = Creation<T>>(
         const mergeIfMatchingId = (edge: Edge<T>) => (edge.node.id != id) ? edge : {
             ...edge,
             node: model,
-        }
+        };
         return {
             models: {
                 edges: original.models.edges.map(mergeIfMatchingId),
                 pageInfo: original.models.pageInfo,
             }
-        }
+        };
     }
 
     function addToResult(
@@ -81,7 +81,7 @@ export function useModelStore<T extends LocalizedModel, C = Creation<T>>(
                 ],
                 pageInfo: original.models.pageInfo,
             }
-        }
+        };
     }
 
     const {mutate: createModel} = useMutation(createMutation);
@@ -151,5 +151,5 @@ export function useModelStore<T extends LocalizedModel, C = Creation<T>>(
         edit,
         error,
         loading,
-    }
+    };
 }
