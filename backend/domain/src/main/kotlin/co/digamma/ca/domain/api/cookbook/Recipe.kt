@@ -12,12 +12,15 @@ class Recipe(
     override val id: String,
     override val locale: Locale,
     val dish: Dish,
-    val ingredients: List<QuantifiedIngredient>,
-    val steps: List<PreparationStep>,
+    val ingredients: List<QuantifiedIngredient> = emptyList(),
+    val steps: List<Step> = emptyList(),
     val yield: Int,
     val createdAt: Instant,
     val updatedAt: Instant,
     val author: User,
     val images: Images = noImages(),
-    val estimatedTime: Int = steps.sumOf { it.estimatedTime },
-) : LocalizedModel
+    val timeToServe: Int?,
+) : LocalizedModel {
+
+    val estimatedTime get() = timeToServe ?: steps.sumOf { it.estimatedTime }
+}

@@ -7,4 +7,5 @@ class QuantifiedIngredient(
     val ingredient: Ingredient,
     val quantity: Float,
     val unit: MeasurementUnit,
+    val recipe: Recipe,
 ) : Model

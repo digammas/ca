@@ -47,7 +47,10 @@ open class DomainDishService(
             course = modification.courseId?.let(courseRepository::retrieveOrThrow) ?: existing.course,
             cuisine = modification.cuisineId?.let(cuisineRepository::retrieveOrThrow) ?: existing.cuisine,
             serving = modification.servingId?.let(servingRepository::retrieveOrThrow) ?: existing.serving,
-            images = modification.imageIds?.map(imageRepository::retrieveOrThrow)?.let(::Images) ?: existing.images,
+            images = modification.imageIds
+                ?.map(imageRepository::retrieveOrThrow)
+                ?.let(::Images)
+                ?: existing.images,
         )
         return repository.update(dish)
     }

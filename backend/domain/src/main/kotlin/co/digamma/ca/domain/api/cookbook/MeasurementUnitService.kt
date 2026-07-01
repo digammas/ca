@@ -1,12 +1,9 @@
 package co.digamma.ca.domain.api.cookbook
 
-import co.digamma.ca.domain.api.DeleteService
-import co.digamma.ca.domain.api.RetrieveService
+import co.digamma.ca.domain.api.CrudService
+import java.util.Locale
 
-interface MeasurementUnitService : RetrieveService<MeasurementUnit>, DeleteService {
-    fun create(measurementUnit: MeasurementUnitCreation): MeasurementUnit
-    fun update(measurementUnit: MeasurementUnitModification): MeasurementUnit
-}
+interface MeasurementUnitService : CrudService<MeasurementUnit, MeasurementUnitCreation, MeasurementUnitModification>
 
 interface MeasurementUnitMutation {
     val name: String?
@@ -14,7 +11,7 @@ interface MeasurementUnitMutation {
 }
 
 data class MeasurementUnitCreation(
-    val locale: String,
+    val locale: Locale,
     override val name: String,
     override val dimension: MeasurementUnit.Dimension,
 ) : MeasurementUnitMutation

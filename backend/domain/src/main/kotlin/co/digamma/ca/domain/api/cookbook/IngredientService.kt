@@ -1,12 +1,9 @@
 package co.digamma.ca.domain.api.cookbook
 
-import co.digamma.ca.domain.api.DeleteService
-import co.digamma.ca.domain.api.RetrieveService
+import co.digamma.ca.domain.api.CrudService
+import java.util.Locale
 
-interface IngredientService : RetrieveService<Ingredient>, DeleteService {
-    fun create(ingredient: IngredientCreation): Ingredient
-    fun update(ingredient: IngredientModification): Ingredient
-}
+interface IngredientService : CrudService<Ingredient, IngredientCreation, IngredientModification>
 
 interface IngredientMutation {
     val name: String?
@@ -15,7 +12,7 @@ interface IngredientMutation {
 }
 
 data class IngredientCreation(
-    val locale: String,
+    val locale: Locale,
     override val name: String,
     override val description: String,
     override val imageIds: List<String> = emptyList(),
