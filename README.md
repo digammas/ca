@@ -30,7 +30,7 @@ Run backend.
 ```
 cd backend
 mvn install
-mvn spring-boot:run -f app/pom.xml
+mvn spring-boot:run -pl app
 ```
 
 Run frontend.
