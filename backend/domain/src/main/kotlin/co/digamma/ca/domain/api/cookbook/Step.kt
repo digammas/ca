@@ -3,7 +3,7 @@ package co.digamma.ca.domain.api.cookbook
 import co.digamma.ca.domain.api.model.LocalizedModel
 import java.util.Locale
 
-class Step(
+data class Step(
     override val id: String,
     override val locale: Locale,
     val description: String,

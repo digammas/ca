@@ -1,0 +1,31 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20260705-1500-002-users-tables
+      author: Ahmad
+      changes:
+        - createTable:
+            schemaName: users
+            tableName: user_account
+            ifNotExists: true
+            columns:
+              - column:
+                  name: username
+                  type: varchar(255)
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: password
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: email
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: timestamp
+                  type: timestamp
+                  constraints:
+                    nullable: false
+

@@ -8,7 +8,7 @@ import co.digamma.ca.domain.api.users.User
 import java.time.Instant
 import java.util.Locale
 
-class Recipe(
+data class Recipe(
     override val id: String,
     override val locale: Locale,
     val dish: Dish,

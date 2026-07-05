@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
+import kotlin.test.assertNotNull
 
 abstract class CrudRepositoryTestBase<T : Model> {
     abstract fun newModel(): T
@@ -19,7 +20,7 @@ abstract class CrudRepositoryTestBase<T : Model> {
         val model = newModel()
         sut.create(model)
         val retrieved = sut.retrieve(model.id)
-        assertEquals(model, retrieved)
+        assertSame(model, retrieved)
     }
 
     @Test
@@ -31,7 +32,7 @@ abstract class CrudRepositoryTestBase<T : Model> {
     fun `test create`() {
         val model = newModel()
         val created = sut.create(model)
-        assertEquals(model, created)
+        assertSame(model, created)
     }
 
     @Test
@@ -50,7 +51,7 @@ abstract class CrudRepositoryTestBase<T : Model> {
         val expected = modifyModel(created)
         sut.update(expected)
         val modified = sut.retrieve(model.id)
-        assertEquals(expected, modified)
+        assertSame(expected, modified)
     }
 
     @Test
@@ -67,5 +68,12 @@ abstract class CrudRepositoryTestBase<T : Model> {
         sut.create(model)
         sut.delete(model.id)
         assertNull(sut.retrieve(model.id))
+    }
+
+    protected open fun normalize(model: T): T = model
+
+    private fun assertSame(expected: T, actual: T?) {
+        assertNotNull(actual)
+        assertEquals(normalize(expected), normalize(actual))
     }
 }

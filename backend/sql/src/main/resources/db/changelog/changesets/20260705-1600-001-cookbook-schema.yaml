@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20260705-1600-001-cookbook-schema
+      author: Ahmad
+      rollback:
+        - sql:
+            sql: "DROP SCHEMA IF EXISTS cookbook CASCADE;"
+      changes:
+        - sql:
+            sql: "CREATE SCHEMA IF NOT EXISTS cookbook;"

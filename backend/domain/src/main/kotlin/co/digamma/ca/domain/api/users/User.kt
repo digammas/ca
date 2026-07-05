@@ -2,7 +2,7 @@ package co.digamma.ca.domain.api.users
 
 import co.digamma.ca.domain.api.model.Model
 
-class User(
+data class User(
     val username: String,
     val password: String,
     val email: String,

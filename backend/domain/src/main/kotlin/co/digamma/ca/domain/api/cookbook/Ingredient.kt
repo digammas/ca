@@ -5,7 +5,7 @@ import co.digamma.ca.domain.api.media.noImages
 import co.digamma.ca.domain.api.model.LocalizedModel
 import java.util.Locale
 
-class Ingredient(
+data class Ingredient(
     override val id: String,
     override val locale: Locale,
     val name: String,

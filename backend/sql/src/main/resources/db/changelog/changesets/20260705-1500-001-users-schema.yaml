@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20260705-1500-001-users-schema
+      author: Ahmad
+      rollback:
+        - sql:
+            sql: "DROP SCHEMA IF EXISTS users CASCADE;"
+      changes:
+        - sql:
+            sql: "CREATE SCHEMA IF NOT EXISTS users;"
+

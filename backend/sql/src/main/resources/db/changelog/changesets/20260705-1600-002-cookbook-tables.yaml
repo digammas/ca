@@ -1,0 +1,269 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20260705-1600-002-cookbook-tables
+      author: Ahmad
+      changes:
+        - createTable:
+            schemaName: cookbook
+            tableName: ingredient
+            ifNotExists: true
+            columns:
+              - column:
+                  name: id
+                  type: char(36)
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: locale
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: timestamp
+                  type: timestamp
+                  constraints:
+                    nullable: false
+        - createTable:
+            schemaName: cookbook
+            tableName: ingredient_image
+            ifNotExists: true
+            columns:
+              - column:
+                  name: ingredient_id
+                  type: char(36)
+                  constraints:
+                    primaryKey: true
+                    foreignKeyName: ingredient__ingredient_image_fk
+                    referencedTableSchemaName: cookbook
+                    referencedTableName: ingredient
+                    referencedColumnNames: id
+              - column:
+                  name: image_id
+                  type: char(36)
+                  constraints:
+                    primaryKey: true
+                    foreignKeyName: image__ingredient_image_fk
+                    referencedTableSchemaName: media
+                    referencedTableName: image
+                    referencedColumnNames: id
+              - column:
+                  name: timestamp
+                  type: timestamp
+                  constraints:
+                    nullable: false
+        - createTable:
+            schemaName: cookbook
+            tableName: measurement_unit
+            ifNotExists: true
+            columns:
+              - column:
+                  name: id
+                  type: char(36)
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: locale
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: dimension
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: timestamp
+                  type: timestamp
+                  constraints:
+                    nullable: false
+        - createTable:
+            schemaName: cookbook
+            tableName: recipe
+            ifNotExists: true
+            columns:
+              - column:
+                  name: id
+                  type: char(36)
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: locale
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: dish_id
+                  type: char(36)
+                  constraints:
+                    nullable: false
+                    foreignKeyName: recipe__dish_fk
+                    referencedTableSchemaName: food
+                    referencedTableName: dish
+                    referencedColumnNames: id
+              - column:
+                  name: yield
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: author_id
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    foreignKeyName: recipe__user_account_fk
+                    referencedTableSchemaName: users
+                    referencedTableName: user_account
+                    referencedColumnNames: username
+              - column:
+                  name: time_to_serve
+                  type: integer
+              - column:
+                  name: timestamp
+                  type: timestamp
+                  constraints:
+                    nullable: false
+        - createTable:
+            schemaName: cookbook
+            tableName: recipe_image
+            ifNotExists: true
+            columns:
+              - column:
+                  name: recipe_id
+                  type: char(36)
+                  constraints:
+                    primaryKey: true
+                    foreignKeyName: recipe__recipe_image_fk
+                    referencedTableSchemaName: cookbook
+                    referencedTableName: recipe
+                    referencedColumnNames: id
+              - column:
+                  name: image_id
+                  type: char(36)
+                  constraints:
+                    primaryKey: true
+                    foreignKeyName: image__recipe_image_fk
+                    referencedTableSchemaName: media
+                    referencedTableName: image
+                    referencedColumnNames: id
+              - column:
+                  name: timestamp
+                  type: timestamp
+                  constraints:
+                    nullable: false
+        - createTable:
+            schemaName: cookbook
+            tableName: step
+            ifNotExists: true
+            columns:
+              - column:
+                  name: id
+                  type: char(36)
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: locale
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: estimated_time
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: order_index
+                  type: integer
+              - column:
+                  name: recipe_id
+                  type: char(36)
+                  constraints:
+                    nullable: false
+                    foreignKeyName: step__recipe_fk
+                    referencedTableSchemaName: cookbook
+                    referencedTableName: recipe
+                    referencedColumnNames: id
+              - column:
+                  name: timestamp
+                  type: timestamp
+                  constraints:
+                    nullable: false
+        - createTable:
+            schemaName: cookbook
+            tableName: quantified_ingredient
+            ifNotExists: true
+            columns:
+              - column:
+                  name: id
+                  type: char(36)
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: ingredient_id
+                  type: char(36)
+                  constraints:
+                    nullable: false
+                    foreignKeyName: quantified_ingredient__ingredient_fk
+                    referencedTableSchemaName: cookbook
+                    referencedTableName: ingredient
+                    referencedColumnNames: id
+              - column:
+                  name: quantity
+                  type: real
+                  constraints:
+                    nullable: false
+              - column:
+                  name: unit_id
+                  type: char(36)
+                  constraints:
+                    nullable: false
+                    foreignKeyName: quantified_ingredient__measurement_unit_fk
+                    referencedTableSchemaName: cookbook
+                    referencedTableName: measurement_unit
+                    referencedColumnNames: id
+              - column:
+                  name: order_index
+                  type: integer
+              - column:
+                  name: recipe_id
+                  type: char(36)
+                  constraints:
+                    nullable: false
+                    foreignKeyName: quantified_ingredient__recipe_fk
+                    referencedTableSchemaName: cookbook
+                    referencedTableName: recipe
+                    referencedColumnNames: id
+              - column:
+                  name: timestamp
+                  type: timestamp
+                  constraints:
+                    nullable: false
