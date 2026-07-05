@@ -1,6 +1,7 @@
 package co.digamma.ca.domain.api.food
 
 import co.digamma.ca.domain.api.CrudService
+import co.digamma.ca.domain.api.model.ModelReference
 import java.util.Locale
 
 interface CourseService : CrudService<Course, CourseCreation, CourseModification>
@@ -15,6 +16,6 @@ data class CourseCreation(
 ) : CourseMutation
 
 data class CourseModification(
-    val id: String,
+    override val id: String,
     override val name: String?,
-) : CourseMutation
+) : CourseMutation, ModelReference<Course>

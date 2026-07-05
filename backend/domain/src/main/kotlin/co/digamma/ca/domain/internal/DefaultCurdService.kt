@@ -1,15 +1,15 @@
 package co.digamma.ca.domain.internal
 
-import co.digamma.ca.domain.api.DeleteService
+import co.digamma.ca.domain.api.CrudService
 import co.digamma.ca.domain.api.Page
 import co.digamma.ca.domain.api.PageSpecs
-import co.digamma.ca.domain.api.RetrieveService
 import co.digamma.ca.domain.api.common.NotFoundException
 import co.digamma.ca.domain.api.model.Model
+import co.digamma.ca.domain.api.model.ModelReference
 import co.digamma.ca.domain.spi.CrudRepository
 import co.digamma.ca.domain.spi.RetrieveRepository
 
-abstract class DefaultCurdService<T : Model> : RetrieveService<T>, DeleteService {
+abstract class DefaultCurdService<T : Model, C, M : ModelReference<T>> : CrudService<T, C, M> {
 
     protected abstract val repository: CrudRepository<T>
 
@@ -27,6 +27,17 @@ abstract class DefaultCurdService<T : Model> : RetrieveService<T>, DeleteService
         return this.repository.retrieveAll()
     }
 
+    override fun create(creation: C): T {
+        val model = this.toModel(creation)
+        return this.repository.create(model)
+    }
+
+    override fun update(modification: M): T {
+        val existing = this.retrieve(modification.id)
+        val model = this.toModel(modification, existing)
+        return this.repository.update(model)
+    }
+
     override fun delete(id: String) {
         this.repository.delete(id)
     }
@@ -34,8 +45,12 @@ abstract class DefaultCurdService<T : Model> : RetrieveService<T>, DeleteService
     protected fun generateId(): String {
         return java.util.UUID.randomUUID().toString()
     }
-}
 
-inline fun <reified T : Model> RetrieveRepository<T>.retrieveOrThrow(id: String): T {
-    return this.retrieve(id) ?: throw NotFoundException.of(T::class.java, id)
+    abstract fun toModel(creation: C): T
+
+    abstract fun toModel(modification: M, existing: T): T
+
+    protected inline fun <reified T : Model> RetrieveRepository<T>.retrieveOrThrow(id: String): T {
+        return this.retrieve(id) ?: throw NotFoundException.of(T::class.java, id)
+    }
 }

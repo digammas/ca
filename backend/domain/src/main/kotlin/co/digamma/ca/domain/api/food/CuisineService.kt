@@ -1,6 +1,7 @@
 package co.digamma.ca.domain.api.food
 
 import co.digamma.ca.domain.api.CrudService
+import co.digamma.ca.domain.api.model.ModelReference
 import java.util.Locale
 
 interface CuisineService : CrudService<Cuisine, CuisineCreation, CuisineModification>
@@ -15,7 +16,7 @@ data class CuisineCreation(
 ) : CuisineMutation
 
 data class CuisineModification(
-    val id: String,
+    override val id: String,
     override val name: String?,
-) : CuisineMutation
+) : CuisineMutation, ModelReference<Cuisine>
 

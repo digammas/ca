@@ -9,7 +9,6 @@ import co.digamma.ca.domain.api.food.DishModification
 import co.digamma.ca.domain.api.food.DishService
 import co.digamma.ca.domain.api.media.Images
 import co.digamma.ca.domain.internal.DefaultCurdService
-import co.digamma.ca.domain.internal.retrieveOrThrow
 import co.digamma.ca.domain.spi.food.CourseRepository
 import co.digamma.ca.domain.spi.food.CuisineRepository
 import co.digamma.ca.domain.spi.food.DishRepository
@@ -23,37 +22,30 @@ open class DomainDishService(
     private val cuisineRepository: CuisineRepository,
     private val servingRepository: ServingRepository,
     private val imageRepository: ImageRepository,
-) : DefaultCurdService<Dish>(), DishService {
+) : DefaultCurdService<Dish, DishCreation, DishModification>(), DishService {
 
-    override fun create(creation: DishCreation): Dish {
-        val dish = Dish(
-            id = generateId(),
-            locale = creation.locale,
-            name = creation.name,
-            course = courseRepository.retrieveOrThrow(creation.courseId),
-            cuisine = cuisineRepository.retrieveOrThrow(creation.cuisineId),
-            serving = servingRepository.retrieveOrThrow(creation.servingId),
-            images = Images(creation.imageIds.map(imageRepository::retrieveOrThrow)),
-        )
-        return this.repository.create(dish)
-    }
+    override fun toModel(creation: DishCreation) = Dish(
+        id = generateId(),
+        locale = creation.locale,
+        name = creation.name,
+        course = courseRepository.retrieveOrThrow(creation.courseId),
+        cuisine = cuisineRepository.retrieveOrThrow(creation.cuisineId),
+        serving = servingRepository.retrieveOrThrow(creation.servingId),
+        images = Images(creation.imageIds.map { imageRepository.retrieveOrThrow(it) }),
+    )
 
-    override fun update(modification: DishModification): Dish {
-        val existing = this.retrieve(modification.id)
-        val dish = Dish(
+    override fun toModel(modification: DishModification, existing: Dish) = Dish(
             id = modification.id,
             locale = existing.locale,
             name = modification.name ?: existing.name,
-            course = modification.courseId?.let(courseRepository::retrieveOrThrow) ?: existing.course,
-            cuisine = modification.cuisineId?.let(cuisineRepository::retrieveOrThrow) ?: existing.cuisine,
-            serving = modification.servingId?.let(servingRepository::retrieveOrThrow) ?: existing.serving,
+            course = modification.courseId?.let { courseRepository.retrieveOrThrow(it) } ?: existing.course,
+            cuisine = modification.cuisineId?.let { cuisineRepository.retrieveOrThrow(it) } ?: existing.cuisine,
+            serving = modification.servingId?.let { servingRepository.retrieveOrThrow(it) } ?: existing.serving,
             images = modification.imageIds
-                ?.map(imageRepository::retrieveOrThrow)
+                ?.map { imageRepository.retrieveOrThrow(it) }
                 ?.let(::Images)
                 ?: existing.images,
         )
-        return repository.update(dish)
-    }
 
     override fun retrieveSideDishes(dishId: String, pageSpecs: PageSpecs?): Page<Dish> {
         return this.repository.retrieveSideDishes(dishId, pageSpecs ?: this.defaultPageSpecs)

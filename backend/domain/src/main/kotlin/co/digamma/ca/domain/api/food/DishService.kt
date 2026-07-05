@@ -3,6 +3,7 @@ package co.digamma.ca.domain.api.food
 import co.digamma.ca.domain.api.CrudService
 import co.digamma.ca.domain.api.Page
 import co.digamma.ca.domain.api.PageSpecs
+import co.digamma.ca.domain.api.model.ModelReference
 import java.util.Locale
 
 interface DishService : CrudService<Dish, DishCreation, DishModification> {
@@ -29,12 +30,12 @@ data class DishCreation(
 ) : DishMutation
 
 
-class DishModification(
-    val id: String,
+data class DishModification(
+    override val id: String,
     override val name: String?,
     override val courseId: String?,
     override val cuisineId: String?,
     override val servingId: String?,
     override val imageIds: List<String>?,
     override val sideDishIds: List<String>?,
-) : DishMutation
+) : DishMutation, ModelReference<Dish>

@@ -1,12 +1,8 @@
 package co.digamma.ca.domain.api.users
 
-import co.digamma.ca.domain.api.DeleteService
-import co.digamma.ca.domain.api.RetrieveService
+import co.digamma.ca.domain.api.CrudService
 
-interface UserService : RetrieveService<User>, DeleteService {
-    fun create(user: UserCreation): User
-    fun update(user: UserModification): User
-}
+interface UserService : CrudService<User, UserCreation, UserModification>
 
 interface UserMutation {
     val email: String?

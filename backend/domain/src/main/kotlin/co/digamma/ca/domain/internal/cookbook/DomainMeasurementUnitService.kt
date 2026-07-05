@@ -11,27 +11,20 @@ import co.digamma.ca.domain.spi.cookbook.MeasurementUnitRepository
 @Singleton
 open class DomainMeasurementUnitService(
     override val repository: MeasurementUnitRepository,
-) : DefaultCurdService<MeasurementUnit>(), MeasurementUnitService {
+) : DefaultCurdService<MeasurementUnit, MeasurementUnitCreation, MeasurementUnitModification>(), MeasurementUnitService {
 
-    override fun create(creation: MeasurementUnitCreation): MeasurementUnit {
-        val model = MeasurementUnit(
-            id = generateId(),
-            locale = creation.locale,
-            name = creation.name,
-            dimension = creation.dimension,
-        )
-        return repository.create(model)
-    }
+    override fun toModel(creation: MeasurementUnitCreation) = MeasurementUnit(
+        id = generateId(),
+        locale = creation.locale,
+        name = creation.name,
+        dimension = creation.dimension,
+    )
 
-    override fun update(modification: MeasurementUnitModification): MeasurementUnit {
-        val existing = this.retrieve(modification.id)
-        val model = MeasurementUnit(
+    override fun toModel(modification: MeasurementUnitModification, existing: MeasurementUnit) = MeasurementUnit(
             id = existing.id,
             locale = existing.locale,
             name = modification.name ?: existing.name,
             dimension = modification.dimension ?: existing.dimension,
         )
-        return repository.update(model)
-    }
 }
 

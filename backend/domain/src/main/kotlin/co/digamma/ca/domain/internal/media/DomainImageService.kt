@@ -11,26 +11,19 @@ import co.digamma.ca.domain.spi.media.ImageRepository
 @Singleton
 class DomainImageService(
     override val repository: ImageRepository
-) : DefaultCurdService<Image>(), ImageService {
+) : DefaultCurdService<Image, ImageCreation, ImageModification>(), ImageService {
 
-    override fun create(creation: ImageCreation): Image {
-        val image = Image(
-            id = generateId(),
-            locale = creation.locale,
-            url = creation.url,
-            description = creation.description
-        )
-        return repository.create(image)
-    }
+    override fun toModel(creation: ImageCreation) = Image(
+        id = generateId(),
+        locale = creation.locale,
+        url = creation.url,
+        description = creation.description
+    )
 
-    override fun update(modification: ImageModification): Image {
-        val existing = this.retrieve(modification.id)
-        val image = Image(
+    override fun toModel(modification: ImageModification, existing: Image) = Image(
             id = existing.id,
             locale = existing.locale,
             url = modification.url ?: existing.url,
             description = modification.description ?: existing.description
         )
-        return repository.update(image)
-    }
 }

@@ -1,16 +1,11 @@
 package co.digamma.ca.domain.api.media
 
-import co.digamma.ca.domain.api.CreateService
-import co.digamma.ca.domain.api.DeleteService
-import co.digamma.ca.domain.api.UpdateService
+import co.digamma.ca.domain.api.CrudService
+import co.digamma.ca.domain.api.model.ModelReference
 import java.util.Locale
 
 interface ImageService :
-    CreateService<Image, ImageCreation>,
-    UpdateService<Image, ImageModification>,
-    DeleteService {
-    fun retrieve(id: String): Image
-}
+    CrudService<Image, ImageCreation, ImageModification>
 
 interface ImageMutation {
     val url: String?
@@ -24,7 +19,7 @@ data class ImageCreation(
 ) : ImageMutation
 
 data class ImageModification(
-    val id: String,
+    override val id: String,
     override val url: String?,
     override val description: String?
-) : ImageMutation
+) : ImageMutation, ModelReference<Image>

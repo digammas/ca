@@ -1,6 +1,7 @@
 package co.digamma.ca.domain.api.cookbook
 
 import co.digamma.ca.domain.api.CrudService
+import co.digamma.ca.domain.api.model.ModelReference
 import java.util.Locale
 
 interface MeasurementUnitService : CrudService<MeasurementUnit, MeasurementUnitCreation, MeasurementUnitModification>
@@ -17,7 +18,7 @@ data class MeasurementUnitCreation(
 ) : MeasurementUnitMutation
 
 data class MeasurementUnitModification(
-    val id: String,
+    override val id: String,
     override val name: String?,
     override val dimension: MeasurementUnit.Dimension?,
-) : MeasurementUnitMutation
+) : MeasurementUnitMutation, ModelReference<MeasurementUnit>

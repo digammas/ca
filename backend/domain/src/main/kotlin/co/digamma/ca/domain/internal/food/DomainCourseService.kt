@@ -11,24 +11,17 @@ import co.digamma.ca.domain.spi.food.CourseRepository
 @Singleton
 open class DomainCourseService(
     override val repository: CourseRepository,
-) : DefaultCurdService<Course>(), CourseService {
+) : DefaultCurdService<Course, CourseCreation, CourseModification>(), CourseService {
 
-    override fun create(creation: CourseCreation): Course {
-        val course = Course(
-            id = generateId(),
-            locale = creation.locale,
-            name = creation.name,
-        )
-        return this.repository.create(course)
-    }
+    override fun toModel(creation: CourseCreation) = Course(
+        id = generateId(),
+        locale = creation.locale,
+        name = creation.name,
+    )
 
-    override fun update(modification: CourseModification): Course {
-        val existing = this.retrieve(modification.id)
-        val course = Course(
+    override fun toModel(modification: CourseModification, existing: Course) = Course(
             id = existing.id,
             locale = existing.locale,
             name = modification.name ?: existing.name,
         )
-        return this.repository.update(course)
-    }
 }

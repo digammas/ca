@@ -12,7 +12,6 @@ import co.digamma.ca.domain.api.cookbook.RecipeModification
 import co.digamma.ca.domain.api.cookbook.RecipeService
 import co.digamma.ca.domain.api.media.Images
 import co.digamma.ca.domain.internal.DefaultCurdService
-import co.digamma.ca.domain.internal.retrieveOrThrow
 import co.digamma.ca.domain.spi.cookbook.IngredientRepository
 import co.digamma.ca.domain.spi.cookbook.MeasurementUnitRepository
 import co.digamma.ca.domain.spi.cookbook.QuantifiedIngredientRepository
@@ -34,11 +33,11 @@ open class DomainRecipeService(
     private val measurementUnitRepository: MeasurementUnitRepository,
     private val imageRepository: ImageRepository,
     private val userRepository: UserRepository,
-) : DefaultCurdService<Recipe>(), RecipeService {
+) : DefaultCurdService<Recipe, RecipeCreation, RecipeModification>(), RecipeService {
 
-    override fun create(creation: RecipeCreation): Recipe {
+    override fun toModel(creation: RecipeCreation): Recipe {
         val now = Instant.now()
-        val recipe = repository.create(Recipe(
+        return Recipe(
             id = generateId(),
             locale = creation.locale,
             dish = dishRepository.retrieveOrThrow(creation.dishId),
@@ -46,9 +45,25 @@ open class DomainRecipeService(
             createdAt = now,
             updatedAt = now,
             author = userRepository.retrieveOrThrow(creation.author),
-            images = Images(creation.imageIds.map(imageRepository::retrieveOrThrow)),
+            images = Images(creation.imageIds.map { imageRepository.retrieveOrThrow(it) }),
             timeToServe = creation.timeToServe,
-        ))
+        )
+    }
+
+    override fun toModel(modification: RecipeModification, existing: Recipe) = Recipe(
+        id = existing.id,
+        locale = existing.locale,
+        dish = modification.dishId?.let { dishRepository.retrieveOrThrow(it) } ?: existing.dish,
+        yield = modification.yield ?: existing.yield,
+        createdAt = existing.createdAt,
+        updatedAt = Instant.now(),
+        author = existing.author,
+        images = Images(modification.imageIds.map { imageRepository.retrieveOrThrow(it) }),
+        timeToServe = modification.timeToServe
+    )
+
+    override fun create(creation: RecipeCreation): Recipe {
+        val recipe = super.create(creation)
 
         creation.steps.map {
             it.toStep(recipe)
@@ -57,23 +72,6 @@ open class DomainRecipeService(
             it.toQuantifiedIngredient(recipe)
         }.forEach(quantifiedIngredientRepository::create)
         return recipe
-    }
-
-    override fun update(modification: RecipeModification): Recipe {
-        val existing = this.retrieve(modification.id)
-
-        val model = Recipe(
-            id = existing.id,
-            locale = existing.locale,
-            dish = modification.dishId?.let(dishRepository::retrieveOrThrow) ?: existing.dish,
-            yield = modification.yield ?: existing.yield,
-            createdAt = existing.createdAt,
-            updatedAt = Instant.now(),
-            author = existing.author,
-            images = Images(modification.imageIds.map(imageRepository::retrieveOrThrow)),
-            timeToServe = modification.timeToServe
-        )
-        return repository.update(model)
     }
 
     private fun QuantifiedIngredientCreation.toQuantifiedIngredient(recipe: Recipe): QuantifiedIngredient {

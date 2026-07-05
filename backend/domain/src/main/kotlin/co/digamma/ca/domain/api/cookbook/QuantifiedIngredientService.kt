@@ -1,6 +1,7 @@
 package co.digamma.ca.domain.api.cookbook
 
 import co.digamma.ca.domain.api.CrudService
+import co.digamma.ca.domain.api.model.ModelReference
 
 interface QuantifiedIngredientService:
     CrudService<QuantifiedIngredient, QuantifiedIngredientCreation, QuantifiedIngredientModification>
@@ -20,9 +21,9 @@ data class QuantifiedIngredientCreation(
 ) : QuantifiedIngredientMutation
 
 data class QuantifiedIngredientModification(
-    val id: String,
+    override val id: String,
     override val measurementUnitId: String? = null,
     override val quantity: Float? = null,
     override val order: Int? = null,
-) : QuantifiedIngredientMutation
+) : QuantifiedIngredientMutation, ModelReference<QuantifiedIngredient>
 

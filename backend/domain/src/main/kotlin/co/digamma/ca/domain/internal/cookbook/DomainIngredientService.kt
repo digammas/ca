@@ -7,7 +7,6 @@ import co.digamma.ca.domain.api.cookbook.IngredientModification
 import co.digamma.ca.domain.api.cookbook.IngredientService
 import co.digamma.ca.domain.api.media.Images
 import co.digamma.ca.domain.internal.DefaultCurdService
-import co.digamma.ca.domain.internal.retrieveOrThrow
 import co.digamma.ca.domain.spi.cookbook.IngredientRepository
 import co.digamma.ca.domain.spi.media.ImageRepository
 
@@ -15,32 +14,25 @@ import co.digamma.ca.domain.spi.media.ImageRepository
 open class DomainIngredientService(
     override val repository: IngredientRepository,
     private val imageRepository: ImageRepository,
-) : DefaultCurdService<Ingredient>(), IngredientService {
+) : DefaultCurdService<Ingredient, IngredientCreation, IngredientModification>(), IngredientService {
 
-    override fun create(creation: IngredientCreation): Ingredient {
-        val model = Ingredient(
-            id = generateId(),
-            locale = creation.locale,
-            name = creation.name,
-            description = creation.description,
-            images = Images(creation.imageIds.map(imageRepository::retrieveOrThrow)),
-        )
-        return repository.create(model)
-    }
+    override fun toModel(creation: IngredientCreation) = Ingredient(
+        id = generateId(),
+        locale = creation.locale,
+        name = creation.name,
+        description = creation.description,
+        images = Images(creation.imageIds.map { imageRepository.retrieveOrThrow(it) }),
+    )
 
-    override fun update(modification: IngredientModification): Ingredient {
-        val existing = this.retrieve(modification.id)
-        val model = Ingredient(
+    override fun toModel(modification: IngredientModification, existing: Ingredient) = Ingredient(
             id = existing.id,
             locale = existing.locale,
             name = modification.name ?: existing.name,
             description = modification.description ?: existing.description,
             images = modification.imageIds
-                ?.map(imageRepository::retrieveOrThrow)
+                ?.map { imageRepository.retrieveOrThrow(it) }
                 ?.let(::Images)
                 ?: existing.images,
         )
-        return repository.update(model)
-    }
 }
 

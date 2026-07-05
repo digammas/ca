@@ -6,29 +6,22 @@ import co.digamma.ca.domain.api.food.CuisineCreation
 import co.digamma.ca.domain.api.food.CuisineModification
 import co.digamma.ca.domain.api.food.CuisineService
 import co.digamma.ca.domain.internal.DefaultCurdService
-import co.digamma.ca.domain.spi.CrudRepository
+import co.digamma.ca.domain.spi.food.CuisineRepository
 
 @Singleton
 open class DomainCuisineService(
-    override val repository: CrudRepository<Cuisine>
-) : DefaultCurdService<Cuisine>(), CuisineService {
+    override val repository: CuisineRepository
+) : DefaultCurdService<Cuisine, CuisineCreation, CuisineModification>(), CuisineService {
 
-    override fun create(creation: CuisineCreation): Cuisine {
-        val cuisine = Cuisine(
-            id = generateId(),
-            locale = creation.locale,
-            name = creation.name,
-        )
-        return this.repository.create(cuisine)
-    }
+    override fun toModel(creation: CuisineCreation) = Cuisine(
+        id = generateId(),
+        locale = creation.locale,
+        name = creation.name,
+    )
 
-    override fun update(modification: CuisineModification): Cuisine {
-        val existing = this.retrieve(modification.id)
-        val cuisine = Cuisine(
+    override fun toModel(modification: CuisineModification, existing: Cuisine) = Cuisine(
             id = existing.id,
             locale = existing.locale,
             name = modification.name ?: existing.name,
         )
-        return this.repository.update(cuisine)
-    }
 }

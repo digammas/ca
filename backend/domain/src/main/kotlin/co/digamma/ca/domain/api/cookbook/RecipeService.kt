@@ -1,6 +1,7 @@
 package co.digamma.ca.domain.api.cookbook
 
 import co.digamma.ca.domain.api.CrudService
+import co.digamma.ca.domain.api.model.ModelReference
 import java.util.Locale
 
 interface RecipeService : CrudService<Recipe, RecipeCreation, RecipeModification>
@@ -24,9 +25,9 @@ data class RecipeCreation(
 ) : RecipeMutation
 
 data class RecipeModification(
-    val id: String,
+    override val id: String,
     override val dishId: String?,
     override val yield: Int?,
     override val imageIds: List<String> = emptyList(),
     override val timeToServe: Int?,
-) : RecipeMutation
+) : RecipeMutation, ModelReference<Recipe>
