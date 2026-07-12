@@ -1,16 +1,16 @@
 package co.digamma.ca.suites.food
 
-import co.digamma.ca.domain.api.food.Course
-import co.digamma.ca.domain.api.food.Cuisine
 import co.digamma.ca.domain.api.food.Dish
-import co.digamma.ca.domain.api.food.Serving
 import co.digamma.ca.domain.spi.food.CourseRepository
 import co.digamma.ca.domain.spi.food.CuisineRepository
 import co.digamma.ca.domain.spi.food.DishRepository
 import co.digamma.ca.domain.spi.food.ServingRepository
-import co.digamma.ca.fixtures.utils.RandGen
+import co.digamma.ca.fixtures.utils.food.givenCourse
+import co.digamma.ca.fixtures.utils.food.givenCuisine
+import co.digamma.ca.fixtures.utils.food.givenDish
+import co.digamma.ca.fixtures.utils.food.givenServing
+import co.digamma.ca.fixtures.utils.givenLocale
 import co.digamma.ca.suites.persistence.CrudRepositoryTestBase
-import java.util.Locale
 
 abstract class DishRepositoryTestBase : CrudRepositoryTestBase<Dish>() {
 
@@ -19,60 +19,16 @@ abstract class DishRepositoryTestBase : CrudRepositoryTestBase<Dish>() {
     abstract val cuisineRepository: CuisineRepository
     abstract val servingRepository: ServingRepository
 
-
-    protected fun newCourse(): Course {
-        val course = Course(
-            id = RandGen.uuid(),
-            locale = Locale.ENGLISH,
-            name = RandGen.string()
-        )
-        return courseRepository.create(course)
+    override fun newModel() = givenDish().also {
+        courseRepository.create(it.course)
+        cuisineRepository.create(it.cuisine)
+        servingRepository.create(it.serving)
     }
 
-    protected fun newCuisine(): Cuisine {
-        val cuisine = Cuisine(
-            id = RandGen.uuid(),
-            locale = Locale.ENGLISH,
-            name = RandGen.string()
-        )
-        return cuisineRepository.create(cuisine)
-    }
-
-    protected fun newServing(): Serving {
-        val serving = Serving(
-            id = RandGen.uuid(),
-            locale = Locale.ENGLISH,
-            name = RandGen.string(),
-        )
-        return servingRepository.create(serving)
-    }
-
-    protected fun newDish(): Dish {
-        val course = newCourse()
-        val cuisine = newCuisine()
-        val serving = newServing()
-        val dish = Dish(
-            id = RandGen.uuid(),
-            locale = Locale.ENGLISH,
-            name = RandGen.string(),
-            course = course,
-            cuisine = cuisine,
-            serving = serving,
-        )
-        return dish
-    }
-
-    override fun newModel() = newDish()
-
-    override fun modifyModel(model: Dish): Dish {
-        val course = newCourse()
-        val cuisine = newCuisine()
-        val serving = newServing()
-        return model.copy(
-            locale = Locale.FRENCH,
-            course = course,
-            cuisine = cuisine,
-            serving = serving,
-        )
-    }
+    override fun modifyModel(model: Dish) = model.copy(
+        locale = givenLocale(),
+        course = givenCourse().also(courseRepository::create),
+        cuisine = givenCuisine().also(cuisineRepository::create),
+        serving = givenServing().also(servingRepository::create),
+    )
 }

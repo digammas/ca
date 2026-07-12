@@ -5,7 +5,7 @@ import co.digamma.ca.domain.api.media.Image
 import co.digamma.ca.domain.api.media.ImageCreation
 import co.digamma.ca.domain.api.media.ImageModification
 import co.digamma.ca.fixtures.inmem.media.InMemImageRepository
-import co.digamma.ca.fixtures.utils.RandGen
+import co.digamma.ca.fixtures.utils.givenString
 import java.util.Locale
 import java.util.UUID
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -21,7 +21,7 @@ class DomainImageServiceTest {
 
     @Test
     fun `test create`() {
-        val description = RandGen.string()
+        val description = givenString()
         val creation = ImageCreation(
             Locale.of("en"),
             "https://www.example.com/img.png",
@@ -41,7 +41,7 @@ class DomainImageServiceTest {
             id = id,
             locale = Locale.ENGLISH,
             url = "https://www.example.com/img.png",
-            description = RandGen.string()
+            description = givenString()
         )
         repository.create(image)
         val retrieved = sut.retrieve(id)
@@ -55,7 +55,7 @@ class DomainImageServiceTest {
                 id = UUID.randomUUID().toString(),
                 locale = Locale.ENGLISH,
                 url = "https://www.example.com/img.png",
-                description = RandGen.string()
+                description = givenString()
             )
         }
         list.forEach(repository::create)
@@ -68,7 +68,7 @@ class DomainImageServiceTest {
         val creation = ImageCreation(
             Locale.of("en"),
             "https://www.example.com/img.png",
-            RandGen.string()
+            givenString()
         )
         val created = sut.create(creation)
         sut.delete(created.id)
@@ -82,13 +82,13 @@ class DomainImageServiceTest {
         val creation = ImageCreation(
             Locale.of("en"),
             "https://www.example.com/img.png",
-            RandGen.string()
+            givenString()
         )
         val created = sut.create(creation)
         val update = ImageModification(
             id = created.id,
             url = created.url,
-            description = RandGen.string()
+            description = givenString()
         )
         sut.update(update)
         val retrieved = sut.retrieve(created.id)
@@ -96,5 +96,4 @@ class DomainImageServiceTest {
         assertEquals(creation.url, retrieved.url)
         assertEquals(creation.locale, retrieved.locale)
     }
-
 }
