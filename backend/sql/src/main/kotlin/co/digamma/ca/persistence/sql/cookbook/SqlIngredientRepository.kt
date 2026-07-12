@@ -6,16 +6,15 @@ import co.digamma.ca.domain.spi.cookbook.IngredientRepository
 import co.digamma.ca.persistence.jooq.cookbook.tables.records.IngredientRecord
 import co.digamma.ca.persistence.jooq.cookbook.tables.references.INGREDIENT
 import co.digamma.ca.persistence.sql.SqlCrudRepository
-import java.util.Locale
-import java.util.logging.Logger
 import org.jooq.DSLContext
 import org.jooq.Record
 import org.springframework.stereotype.Repository
+import java.util.logging.Logger
 
 fun toIngredient(record: Record): Ingredient {
     return Ingredient(
         id = record[INGREDIENT.ID]!!,
-        locale = Locale.of(record[INGREDIENT.LOCALE]),
+        locale = record[INGREDIENT.LOCALE]!!,
         name = record[INGREDIENT.NAME]!!,
         description = record[INGREDIENT.DESCRIPTION]!!,
     )

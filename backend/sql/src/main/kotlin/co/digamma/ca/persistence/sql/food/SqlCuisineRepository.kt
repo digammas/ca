@@ -6,16 +6,15 @@ import co.digamma.ca.domain.spi.food.CuisineRepository
 import co.digamma.ca.persistence.jooq.food.tables.records.CuisineRecord
 import co.digamma.ca.persistence.jooq.food.tables.references.CUISINE
 import co.digamma.ca.persistence.sql.SqlCrudRepository
-import java.util.Locale
-import java.util.logging.Logger
 import org.jooq.DSLContext
 import org.jooq.Record
 import org.springframework.stereotype.Repository
+import java.util.logging.Logger
 
 fun toCuisine(record: Record): Cuisine {
     return Cuisine(
         id = record[CUISINE.ID]!!,
-        locale = Locale.of(record[CUISINE.LOCALE]),
+        locale = record[CUISINE.LOCALE]!!,
         name = record[CUISINE.NAME]!!,
     )
 }

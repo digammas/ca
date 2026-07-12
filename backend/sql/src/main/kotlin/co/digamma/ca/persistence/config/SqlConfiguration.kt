@@ -1,4 +1,4 @@
-package co.digamma.ca.persistence.sql
+package co.digamma.ca.persistence.config
 
 import org.jooq.conf.RenderQuotedNames
 import org.springframework.boot.autoconfigure.jooq.DefaultConfigurationCustomizer
@@ -16,6 +16,5 @@ open class SqlConfiguration {
             // Required to allow mapping into Kotlin classes
             isMapConstructorParameterNamesInKotlin = true
         }
-
     }
 }

@@ -4,22 +4,19 @@ import co.digamma.ca.domain.api.common.utils.LoggerFactory
 import co.digamma.ca.domain.api.cookbook.Step
 import co.digamma.ca.domain.spi.cookbook.StepRepository
 import co.digamma.ca.persistence.jooq.cookbook.tables.records.StepRecord
-import co.digamma.ca.persistence.jooq.cookbook.tables.references.RECIPE
 import co.digamma.ca.persistence.jooq.cookbook.tables.references.STEP
-import co.digamma.ca.persistence.jooq.food.tables.references.DISH
 import co.digamma.ca.persistence.sql.SqlCrudRepository
-import java.util.Locale
-import java.util.logging.Logger
 import org.jooq.DSLContext
 import org.jooq.Path
 import org.jooq.Record
 import org.springframework.stereotype.Repository
+import java.util.logging.Logger
 
 fun toStep(record: Record): Step {
     val recipe = toRecipe(record)
     return Step(
         id = record[STEP.ID]!!,
-        locale = Locale.of(record[STEP.LOCALE]),
+        locale = record[STEP.LOCALE]!!,
         description = record[STEP.DESCRIPTION]!!,
         estimatedTime = record[STEP.ESTIMATED_TIME]!!,
         recipe = recipe,

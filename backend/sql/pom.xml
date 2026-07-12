@@ -91,6 +91,14 @@
                         <database>
                             <name>org.jooq.meta.extensions.liquibase.LiquibaseDatabase</name>
                             <recordTimestampFields>timestamp</recordTimestampFields>
+                            <forcedTypes>
+                                <forcedType>
+                                    <userType>java.util.Locale</userType>
+                                    <converter>co.digamma.ca.persistence.config.LocaleConverter</converter>
+                                    <includeExpression>.*\.LOCALE</includeExpression>
+                                    <includeTypes>.*</includeTypes>
+                                </forcedType>
+                            </forcedTypes>
                             <properties>
                                 <property>
                                     <key>rootPath</key>

@@ -1,7 +1,7 @@
 package co.digamma.ca.persistence.sql.media
 
 import co.digamma.ca.persistence.jooq.DefaultCatalog
-import co.digamma.ca.persistence.sql.SqlConfiguration
+import co.digamma.ca.persistence.config.SqlConfiguration
 import java.sql.Connection
 import java.sql.DriverManager
 import org.jooq.DSLContext

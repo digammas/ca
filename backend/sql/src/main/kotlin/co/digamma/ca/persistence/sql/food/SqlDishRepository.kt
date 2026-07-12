@@ -8,12 +8,11 @@ import co.digamma.ca.domain.spi.food.DishRepository
 import co.digamma.ca.persistence.jooq.food.tables.records.DishRecord
 import co.digamma.ca.persistence.jooq.food.tables.references.DISH
 import co.digamma.ca.persistence.sql.SqlCrudRepository
-import java.util.Locale
-import java.util.logging.Logger
 import org.jooq.DSLContext
 import org.jooq.Path
 import org.jooq.Record
 import org.springframework.stereotype.Repository
+import java.util.logging.Logger
 
 fun toDish(record: Record): Dish {
     val course = toCourse(record)
@@ -21,7 +20,7 @@ fun toDish(record: Record): Dish {
     val serving = toServing(record)
     return Dish(
         id = record[DISH.ID]!!,
-        locale = Locale.of(record[DISH.LOCALE]),
+        locale = record[DISH.LOCALE]!!,
         name = record[DISH.NAME]!!,
         course = course,
         cuisine = cuisine,

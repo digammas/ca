@@ -6,16 +6,15 @@ import co.digamma.ca.domain.spi.food.CourseRepository
 import co.digamma.ca.persistence.jooq.food.tables.records.CourseRecord
 import co.digamma.ca.persistence.jooq.food.tables.references.COURSE
 import co.digamma.ca.persistence.sql.SqlCrudRepository
-import java.util.Locale
-import java.util.logging.Logger
 import org.jooq.DSLContext
 import org.jooq.Record
 import org.springframework.stereotype.Repository
+import java.util.logging.Logger
 
 fun toCourse(record: Record): Course {
     return Course(
         id = record[COURSE.ID]!!,
-        locale = Locale.of(record[COURSE.LOCALE]),
+        locale = record[COURSE.LOCALE]!!,
         name = record[COURSE.NAME]!!,
     )
 }

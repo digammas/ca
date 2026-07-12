@@ -5,14 +5,12 @@ import co.digamma.ca.domain.api.cookbook.QuantifiedIngredient
 import co.digamma.ca.domain.spi.cookbook.QuantifiedIngredientRepository
 import co.digamma.ca.persistence.jooq.cookbook.tables.records.QuantifiedIngredientRecord
 import co.digamma.ca.persistence.jooq.cookbook.tables.references.QUANTIFIED_INGREDIENT
-import co.digamma.ca.persistence.jooq.cookbook.tables.references.RECIPE
-import co.digamma.ca.persistence.jooq.food.tables.references.DISH
 import co.digamma.ca.persistence.sql.SqlCrudRepository
-import java.util.logging.Logger
 import org.jooq.DSLContext
 import org.jooq.Path
 import org.jooq.Record
 import org.springframework.stereotype.Repository
+import java.util.logging.Logger
 
 fun toQuantifiedIngredient(record: Record): QuantifiedIngredient {
     val ingredient = toIngredient(record)

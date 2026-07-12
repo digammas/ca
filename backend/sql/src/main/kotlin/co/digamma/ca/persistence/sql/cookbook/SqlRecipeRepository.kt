@@ -9,15 +9,14 @@ import co.digamma.ca.persistence.jooq.cookbook.tables.references.RECIPE
 import co.digamma.ca.persistence.sql.SqlCrudRepository
 import co.digamma.ca.persistence.sql.food.toDish
 import co.digamma.ca.persistence.sql.users.toUser
-import java.time.Instant
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.util.Locale
-import java.util.logging.Logger
 import org.jooq.DSLContext
 import org.jooq.Path
 import org.jooq.Record
 import org.springframework.stereotype.Repository
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.util.logging.Logger
 
 fun toRecipe(record: Record): Recipe {
     val dish = toDish(record)
@@ -26,7 +25,7 @@ fun toRecipe(record: Record): Recipe {
     val author = toUser(record)
     return Recipe(
         id = record[RECIPE.ID]!!,
-        locale = Locale.of(record[RECIPE.LOCALE]),
+        locale = record[RECIPE.LOCALE]!!,
         dish = dish,
         ingredients = emptyList(),
         steps = emptyList(),

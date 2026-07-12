@@ -6,9 +6,6 @@ import co.digamma.ca.domain.api.common.DuplicateKeyException
 import co.digamma.ca.domain.api.common.NotFoundException
 import co.digamma.ca.domain.api.model.Model
 import co.digamma.ca.domain.spi.CrudRepository
-import java.time.LocalDateTime
-import java.util.logging.Logger
-import kotlin.reflect.KClass
 import org.jooq.DSLContext
 import org.jooq.Field
 import org.jooq.Path
@@ -18,6 +15,9 @@ import org.jooq.Table
 import org.jooq.TableField
 import org.jooq.UpdatableRecord
 import org.jooq.impl.SQLDataType
+import java.time.LocalDateTime
+import java.util.logging.Logger
+import kotlin.reflect.KClass
 
 private const val TIMESTAMP_FIELD_NAME = "timestamp"
 
