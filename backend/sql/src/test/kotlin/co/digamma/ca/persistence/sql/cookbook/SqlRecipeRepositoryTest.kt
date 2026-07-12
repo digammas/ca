@@ -1,13 +1,12 @@
 package co.digamma.ca.persistence.sql.cookbook
 
 import co.digamma.ca.domain.api.cookbook.Recipe
-import co.digamma.ca.domain.api.model.Model
 import co.digamma.ca.domain.spi.cookbook.RecipeRepository
 import co.digamma.ca.persistence.sql.food.SqlCourseRepository
 import co.digamma.ca.persistence.sql.food.SqlCuisineRepository
 import co.digamma.ca.persistence.sql.food.SqlDishRepository
 import co.digamma.ca.persistence.sql.food.SqlServingRepository
-import co.digamma.ca.persistence.sql.media.PostgreSQLContainerExtension
+import co.digamma.ca.persistence.sql.PostgreSQLContainerExtension
 import co.digamma.ca.persistence.sql.users.SqlUserRepository
 import co.digamma.ca.suites.cookbook.RecipeRepositoryTestBase
 import org.jooq.DSLContext

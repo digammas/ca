@@ -9,12 +9,11 @@ import co.digamma.ca.persistence.sql.food.SqlCourseRepository
 import co.digamma.ca.persistence.sql.food.SqlCuisineRepository
 import co.digamma.ca.persistence.sql.food.SqlDishRepository
 import co.digamma.ca.persistence.sql.food.SqlServingRepository
-import co.digamma.ca.persistence.sql.media.PostgreSQLContainerExtension
+import co.digamma.ca.persistence.sql.PostgreSQLContainerExtension
 import co.digamma.ca.persistence.sql.users.SqlUserRepository
 import co.digamma.ca.suites.cookbook.QuantifiedIngredientRepositoryTestBase
 import org.jooq.DSLContext
 import org.junit.jupiter.api.extension.ExtendWith
-import java.time.temporal.ChronoUnit
 
 @ExtendWith(PostgreSQLContainerExtension::class)
 class SqlQuantifiedIngredientRepositoryTest(dsl: DSLContext) : QuantifiedIngredientRepositoryTestBase() {

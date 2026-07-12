@@ -94,7 +94,7 @@
                             <forcedTypes>
                                 <forcedType>
                                     <userType>java.util.Locale</userType>
-                                    <converter>co.digamma.ca.persistence.config.LocaleConverter</converter>
+                                    <converter>co.digamma.ca.persistence.sql.LocaleConverter</converter>
                                     <includeExpression>.*\.LOCALE</includeExpression>
                                     <includeTypes>.*</includeTypes>
                                 </forcedType>

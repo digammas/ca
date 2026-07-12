@@ -1,5 +1,6 @@
 package co.digamma.ca.persistence.sql.media
 
+import co.digamma.ca.persistence.sql.PostgreSQLContainerExtension
 import co.digamma.ca.suites.media.ImageRepositoryTestBase
 import org.jooq.DSLContext
 import org.junit.jupiter.api.extension.ExtendWith

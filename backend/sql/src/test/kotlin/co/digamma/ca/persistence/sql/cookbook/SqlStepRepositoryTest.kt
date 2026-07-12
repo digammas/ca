@@ -7,7 +7,7 @@ import co.digamma.ca.persistence.sql.food.SqlCourseRepository
 import co.digamma.ca.persistence.sql.food.SqlCuisineRepository
 import co.digamma.ca.persistence.sql.food.SqlDishRepository
 import co.digamma.ca.persistence.sql.food.SqlServingRepository
-import co.digamma.ca.persistence.sql.media.PostgreSQLContainerExtension
+import co.digamma.ca.persistence.sql.PostgreSQLContainerExtension
 import co.digamma.ca.persistence.sql.users.SqlUserRepository
 import co.digamma.ca.suites.cookbook.StepRepositoryTestBase
 import org.jooq.DSLContext

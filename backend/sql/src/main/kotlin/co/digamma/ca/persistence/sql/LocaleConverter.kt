@@ -1,4 +1,4 @@
-package co.digamma.ca.persistence.config
+package co.digamma.ca.persistence.sql
 
 import org.jooq.Converter
 import java.util.Locale
