@@ -1,15 +1,15 @@
 package co.digamma.ca.suites.cookbook
 
+import co.digamma.ca.domain.api.common.Timestamp
 import co.digamma.ca.domain.api.cookbook.Ingredient
 import co.digamma.ca.domain.api.cookbook.MeasurementUnit
 import co.digamma.ca.domain.api.cookbook.Recipe
 import co.digamma.ca.domain.api.cookbook.Step
-import co.digamma.ca.suites.food.givenDish
 import co.digamma.ca.fixtures.givenLocale
 import co.digamma.ca.fixtures.givenString
 import co.digamma.ca.fixtures.givenUuid
+import co.digamma.ca.suites.food.givenDish
 import co.digamma.ca.suites.users.givenUser
-import java.time.Instant
 
 fun givenIngredient() = Ingredient(
     id = givenUuid(),
@@ -30,8 +30,8 @@ fun giveRecipe() = Recipe(
     locale = givenLocale(),
     dish = givenDish(),
     yield = 4,
-    createdAt = Instant.now(),
-    updatedAt = Instant.now(),
+    createdAt = Timestamp.now(),
+    updatedAt = Timestamp.now(),
     author = givenUser(),
     timeToServe = 30,
 )

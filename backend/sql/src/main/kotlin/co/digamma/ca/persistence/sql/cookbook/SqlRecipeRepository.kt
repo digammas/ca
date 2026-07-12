@@ -1,5 +1,6 @@
 package co.digamma.ca.persistence.sql.cookbook
 
+import co.digamma.ca.domain.api.common.Timestamp
 import co.digamma.ca.domain.api.common.utils.LoggerFactory
 import co.digamma.ca.domain.api.cookbook.Recipe
 import co.digamma.ca.domain.api.media.noImages
@@ -13,13 +14,12 @@ import org.jooq.DSLContext
 import org.jooq.Path
 import org.jooq.Record
 import org.springframework.stereotype.Repository
-import java.time.ZoneId
 import java.util.logging.Logger
 
 fun toRecipe(record: Record): Recipe {
     val dish = toDish(record)
-    val createdAt = record[RECIPE.CREATED_AT]!!.atZone(ZoneId.systemDefault()).toInstant()
-    val updatedAt = record[RECIPE.UPDATED_AT]!!.atZone(ZoneId.systemDefault()).toInstant()
+    val createdAt = Timestamp.of(record[RECIPE.CREATED_AT]!!)
+    val updatedAt = Timestamp.of(record[RECIPE.UPDATED_AT]!!)
     val author = toUser(record)
     return Recipe(
         id = record[RECIPE.ID]!!,

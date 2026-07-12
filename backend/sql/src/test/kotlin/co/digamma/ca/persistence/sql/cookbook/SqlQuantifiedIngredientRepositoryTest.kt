@@ -27,8 +27,4 @@ class SqlQuantifiedIngredientRepositoryTest(dsl: DSLContext) : QuantifiedIngredi
     override val cuisineRepository = SqlCuisineRepository(dsl)
     override val servingRepository = SqlServingRepository(dsl)
     override val userRepository = SqlUserRepository(dsl)
-
-    override fun normalize(model: QuantifiedIngredient) = model.copy(
-        recipe = normalizeRecipe(model.recipe),
-    )
 }

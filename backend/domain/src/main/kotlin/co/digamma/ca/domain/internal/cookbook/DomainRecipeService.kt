@@ -1,15 +1,16 @@
 package co.digamma.ca.domain.internal.cookbook
 
+import co.digamma.ca.domain.api.common.Timestamp
 import co.digamma.ca.domain.api.common.stereotypes.Singleton
 import co.digamma.ca.domain.api.common.stereotypes.Transactional
-import co.digamma.ca.domain.api.cookbook.Step
-import co.digamma.ca.domain.api.cookbook.StepCreation
 import co.digamma.ca.domain.api.cookbook.QuantifiedIngredient
 import co.digamma.ca.domain.api.cookbook.QuantifiedIngredientCreation
 import co.digamma.ca.domain.api.cookbook.Recipe
 import co.digamma.ca.domain.api.cookbook.RecipeCreation
 import co.digamma.ca.domain.api.cookbook.RecipeModification
 import co.digamma.ca.domain.api.cookbook.RecipeService
+import co.digamma.ca.domain.api.cookbook.Step
+import co.digamma.ca.domain.api.cookbook.StepCreation
 import co.digamma.ca.domain.api.media.Images
 import co.digamma.ca.domain.internal.DefaultCurdService
 import co.digamma.ca.domain.spi.cookbook.IngredientRepository
@@ -20,7 +21,6 @@ import co.digamma.ca.domain.spi.cookbook.StepRepository
 import co.digamma.ca.domain.spi.food.DishRepository
 import co.digamma.ca.domain.spi.media.ImageRepository
 import co.digamma.ca.domain.spi.users.UserRepository
-import java.time.Instant
 
 @Singleton
 @Transactional
@@ -36,7 +36,7 @@ open class DomainRecipeService(
 ) : DefaultCurdService<Recipe, RecipeCreation, RecipeModification>(), RecipeService {
 
     override fun toModel(creation: RecipeCreation): Recipe {
-        val now = Instant.now()
+        val now = Timestamp.now()
         return Recipe(
             id = generateId(),
             locale = creation.locale,

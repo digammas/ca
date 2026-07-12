@@ -1,13 +1,12 @@
 package co.digamma.ca.persistence.sql.cookbook
 
-import co.digamma.ca.domain.api.cookbook.Step
 import co.digamma.ca.domain.spi.cookbook.RecipeRepository
 import co.digamma.ca.domain.spi.cookbook.StepRepository
+import co.digamma.ca.persistence.sql.PostgreSQLContainerExtension
 import co.digamma.ca.persistence.sql.food.SqlCourseRepository
 import co.digamma.ca.persistence.sql.food.SqlCuisineRepository
 import co.digamma.ca.persistence.sql.food.SqlDishRepository
 import co.digamma.ca.persistence.sql.food.SqlServingRepository
-import co.digamma.ca.persistence.sql.PostgreSQLContainerExtension
 import co.digamma.ca.persistence.sql.users.SqlUserRepository
 import co.digamma.ca.suites.cookbook.StepRepositoryTestBase
 import org.jooq.DSLContext
@@ -23,8 +22,4 @@ class SqlStepRepositoryTest(dsl: DSLContext) : StepRepositoryTestBase() {
     override val cuisineRepository = SqlCuisineRepository(dsl)
     override val servingRepository = SqlServingRepository(dsl)
     override val userRepository = SqlUserRepository(dsl)
-
-    override fun normalize(model: Step) = model.copy(
-        recipe = normalizeRecipe(model.recipe),
-    )
 }

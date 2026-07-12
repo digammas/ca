@@ -70,10 +70,8 @@ abstract class CrudRepositoryTestBase<T : Model> {
         assertNull(sut.retrieve(model.id))
     }
 
-    protected open fun normalize(model: T): T = model
-
     private fun assertSame(expected: T, actual: T?) {
         assertNotNull(actual)
-        assertEquals(normalize(expected), normalize(actual))
+        assertEquals(expected, actual)
     }
 }

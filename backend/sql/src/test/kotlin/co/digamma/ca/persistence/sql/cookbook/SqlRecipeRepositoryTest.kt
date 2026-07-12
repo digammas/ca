@@ -2,21 +2,15 @@ package co.digamma.ca.persistence.sql.cookbook
 
 import co.digamma.ca.domain.api.cookbook.Recipe
 import co.digamma.ca.domain.spi.cookbook.RecipeRepository
+import co.digamma.ca.persistence.sql.PostgreSQLContainerExtension
 import co.digamma.ca.persistence.sql.food.SqlCourseRepository
 import co.digamma.ca.persistence.sql.food.SqlCuisineRepository
 import co.digamma.ca.persistence.sql.food.SqlDishRepository
 import co.digamma.ca.persistence.sql.food.SqlServingRepository
-import co.digamma.ca.persistence.sql.PostgreSQLContainerExtension
 import co.digamma.ca.persistence.sql.users.SqlUserRepository
 import co.digamma.ca.suites.cookbook.RecipeRepositoryTestBase
 import org.jooq.DSLContext
 import org.junit.jupiter.api.extension.ExtendWith
-import java.time.temporal.ChronoUnit
-
-fun normalizeRecipe(model: Recipe) = model.copy(
-    updatedAt = model.updatedAt.truncatedTo(ChronoUnit.MILLIS),
-    createdAt = model.createdAt.truncatedTo(ChronoUnit.MILLIS),
-)
 
 @ExtendWith(PostgreSQLContainerExtension::class)
 class SqlRecipeRepositoryTest(dsl: DSLContext) : RecipeRepositoryTestBase() {
@@ -27,6 +21,4 @@ class SqlRecipeRepositoryTest(dsl: DSLContext) : RecipeRepositoryTestBase() {
     override val cuisineRepository = SqlCuisineRepository(dsl)
     override val servingRepository = SqlServingRepository(dsl)
     override val userRepository = SqlUserRepository(dsl)
-
-    override fun normalize(model: Recipe) = normalizeRecipe(model)
 }

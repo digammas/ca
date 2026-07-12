@@ -1,5 +1,6 @@
 package co.digamma.ca.suites.cookbook
 
+import co.digamma.ca.domain.api.common.Timestamp
 import co.digamma.ca.domain.api.cookbook.Recipe
 import co.digamma.ca.domain.spi.cookbook.RecipeRepository
 import co.digamma.ca.domain.spi.food.CourseRepository
@@ -8,7 +9,6 @@ import co.digamma.ca.domain.spi.food.DishRepository
 import co.digamma.ca.domain.spi.food.ServingRepository
 import co.digamma.ca.domain.spi.users.UserRepository
 import co.digamma.ca.suites.persistence.CrudRepositoryTestBase
-import java.time.Instant
 import java.util.Locale
 
 abstract class RecipeRepositoryTestBase : CrudRepositoryTestBase<Recipe>() {
@@ -36,7 +36,7 @@ abstract class RecipeRepositoryTestBase : CrudRepositoryTestBase<Recipe>() {
         steps = model.steps,
         yield = model.yield + 2,
         createdAt = model.createdAt,
-        updatedAt = Instant.now(),
+        updatedAt = Timestamp.now(),
         author = model.author,
         images = model.images,
         timeToServe = (model.timeToServe ?: 30) + 5,
