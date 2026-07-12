@@ -1,16 +1,16 @@
-package co.digamma.ca.fixtures.utils.food
+package co.digamma.ca.suites.food
 
 import co.digamma.ca.domain.api.cookbook.QuantifiedIngredient
 import co.digamma.ca.domain.api.food.Course
 import co.digamma.ca.domain.api.food.Cuisine
 import co.digamma.ca.domain.api.food.Dish
 import co.digamma.ca.domain.api.food.Serving
-import co.digamma.ca.fixtures.utils.cookbook.giveRecipe
-import co.digamma.ca.fixtures.utils.cookbook.givenIngredient
-import co.digamma.ca.fixtures.utils.cookbook.givenMeasurementUnit
-import co.digamma.ca.fixtures.utils.givenLocale
-import co.digamma.ca.fixtures.utils.givenString
-import co.digamma.ca.fixtures.utils.givenUuid
+import co.digamma.ca.suites.cookbook.giveRecipe
+import co.digamma.ca.suites.cookbook.givenIngredient
+import co.digamma.ca.suites.cookbook.givenMeasurementUnit
+import co.digamma.ca.fixtures.givenLocale
+import co.digamma.ca.fixtures.givenString
+import co.digamma.ca.fixtures.givenUuid
 
 fun givenCourse() = Course(
     id = givenUuid(),

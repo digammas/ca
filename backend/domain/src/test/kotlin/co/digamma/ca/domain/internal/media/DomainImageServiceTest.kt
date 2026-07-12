@@ -5,7 +5,7 @@ import co.digamma.ca.domain.api.media.Image
 import co.digamma.ca.domain.api.media.ImageCreation
 import co.digamma.ca.domain.api.media.ImageModification
 import co.digamma.ca.fixtures.inmem.media.InMemImageRepository
-import co.digamma.ca.fixtures.utils.givenString
+import co.digamma.ca.fixtures.givenString
 import java.util.Locale
 import java.util.UUID
 import org.junit.jupiter.api.Assertions.assertEquals

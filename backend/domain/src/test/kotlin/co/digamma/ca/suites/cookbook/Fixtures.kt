@@ -1,14 +1,14 @@
-package co.digamma.ca.fixtures.utils.cookbook
+package co.digamma.ca.suites.cookbook
 
 import co.digamma.ca.domain.api.cookbook.Ingredient
 import co.digamma.ca.domain.api.cookbook.MeasurementUnit
 import co.digamma.ca.domain.api.cookbook.Recipe
 import co.digamma.ca.domain.api.cookbook.Step
-import co.digamma.ca.fixtures.utils.food.givenDish
-import co.digamma.ca.fixtures.utils.givenLocale
-import co.digamma.ca.fixtures.utils.givenString
-import co.digamma.ca.fixtures.utils.givenUuid
-import co.digamma.ca.fixtures.utils.users.givenUser
+import co.digamma.ca.suites.food.givenDish
+import co.digamma.ca.fixtures.givenLocale
+import co.digamma.ca.fixtures.givenString
+import co.digamma.ca.fixtures.givenUuid
+import co.digamma.ca.suites.users.givenUser
 import java.time.Instant
 
 fun givenIngredient() = Ingredient(

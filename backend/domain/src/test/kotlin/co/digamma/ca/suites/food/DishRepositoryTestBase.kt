@@ -5,11 +5,7 @@ import co.digamma.ca.domain.spi.food.CourseRepository
 import co.digamma.ca.domain.spi.food.CuisineRepository
 import co.digamma.ca.domain.spi.food.DishRepository
 import co.digamma.ca.domain.spi.food.ServingRepository
-import co.digamma.ca.fixtures.utils.food.givenCourse
-import co.digamma.ca.fixtures.utils.food.givenCuisine
-import co.digamma.ca.fixtures.utils.food.givenDish
-import co.digamma.ca.fixtures.utils.food.givenServing
-import co.digamma.ca.fixtures.utils.givenLocale
+import co.digamma.ca.fixtures.givenLocale
 import co.digamma.ca.suites.persistence.CrudRepositoryTestBase
 
 abstract class DishRepositoryTestBase : CrudRepositoryTestBase<Dish>() {

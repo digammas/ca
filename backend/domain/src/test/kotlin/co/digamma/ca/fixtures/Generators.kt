@@ -1,4 +1,4 @@
-package co.digamma.ca.fixtures.utils
+package co.digamma.ca.fixtures
 
 import java.util.Base64
 import java.util.Locale

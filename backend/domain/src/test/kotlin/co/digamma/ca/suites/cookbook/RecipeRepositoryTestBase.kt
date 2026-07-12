@@ -7,7 +7,6 @@ import co.digamma.ca.domain.spi.food.CuisineRepository
 import co.digamma.ca.domain.spi.food.DishRepository
 import co.digamma.ca.domain.spi.food.ServingRepository
 import co.digamma.ca.domain.spi.users.UserRepository
-import co.digamma.ca.fixtures.utils.cookbook.giveRecipe
 import co.digamma.ca.suites.persistence.CrudRepositoryTestBase
 import java.time.Instant
 import java.util.Locale

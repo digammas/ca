@@ -8,8 +8,7 @@ import co.digamma.ca.domain.spi.food.CuisineRepository
 import co.digamma.ca.domain.spi.food.DishRepository
 import co.digamma.ca.domain.spi.food.ServingRepository
 import co.digamma.ca.domain.spi.users.UserRepository
-import co.digamma.ca.fixtures.utils.cookbook.givenStep
-import co.digamma.ca.fixtures.utils.givenString
+import co.digamma.ca.fixtures.givenString
 import co.digamma.ca.suites.persistence.CrudRepositoryTestBase
 import java.util.Locale
 

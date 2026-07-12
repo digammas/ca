@@ -2,9 +2,8 @@ package co.digamma.ca.suites.food
 
 import co.digamma.ca.domain.api.food.Cuisine
 import co.digamma.ca.domain.spi.food.CuisineRepository
-import co.digamma.ca.fixtures.utils.food.givenCuisine
-import co.digamma.ca.fixtures.utils.givenLocale
-import co.digamma.ca.fixtures.utils.givenString
+import co.digamma.ca.fixtures.givenLocale
+import co.digamma.ca.fixtures.givenString
 import co.digamma.ca.suites.persistence.CrudRepositoryTestBase
 
 abstract class CuisineRepositoryTestBase : CrudRepositoryTestBase<Cuisine>() {

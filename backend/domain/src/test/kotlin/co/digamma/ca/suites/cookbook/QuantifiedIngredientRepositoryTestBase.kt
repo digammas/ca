@@ -10,7 +10,7 @@ import co.digamma.ca.domain.spi.food.CuisineRepository
 import co.digamma.ca.domain.spi.food.DishRepository
 import co.digamma.ca.domain.spi.food.ServingRepository
 import co.digamma.ca.domain.spi.users.UserRepository
-import co.digamma.ca.fixtures.utils.food.givenQuantifiedIngredient
+import co.digamma.ca.suites.food.givenQuantifiedIngredient
 import co.digamma.ca.suites.persistence.CrudRepositoryTestBase
 
 abstract class QuantifiedIngredientRepositoryTestBase : CrudRepositoryTestBase<QuantifiedIngredient>() {
