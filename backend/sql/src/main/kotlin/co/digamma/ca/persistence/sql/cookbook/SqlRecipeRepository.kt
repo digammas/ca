@@ -54,14 +54,9 @@ open class SqlRecipeRepository(
         RECIPE.dish.serving,
     )
 
-    override fun toRecord(model: Recipe): RecipeRecord {
-        return super.toRecord(model).also {
-            it.dishId = model.dish.id
-            it.authorId = model.author.username
-            it.createdAt = LocalDateTime.ofInstant(model.createdAt, ZoneId.systemDefault())
-            it.updatedAt = LocalDateTime.ofInstant(model.updatedAt, ZoneId.systemDefault())
-            it.timeToServe = model.timeToServe
-        }
+    override fun toRecord(model: Recipe) = super.toRecord(model).also {
+        it.dishId = model.dish.id
+        it.authorId = model.author.username
     }
 
     override fun toModel(record: Record) = toRecipe(record)

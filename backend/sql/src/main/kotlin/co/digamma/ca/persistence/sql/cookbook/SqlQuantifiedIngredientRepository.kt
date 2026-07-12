@@ -51,12 +51,10 @@ open class SqlQuantifiedIngredientRepository(
         QUANTIFIED_INGREDIENT.recipe.userAccount,
     )
 
-    override fun toRecord(model: QuantifiedIngredient): QuantifiedIngredientRecord {
-        return super.toRecord(model).also {
-            it.ingredientId = model.ingredient.id
-            it.unitId = model.unit.id
-            it.recipeId = model.recipe.id
-        }
+    override fun toRecord(model: QuantifiedIngredient) = super.toRecord(model).also {
+        it.ingredientId = model.ingredient.id
+        it.unitId = model.unit.id
+        it.recipeId = model.recipe.id
     }
 
     override fun toModel(record: Record) = toQuantifiedIngredient(record)

@@ -36,11 +36,5 @@ open class SqlMeasurementUnitRepository(
     ),
     MeasurementUnitRepository {
 
-    override fun toRecord(model: MeasurementUnit): MeasurementUnitRecord {
-        return super.toRecord(model).also {
-            it.dimension = model.dimension.toString()
-        }
-    }
-
     override fun toModel(record: Record) = toMeasurementUnit(record)
 }

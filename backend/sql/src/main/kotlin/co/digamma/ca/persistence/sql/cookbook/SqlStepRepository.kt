@@ -40,10 +40,8 @@ open class SqlStepRepository(
         STEP.recipe.userAccount,
     )
 
-    override fun toRecord(model: Step): StepRecord {
-        return super.toRecord(model).also {
-            it.recipeId = model.recipe.id
-        }
+    override fun toRecord(model: Step) = super.toRecord(model).also {
+        it.recipeId = model.recipe.id
     }
 
     override fun toModel(record: Record) = toStep(record)
