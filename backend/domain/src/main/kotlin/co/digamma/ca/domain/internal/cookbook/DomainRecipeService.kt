@@ -56,7 +56,7 @@ open class DomainRecipeService(
         dish = modification.dishId?.let { dishRepository.retrieveOrThrow(it) } ?: existing.dish,
         yield = modification.yield ?: existing.yield,
         createdAt = existing.createdAt,
-        updatedAt = Instant.now(),
+        updatedAt = existing.updatedAt,
         author = existing.author,
         images = Images(modification.imageIds.map { imageRepository.retrieveOrThrow(it) }),
         timeToServe = modification.timeToServe
