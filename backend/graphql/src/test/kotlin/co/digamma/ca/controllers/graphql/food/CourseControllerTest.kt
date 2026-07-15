@@ -1,4 +1,4 @@
-package co.digamma.ca.controllers.graphql.media
+package co.digamma.ca.controllers.graphql.food
 
 import co.digamma.ca.ControllerTestBase
 import co.digamma.ca.TestApplication
@@ -9,86 +9,84 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.web.servlet.MockMvc
 
 private const val LOCALE = "en"
-private const val URL = "https://upload.wikimedia.org/wikipedia/en/7/7d/Lenna_%28test_image%29.png"
-private const val DESCRIPTION = "Lenna"
+private const val NAME = "Main Dish"
 
-private const val GET_IMAGE_DOCUMENT = $$"""
-    query GetImage($id: ID!) {
- 	    image(id: $id) {
+private const val GET_COURSE_DOCUMENT = $$"""
+    query GetCourse($id: ID!) {
+ 	    course(id: $id) {
     	    id
-    	    description
-    	    url
+    	    locale
+    	    name
 	    }
     }
 """
 
-private const val CREATE_IMAGE_DOCUMENT = """
+private const val CREATE_COURSE_DOCUMENT = """
     mutation {
-        createImage(creation: {
+        createCourse(creation: {
             locale: "$LOCALE",
-  	        url: "$URL",
-  	        description: "$DESCRIPTION"
+  	        name: "$NAME",
         }) {
             id
         }
 }
 """
 
-private const val DELETE_IMAGE_DOCUMENT = $$"""
-    mutation RemoveImage($id: ID!) {
- 	    deleteImage(id: $id)
+private const val DELETE_COURSE_DOCUMENT = $$"""
+    mutation RemoveCourse($id: ID!) {
+ 	    deleteCourse(id: $id)
     }
 """
 
 @SpringBootTest(classes = [TestApplication::class])
 @AutoConfigureMockMvc
-class ImageControllerTest : ControllerTestBase {
+class CourseControllerTest : ControllerTestBase {
 
     @Autowired
     override lateinit var mockMvc: MockMvc
 
     @Test
-    fun image() {
-        val createdId = tester.document(CREATE_IMAGE_DOCUMENT)
+    fun course() {
+        val createdId = tester.document(CREATE_COURSE_DOCUMENT)
             .execute()
-            .path("data.createImage.id")
+            .path("data.createCourse.id")
             .hasValue()
             .entity(String::class.java)
             .get()
-        tester.document(GET_IMAGE_DOCUMENT)
+        tester.document(GET_COURSE_DOCUMENT)
             .variables(mapOf("id" to createdId))
             .execute()
-            .path("data.image") {
+            .path("data.course") {
                 it
                     .path("id").entity(String::class.java).isEqualTo(createdId)
-                    .path("description").entity(String::class.java).isEqualTo(DESCRIPTION)
-                    .path("url").entity(String::class.java).isEqualTo(URL)
+                    .path("locale").entity(String::class.java).isEqualTo(LOCALE)
+                    .path("name").entity(String::class.java).isEqualTo(NAME)
             }
     }
 
     @Test
-    fun createImage() {
-        tester.document(CREATE_IMAGE_DOCUMENT)
+    fun createCourse() {
+        tester.document(CREATE_COURSE_DOCUMENT)
             .execute()
-            .path("data.createImage.id")
+            .path("data.createCourse.id")
             .hasValue()
     }
 
     @Test
-    fun deleteImage() {
-        val createdId = tester.document(CREATE_IMAGE_DOCUMENT)
+    fun deleteCourse() {
+        val createdId = tester.document(CREATE_COURSE_DOCUMENT)
             .execute()
-            .path("data.createImage.id")
+            .path("data.createCourse.id")
             .hasValue()
             .entity(String::class.java)
             .get()
-        tester.document(DELETE_IMAGE_DOCUMENT)
+        tester.document(DELETE_COURSE_DOCUMENT)
             .variables(mapOf("id" to createdId))
             .execute()
-            .path("data.deleteImage")
+            .path("data.deleteCourse")
             .entity(Boolean::class.java)
             .isEqualTo(true)
-        tester.document(GET_IMAGE_DOCUMENT)
+        tester.document(GET_COURSE_DOCUMENT)
             .variables(mapOf("id" to createdId))
             .execute()
             .errors()
