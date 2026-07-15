@@ -14,9 +14,9 @@ private const val LOCALE = "en"
 private const val URL = "https://upload.wikimedia.org/wikipedia/en/7/7d/Lenna_%28test_image%29.png"
 private const val DESCRIPTION = "Lenna"
 
-private const val GET_IMAGE_DOCUMENT = """
-    query GetImage(${"$"}id: ID!) {
- 	    image(id: ${"$"}id) {
+private const val GET_IMAGE_DOCUMENT = $$"""
+    query GetImage($id: ID!) {
+ 	    image(id: $id) {
     	    id
     	    description
     	    url
@@ -36,9 +36,9 @@ private const val CREATE_IMAGE_DOCUMENT = """
 }
 """
 
-private const val DELETE_IMAGE_DOCUMENT = """
-    mutation RemoveImage(${"$"}id: ID!) {
- 	    deleteImage(id: ${"$"}id)
+private const val DELETE_IMAGE_DOCUMENT = $$"""
+    mutation RemoveImage($id: ID!) {
+ 	    deleteImage(id: $id)
     }
 """
 
@@ -104,7 +104,7 @@ class ImageControllerTest {
             .variables(mapOf("id" to createdId))
             .execute()
             .errors()
-            .expect { it.errorType.toString() === "NOT_FOUND" }
+            .expect { it.errorType.toString() == "NOT_FOUND" }
             .verify()
     }
 }
