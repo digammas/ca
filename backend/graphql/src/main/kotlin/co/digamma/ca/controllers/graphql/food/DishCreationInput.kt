@@ -10,6 +10,8 @@ data class DishCreationInput(
     private val courseId: String,
     private val cuisineId: String,
     private val servingId: String,
+    private val images: List<String>?,
+    private val sideDishes: List<String>?,
 ) {
 
     fun toDishCreation() = DishCreation(
@@ -18,5 +20,7 @@ data class DishCreationInput(
         courseId = this.courseId,
         cuisineId = this.cuisineId,
         servingId = this.servingId,
+        imageIds = this.images ?: emptyList(),
+        sideDishIds = this.sideDishes ?: emptyList(),
     )
 }

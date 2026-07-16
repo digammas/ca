@@ -136,8 +136,6 @@ type ServingOutput implements LocalizedModel {
     id: ID!
     locale: String!
     name: String!
-    temperatureMin: Float
-    temperatureMax: Float
 }
 
 type ServingOutputEdge implements Edge {
@@ -153,15 +151,11 @@ type ServingOutputConnection implements Connection {
 input ServingCreation {
     locale: String!
     name: String!
-    temperatureMin: Float
-    temperatureMax: Float
 }
 
 input ServingModification {
     id: ID!
     name: String
-    temperatureMix: Int
-    temperatureMax: Int
 }
 
 type DishOutput implements LocalizedModel {
@@ -171,7 +165,7 @@ type DishOutput implements LocalizedModel {
     course: CourseOutput!
     cuisine: CuisineOutput!
     serving: ServingOutput!
-    images: [String]
+    images: [ImageOutput!]
     sideDishes: [DishOutput]
 }
 

@@ -7,8 +7,6 @@ import java.util.Locale
 data class ServingCreationInput(
     private val locale: String,
     private val name: String,
-    private val temperatureMin: Int? = null,
-    private val temperatureMax: Int? = null,
 ) {
 
     fun toServingCreation() = ServingCreation(
