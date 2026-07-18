@@ -58,7 +58,10 @@ open class DomainRecipeService(
         createdAt = existing.createdAt,
         updatedAt = existing.updatedAt,
         author = existing.author,
-        images = Images(modification.imageIds.map { imageRepository.retrieveOrThrow(it) }),
+        images = modification.imageIds
+            ?.map { imageRepository.retrieveOrThrow(it) }
+            ?.let(::Images)
+            ?: existing.images,
         timeToServe = modification.timeToServe
     )
 

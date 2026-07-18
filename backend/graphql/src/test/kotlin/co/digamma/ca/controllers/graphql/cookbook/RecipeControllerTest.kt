@@ -27,6 +27,8 @@ private const val STEP_ESTIMATED_TIME = 75
 private const val QUANTITY = "1.5"
 private const val UPDATED_YIELD = 6
 private const val UPDATED_TIME_TO_SERVE = 120
+private const val IMAGE_URL = "https://www.example.com/roast_chicken.png"
+private const val IMAGE_DESCRIPTION = "A golden roast chicken"
 
 private const val CREATE_COURSE_DOCUMENT = """
     mutation {
@@ -84,6 +86,33 @@ private const val CREATE_MEASUREMENT_UNIT_DOCUMENT = """
             locale: "$LOCALE",
             name: "$MEASUREMENT_UNIT_NAME",
             dimension: $MEASUREMENT_UNIT_DIMENSION,
+        }) {
+            id
+        }
+    }
+"""
+
+private const val CREATE_IMAGE_DOCUMENT = """
+    mutation {
+        createImage(creation: {
+            locale: "$LOCALE",
+            url: "$IMAGE_URL",
+            description: "$IMAGE_DESCRIPTION"
+        }) {
+            id
+        }
+    }
+"""
+
+private fun createRecipeWithImagesDocument(dishId: String, author: String, imageId: String) = """
+    mutation {
+        createRecipe(creation: {
+            locale: "$LOCALE",
+            dishId: "$dishId",
+            yield: $YIELD,
+            timeToServe: $TIME_TO_SERVE,
+            author: "$author",
+            images: ["$imageId"],
         }) {
             id
         }
@@ -258,6 +287,14 @@ class RecipeControllerTest : ControllerTestBase {
             .entity(String::class.java)
             .get()
 
+    private fun createImageId(): String =
+        tester.document(CREATE_IMAGE_DOCUMENT)
+            .execute()
+            .path("data.createImage.id")
+            .hasValue()
+            .entity(String::class.java)
+            .get()
+
     private fun createRecipeId(dishId: String, author: String): String =
         tester.document(createRecipeDocument(dishId, author))
             .execute()
@@ -352,6 +389,35 @@ class RecipeControllerTest : ControllerTestBase {
             .path("data.recipe.yield")
             .entity(Int::class.java)
             .isEqualTo(UPDATED_YIELD)
+    }
+
+    @Test
+    fun updateRecipeKeepsImages() {
+        val imageId = createImageId()
+        val createdId = tester
+            .document(createRecipeWithImagesDocument(createDishId(), createUsername(), imageId))
+            .execute()
+            .path("data.createRecipe.id")
+            .hasValue()
+            .entity(String::class.java)
+            .get()
+
+        tester.document(UPDATE_RECIPE_DOCUMENT)
+            .variables(mapOf("id" to createdId))
+            .execute()
+            .path("data.updateRecipe.yield")
+            .entity(Int::class.java)
+            .isEqualTo(UPDATED_YIELD)
+
+        tester.document(GET_RECIPE_DOCUMENT)
+            .variables(mapOf("id" to createdId))
+            .execute()
+            .path("data.recipe.images")
+            .entityList(Any::class.java)
+            .hasSize(1)
+            .path("data.recipe.images[0].id")
+            .entity(String::class.java)
+            .isEqualTo(imageId)
     }
 
     @Test

@@ -15,7 +15,7 @@ data class RecipeModificationInput(
         id = this.id,
         dishId = this.dishId,
         yield = this.yield,
-        imageIds = this.images ?: emptyList(),
+        imageIds = this.images,
         timeToServe = this.timeToServe,
     )
 }

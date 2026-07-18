@@ -9,7 +9,7 @@ interface RecipeService : CrudService<Recipe, RecipeCreation, RecipeModification
 interface RecipeMutation {
     val dishId: String?
     val yield: Int?
-    val imageIds: List<String>
+    val imageIds: List<String>?
     val timeToServe: Int?
 }
 
@@ -28,6 +28,6 @@ data class RecipeModification(
     override val id: String,
     override val dishId: String?,
     override val yield: Int?,
-    override val imageIds: List<String> = emptyList(),
+    override val imageIds: List<String>? = null,
     override val timeToServe: Int?,
 ) : RecipeMutation, ModelReference<Recipe>
