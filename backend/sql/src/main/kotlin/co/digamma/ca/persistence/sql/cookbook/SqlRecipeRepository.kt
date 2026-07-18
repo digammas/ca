@@ -32,7 +32,7 @@ fun toRecipe(record: Record): Recipe {
         updatedAt = updatedAt,
         author = author,
         images = noImages(),
-        timeToServe = record[RECIPE.TIME_TO_SERVE],
+        timeToServe = record[RECIPE.TIME_TO_SERVE] ?: 0,
     )
 }
 

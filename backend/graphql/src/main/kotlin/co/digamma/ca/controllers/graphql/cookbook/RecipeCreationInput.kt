@@ -19,7 +19,7 @@ data class RecipeCreationInput(
         dishId = this.dishId,
         yield = this.yield,
         imageIds = this.images ?: emptyList(),
-        timeToServe = this.timeToServe,
+        timeToServe = this.timeToServe ?: 0,
         author = this.author,
         steps = this.steps?.map { it.toStepCreation() } ?: emptyList(),
         ingredients = this.ingredients?.map { it.toQuantifiedIngredientCreation() } ?: emptyList(),

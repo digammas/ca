@@ -19,8 +19,8 @@ data class Recipe(
     val updatedAt: Timestamp,
     val author: User,
     val images: Images = noImages(),
-    val timeToServe: Int?,
+    val timeToServe: Int = 0,
 ) : LocalizedModel {
 
-    val estimatedTime get() = timeToServe ?: steps.sumOf { it.estimatedTime }
+    val estimatedTime get() = if (timeToServe == 0) steps.sumOf { it.estimatedTime } else timeToServe
 }

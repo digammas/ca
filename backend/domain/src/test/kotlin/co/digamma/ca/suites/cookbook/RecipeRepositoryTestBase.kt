@@ -39,7 +39,7 @@ abstract class RecipeRepositoryTestBase : CrudRepositoryTestBase<Recipe>() {
         updatedAt = Timestamp.now(),
         author = model.author,
         images = model.images,
-        timeToServe = (model.timeToServe ?: 30) + 5,
+        timeToServe = model.timeToServe + 5,
     )
 }
 

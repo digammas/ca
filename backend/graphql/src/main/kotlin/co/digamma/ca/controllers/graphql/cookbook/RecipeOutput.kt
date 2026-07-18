@@ -15,7 +15,7 @@ data class RecipeOutput(
     val updatedAt: String,
     val author: String,
     val images: List<ImageOutput>,
-    val timeToServe: Int?,
+    val timeToServe: Int,
 )
 
 fun Recipe.toRecipeOutput() = RecipeOutput(

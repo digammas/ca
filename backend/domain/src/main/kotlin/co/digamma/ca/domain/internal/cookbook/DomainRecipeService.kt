@@ -62,7 +62,7 @@ open class DomainRecipeService(
             ?.map { imageRepository.retrieveOrThrow(it) }
             ?.let(::Images)
             ?: existing.images,
-        timeToServe = modification.timeToServe
+        timeToServe = modification.timeToServe ?: existing.timeToServe,
     )
 
     override fun create(creation: RecipeCreation): Recipe {

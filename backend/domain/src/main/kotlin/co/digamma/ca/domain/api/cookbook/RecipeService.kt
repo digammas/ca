@@ -18,7 +18,7 @@ data class RecipeCreation(
     override val dishId: String,
     override val yield: Int,
     override val imageIds: List<String> = emptyList(),
-    override val timeToServe: Int?,
+    override val timeToServe: Int = 0,
     val author: String,
     val steps: List<StepCreation>,
     val ingredients: List<QuantifiedIngredientCreation>,

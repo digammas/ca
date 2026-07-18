@@ -300,7 +300,7 @@ type RecipeOutput implements LocalizedModel {
     updatedAt: String!
     author: String!
     images: [ImageOutput!]
-    timeToServe: Int
+    timeToServe: Int!
     steps: [StepOutput!]
     ingredients: [QuantifiedIngredientOutput!]
 }

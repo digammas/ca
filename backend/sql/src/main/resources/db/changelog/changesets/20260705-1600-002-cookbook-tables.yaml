@@ -142,6 +142,9 @@ databaseChangeLog:
               - column:
                   name: time_to_serve
                   type: integer
+                  defaultValueNumeric: 0
+                  constraints:
+                    nullable: false
               - column:
                   name: timestamp
                   type: timestamp

@@ -161,6 +161,20 @@ private fun createRecipeWithStepsAndIngredientsDocument(
     }
 """
 
+private fun createRecipeWithoutTimeToServeDocument(dishId: String, author: String) = """
+    mutation {
+        createRecipe(creation: {
+            locale: "$LOCALE",
+            dishId: "$dishId",
+            yield: $YIELD,
+            author: "$author",
+        }) {
+            id
+            timeToServe
+        }
+    }
+"""
+
 private const val GET_RECIPE_DOCUMENT = $$"""
     query GetRecipe($id: ID!) {
         recipe(id: $id) {
@@ -351,6 +365,15 @@ class RecipeControllerTest : ControllerTestBase {
             .execute()
             .path("data.createRecipe.id")
             .hasValue()
+    }
+
+    @Test
+    fun createRecipeWithoutTimeToServeDefaultsToZero() {
+        tester.document(createRecipeWithoutTimeToServeDocument(createDishId(), createUsername()))
+            .execute()
+            .path("data.createRecipe.timeToServe")
+            .entity(Int::class.java)
+            .isEqualTo(0)
     }
 
     @Test
