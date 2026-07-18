@@ -81,6 +81,26 @@ private fun createDishWithImagesDocument(courseId: String, cuisineId: String, se
     }
 """
 
+private fun createDishWithSideDishesDocument(
+    courseId: String,
+    cuisineId: String,
+    servingId: String,
+    sideDishId: String,
+) = """
+    mutation {
+        createDish(creation: {
+            locale: "$LOCALE",
+            name: "$NAME",
+            courseId: "$courseId",
+            cuisineId: "$cuisineId",
+            servingId: "$servingId",
+            sideDishes: ["$sideDishId"],
+        }) {
+            id
+        }
+    }
+"""
+
 private const val GET_DISH_DOCUMENT = $$"""
     query GetDish($id: ID!) {
         dish(id: $id) {
@@ -238,6 +258,31 @@ class DishControllerTest : ControllerTestBase {
             .path("data.dish.images[0].description")
             .entity(String::class.java)
             .isEqualTo(IMAGE_DESCRIPTION)
+    }
+
+    @Test
+    fun createDishWithSideDishes() {
+        val courseId = createCourseId()
+        val cuisineId = createCuisineId()
+        val servingId = createServingId()
+        val sideDishId = createDishId(courseId, cuisineId, servingId)
+
+        val createdId = tester.document(createDishWithSideDishesDocument(courseId, cuisineId, servingId, sideDishId))
+            .execute()
+            .path("data.createDish.id")
+            .hasValue()
+            .entity(String::class.java)
+            .get()
+
+        tester.document(GET_DISH_DOCUMENT)
+            .variables(mapOf("id" to createdId))
+            .execute()
+            .path("data.dish.sideDishes")
+            .entityList(Any::class.java)
+            .hasSize(1)
+            .path("data.dish.sideDishes[0].id")
+            .entity(String::class.java)
+            .isEqualTo(sideDishId)
     }
 
     @Test
