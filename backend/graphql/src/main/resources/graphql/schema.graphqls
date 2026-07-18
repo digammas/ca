@@ -12,6 +12,21 @@ type Query {
 
     dish(id: ID!): DishOutput
     dishes(query: PageQuery): DishOutputConnection
+
+    ingredient(id: ID!): IngredientOutput
+    ingredients(query: PageQuery): IngredientOutputConnection
+
+    measurementUnit(id: ID!): MeasurementUnitOutput
+    measurementUnits(query: PageQuery): MeasurementUnitOutputConnection
+
+    recipe(id: ID!): RecipeOutput
+    recipes(query: PageQuery): RecipeOutputConnection
+
+    step(id: ID!): StepOutput
+    steps(query: PageQuery): StepOutputConnection
+
+    quantifiedIngredient(id: ID!): QuantifiedIngredientOutput
+    quantifiedIngredients(query: PageQuery): QuantifiedIngredientOutputConnection
 }
 
 type Mutation {
@@ -32,6 +47,26 @@ type Mutation {
 
     createDish(creation: DishCreation): DishOutput
     deleteDish(id: ID!): Boolean
+
+    createIngredient(creation: IngredientCreation): IngredientOutput
+    updateIngredient(modification: IngredientModification): IngredientOutput
+    deleteIngredient(id: ID!): Boolean
+
+    createMeasurementUnit(creation: MeasurementUnitCreation): MeasurementUnitOutput
+    updateMeasurementUnit(modification: MeasurementUnitModification): MeasurementUnitOutput
+    deleteMeasurementUnit(id: ID!): Boolean
+
+    createRecipe(creation: RecipeCreation): RecipeOutput
+    updateRecipe(modification: RecipeModification): RecipeOutput
+    deleteRecipe(id: ID!): Boolean
+
+    createStep(creation: StepCreation): StepOutput
+    updateStep(modification: StepModification): StepOutput
+    deleteStep(id: ID!): Boolean
+
+    createQuantifiedIngredient(creation: QuantifiedIngredientCreation): QuantifiedIngredientOutput
+    updateQuantifiedIngredient(modification: QuantifiedIngredientModification): QuantifiedIngredientOutput
+    deleteQuantifiedIngredient(id: ID!): Boolean
 }
 
 interface LocalizedModel {
@@ -187,6 +222,181 @@ input DishCreation {
     servingId: String!
     images: [String!]
     sideDishes: [String!]
+}
+
+type IngredientOutput implements LocalizedModel {
+    id: ID!
+    locale: String!
+    name: String!
+    description: String!
+    images: [ImageOutput!]
+}
+
+type IngredientOutputEdge implements Edge {
+    node: IngredientOutput!
+    cursor: String
+}
+
+type IngredientOutputConnection implements Connection {
+    edges: [IngredientOutputEdge!]!
+    pageInfo: PageInfo
+}
+
+input IngredientCreation {
+    locale: String!
+    name: String!
+    description: String!
+    images: [String!]
+}
+
+input IngredientModification {
+    id: ID!
+    name: String
+    description: String
+    images: [String!]
+}
+
+enum Dimension {
+    QUANTITY
+    VOLUME
+    WEIGHT
+}
+
+type MeasurementUnitOutput implements LocalizedModel {
+    id: ID!
+    locale: String!
+    name: String!
+    dimension: Dimension!
+}
+
+type MeasurementUnitOutputEdge implements Edge {
+    node: MeasurementUnitOutput!
+    cursor: String
+}
+
+type MeasurementUnitOutputConnection implements Connection {
+    edges: [MeasurementUnitOutputEdge!]!
+    pageInfo: PageInfo
+}
+
+input MeasurementUnitCreation {
+    locale: String!
+    name: String!
+    dimension: Dimension!
+}
+
+input MeasurementUnitModification {
+    id: ID!
+    name: String
+    dimension: Dimension
+}
+
+type RecipeOutput implements LocalizedModel {
+    id: ID!
+    locale: String!
+    dish: DishOutput!
+    yield: Int!
+    createdAt: String!
+    updatedAt: String!
+    author: String!
+    images: [ImageOutput!]
+    timeToServe: Int
+    steps: [StepOutput!]
+    ingredients: [QuantifiedIngredientOutput!]
+}
+
+type RecipeOutputEdge implements Edge {
+    node: RecipeOutput!
+    cursor: String
+}
+
+type RecipeOutputConnection implements Connection {
+    edges: [RecipeOutputEdge!]!
+    pageInfo: PageInfo
+}
+
+input RecipeCreation {
+    locale: String!
+    dishId: String!
+    yield: Int!
+    images: [String!]
+    timeToServe: Int
+    author: String!
+    steps: [StepCreation!]
+    ingredients: [QuantifiedIngredientCreation!]
+}
+
+input RecipeModification {
+    id: ID!
+    dishId: String
+    yield: Int
+    images: [String!]
+    timeToServe: Int
+}
+
+type StepOutput implements LocalizedModel {
+    id: ID!
+    locale: String!
+    description: String!
+    estimatedTime: Int!
+    recipe: RecipeOutput!
+}
+
+type StepOutputEdge implements Edge {
+    node: StepOutput!
+    cursor: String
+}
+
+type StepOutputConnection implements Connection {
+    edges: [StepOutputEdge!]!
+    pageInfo: PageInfo
+}
+
+input StepCreation {
+    recipeId: String
+    description: String!
+    estimatedTime: Int!
+    order: Int
+}
+
+input StepModification {
+    id: ID!
+    description: String
+    estimatedTime: Int
+    order: Int
+}
+
+type QuantifiedIngredientOutput {
+    id: ID!
+    ingredient: IngredientOutput!
+    quantity: Float!
+    unit: MeasurementUnitOutput!
+    recipe: RecipeOutput!
+}
+
+type QuantifiedIngredientOutputEdge {
+    node: QuantifiedIngredientOutput!
+    cursor: String
+}
+
+type QuantifiedIngredientOutputConnection {
+    edges: [QuantifiedIngredientOutputEdge!]!
+    pageInfo: PageInfo
+}
+
+input QuantifiedIngredientCreation {
+    recipeId: String
+    ingredientId: String!
+    measurementUnitId: String!
+    quantity: Float!
+    order: Int
+}
+
+input QuantifiedIngredientModification {
+    id: ID!
+    measurementUnitId: String
+    quantity: Float
+    order: Int
 }
 
 
