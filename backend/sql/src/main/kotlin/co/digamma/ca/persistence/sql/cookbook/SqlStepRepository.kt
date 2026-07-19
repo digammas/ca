@@ -9,7 +9,9 @@ import co.digamma.ca.persistence.sql.SqlCrudRepository
 import org.jooq.DSLContext
 import org.jooq.Path
 import org.jooq.Record
+import org.springframework.beans.factory.ObjectFactory
 import org.springframework.stereotype.Repository
+import java.time.Instant
 import java.util.logging.Logger
 
 fun toStep(record: Record): Step {
@@ -26,9 +28,17 @@ fun toStep(record: Record): Step {
 @Repository
 open class SqlStepRepository(
     dsl: DSLContext,
-    log: Logger = LoggerFactory.forClass()
+    instantFactory: ObjectFactory<Instant>,
+    log: Logger = LoggerFactory.forClass(),
 ) :
-    SqlCrudRepository<Step, StepRecord>(STEP, STEP.ID, dsl, Step::class, log),
+    SqlCrudRepository<Step, StepRecord>(
+        STEP,
+        STEP.ID,
+        dsl,
+        Step::class,
+        instantFactory,
+        log,
+    ),
     StepRepository {
 
     override val joinPaths: List<Path<*>> = listOf(

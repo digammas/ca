@@ -8,7 +8,9 @@ import co.digamma.ca.persistence.jooq.food.tables.references.SERVING
 import co.digamma.ca.persistence.sql.SqlCrudRepository
 import org.jooq.DSLContext
 import org.jooq.Record
+import org.springframework.beans.factory.ObjectFactory
 import org.springframework.stereotype.Repository
+import java.time.Instant
 import java.util.logging.Logger
 
 fun toServing(record: Record): Serving {
@@ -22,9 +24,17 @@ fun toServing(record: Record): Serving {
 @Repository
 open class SqlServingRepository(
     dsl: DSLContext,
-    log: Logger = LoggerFactory.forClass()
+    instantFactory: ObjectFactory<Instant>,
+    log: Logger = LoggerFactory.forClass(),
 ) :
-    SqlCrudRepository<Serving, ServingRecord>(SERVING, SERVING.ID, dsl, Serving::class, log),
+    SqlCrudRepository<Serving, ServingRecord>(
+        SERVING,
+        SERVING.ID,
+        dsl,
+        Serving::class,
+        instantFactory,
+        log,
+    ),
     ServingRepository {
 
     override fun toModel(record: Record) = toServing(record)

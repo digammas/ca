@@ -8,7 +8,9 @@ import co.digamma.ca.persistence.jooq.cookbook.tables.references.INGREDIENT
 import co.digamma.ca.persistence.sql.SqlCrudRepository
 import org.jooq.DSLContext
 import org.jooq.Record
+import org.springframework.beans.factory.ObjectFactory
 import org.springframework.stereotype.Repository
+import java.time.Instant
 import java.util.logging.Logger
 
 fun toIngredient(record: Record): Ingredient {
@@ -23,9 +25,17 @@ fun toIngredient(record: Record): Ingredient {
 @Repository
 open class SqlIngredientRepository(
     dsl: DSLContext,
-    log: Logger = LoggerFactory.forClass()
+    instantFactory: ObjectFactory<Instant>,
+    log: Logger = LoggerFactory.forClass(),
 ) :
-    SqlCrudRepository<Ingredient, IngredientRecord>(INGREDIENT, INGREDIENT.ID, dsl, Ingredient::class, log),
+    SqlCrudRepository<Ingredient, IngredientRecord>(
+        INGREDIENT,
+        INGREDIENT.ID,
+        dsl,
+        Ingredient::class,
+        instantFactory,
+        log,
+    ),
     IngredientRepository {
 
     override fun toModel(record: Record) = toIngredient(record)

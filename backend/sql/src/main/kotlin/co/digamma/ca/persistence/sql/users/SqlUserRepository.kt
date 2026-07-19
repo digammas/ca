@@ -6,9 +6,11 @@ import co.digamma.ca.domain.spi.users.UserRepository
 import co.digamma.ca.persistence.jooq.users.tables.records.UserAccountRecord
 import co.digamma.ca.persistence.jooq.users.tables.references.USER_ACCOUNT
 import co.digamma.ca.persistence.sql.SqlCrudRepository
+import java.time.Instant
 import java.util.logging.Logger
 import org.jooq.DSLContext
 import org.jooq.Record
+import org.springframework.beans.factory.ObjectFactory
 import org.springframework.stereotype.Repository
 
 fun toUser(record: Record): User {
@@ -22,9 +24,17 @@ fun toUser(record: Record): User {
 @Repository
 open class SqlUserRepository(
     dsl: DSLContext,
-    log: Logger = LoggerFactory.forClass()
+    instantFactory: ObjectFactory<Instant>,
+    log: Logger = LoggerFactory.forClass(),
 ) :
-    SqlCrudRepository<User, UserAccountRecord>(USER_ACCOUNT, USER_ACCOUNT.USERNAME, dsl, User::class, log),
+    SqlCrudRepository<User, UserAccountRecord>(
+        USER_ACCOUNT,
+        USER_ACCOUNT.USERNAME,
+        dsl,
+        User::class,
+        instantFactory,
+        log,
+    ),
     UserRepository {
 
     override fun toModel(record: Record) = toUser(record)

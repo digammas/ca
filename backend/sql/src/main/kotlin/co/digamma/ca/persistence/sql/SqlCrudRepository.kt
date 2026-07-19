@@ -15,7 +15,10 @@ import org.jooq.Table
 import org.jooq.TableField
 import org.jooq.UpdatableRecord
 import org.jooq.impl.SQLDataType
+import org.springframework.beans.factory.ObjectFactory
+import java.time.Instant
 import java.time.LocalDateTime
+import java.time.ZoneId
 import java.util.logging.Logger
 import kotlin.reflect.KClass
 
@@ -26,7 +29,8 @@ abstract class SqlCrudRepository<T : Model, R : UpdatableRecord<R>>(
     protected val idField: TableField<R, String?>,
     protected val dsl: DSLContext,
     protected val modelType: KClass<T>,
-    protected val log: Logger
+    protected val instantFactory: ObjectFactory<Instant>,
+    protected val log: Logger,
 ) : CrudRepository<T> {
 
     private var timestampField: Field<LocalDateTime>? = this.table.fields()
@@ -65,29 +69,19 @@ abstract class SqlCrudRepository<T : Model, R : UpdatableRecord<R>>(
             .execute()
     }
 
-    protected open fun createRecord(model: T): R {
+    override fun create(model: T): T {
         if (exists(model.id)) throw DuplicateKeyException("Model with ID ${model.id} already exists.")
         val record = this.toRecord(model)
         this.timestamp(record)
         this.dsl.executeInsert(record)
-        return record
-    }
-
-    override fun create(model: T): T {
-        this.createRecord(model)
         return model
     }
 
-    protected open fun updateRecord(model: T): R {
+    override fun update(model: T): T {
         if (!exists(model.id)) throw NotFoundException("Model with ID ${model.id} not found.")
         val record = this.toRecord(model)
         this.timestamp(record)
         this.dsl.executeUpdate(record)
-        return record
-    }
-
-    override fun update(model: T): T {
-        this.updateRecord(model)
         return model
     }
 
@@ -98,9 +92,11 @@ abstract class SqlCrudRepository<T : Model, R : UpdatableRecord<R>>(
             .fetchOne() != null
     }
 
+    protected fun now(): LocalDateTime = LocalDateTime.ofInstant(instantFactory.getObject(), ZoneId.systemDefault())
+
     protected open fun timestamp(record: R) {
         this.timestampField?.also {
-            record.set(it, LocalDateTime.now())
+            record.set(it, now())
         } ?: run {
             // If the following message is being logged, consider overriding this method.
             this.log.warning { "Timestamp field not found for table ${this.table.name}." }

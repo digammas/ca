@@ -8,7 +8,9 @@ import co.digamma.ca.persistence.jooq.media.tables.references.IMAGE
 import co.digamma.ca.persistence.sql.SqlCrudRepository
 import org.jooq.DSLContext
 import org.jooq.Record
+import org.springframework.beans.factory.ObjectFactory
 import org.springframework.stereotype.Repository
+import java.time.Instant
 import java.util.logging.Logger
 
 fun toImage(record: Record): Image {
@@ -23,9 +25,17 @@ fun toImage(record: Record): Image {
 @Repository
 open class SqlImageRepository(
     dsl: DSLContext,
-    log: Logger = LoggerFactory.forClass()
+    instantFactory: ObjectFactory<Instant>,
+    log: Logger = LoggerFactory.forClass(),
 ) :
-    SqlCrudRepository<Image, ImageRecord>(IMAGE, IMAGE.ID, dsl, Image::class, log),
+    SqlCrudRepository<Image, ImageRecord>(
+        IMAGE,
+        IMAGE.ID,
+        dsl,
+        Image::class,
+        instantFactory,
+        log,
+    ),
     ImageRepository {
 
     override fun toModel(record: Record) = toImage(record)

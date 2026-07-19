@@ -13,7 +13,9 @@ import co.digamma.ca.persistence.sql.users.toUser
 import org.jooq.DSLContext
 import org.jooq.Path
 import org.jooq.Record
+import org.springframework.beans.factory.ObjectFactory
 import org.springframework.stereotype.Repository
+import java.time.Instant
 import java.util.logging.Logger
 
 fun toRecipe(record: Record): Recipe {
@@ -39,9 +41,17 @@ fun toRecipe(record: Record): Recipe {
 @Repository
 open class SqlRecipeRepository(
     dsl: DSLContext,
-    log: Logger = LoggerFactory.forClass()
+    instantFactory: ObjectFactory<Instant>,
+    log: Logger = LoggerFactory.forClass(),
 ) :
-    SqlCrudRepository<Recipe, RecipeRecord>(RECIPE, RECIPE.ID, dsl, Recipe::class, log),
+    SqlCrudRepository<Recipe, RecipeRecord>(
+        RECIPE,
+        RECIPE.ID,
+        dsl,
+        Recipe::class,
+        instantFactory,
+        log,
+    ),
     RecipeRepository {
 
     override val joinPaths: List<Path<*>> = listOf(

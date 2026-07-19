@@ -1,9 +1,11 @@
 package co.digamma.ca.persistence.sql
 
+import co.digamma.ca.transactions.TransactionScope
 import org.jooq.conf.RenderQuotedNames
 import org.springframework.boot.autoconfigure.jooq.DefaultConfigurationCustomizer
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import java.time.Instant
 
 @Configuration
 open class SqlConfiguration {
@@ -17,4 +19,8 @@ open class SqlConfiguration {
             isMapConstructorParameterNamesInKotlin = true
         }
     }
+
+    @TransactionScope
+    @Bean
+    open fun now(): Instant = Instant.now()
 }

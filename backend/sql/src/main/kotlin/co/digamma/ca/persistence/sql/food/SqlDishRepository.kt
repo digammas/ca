@@ -13,7 +13,9 @@ import co.digamma.ca.persistence.sql.SqlCrudRepository
 import org.jooq.DSLContext
 import org.jooq.Path
 import org.jooq.Record
+import org.springframework.beans.factory.ObjectFactory
 import org.springframework.stereotype.Repository
+import java.time.Instant
 import java.util.logging.Logger
 
 fun toDish(record: Record): Dish {
@@ -33,9 +35,17 @@ fun toDish(record: Record): Dish {
 @Repository
 open class SqlDishRepository(
     dsl: DSLContext,
-    log: Logger = LoggerFactory.forClass()
+    instantFactory: ObjectFactory<Instant>,
+    log: Logger = LoggerFactory.forClass(),
 ) :
-    SqlCrudRepository<Dish, DishRecord>(DISH, DISH.ID, dsl, Dish::class, log),
+    SqlCrudRepository<Dish, DishRecord>(
+        DISH,
+        DISH.ID,
+        dsl,
+        Dish::class,
+        instantFactory,
+        log,
+    ),
     DishRepository {
 
     override val joinPaths: List<Path<*>> = listOf(
@@ -54,17 +64,17 @@ open class SqlDishRepository(
 
     override fun toModel(record: Record) = toDish(record)
 
-    override fun createRecord(model: Dish): DishRecord {
-        return super.createRecord(model).also { record ->
+    override fun create(model: Dish): Dish {
+        return super.create(model).also { record ->
             model.sideDishes.forEach {
                 this.addSideDish(record, it.id)
             }
         }
     }
 
-    override fun updateRecord(model: Dish): DishRecord {
-        return super.updateRecord(model).also { record ->
-            updateSideDishes(record, model)
+    override fun update(model: Dish): Dish {
+        return super.update(model).also { updated ->
+            updateSideDishes(updated)
         }
     }
 
@@ -88,15 +98,15 @@ open class SqlDishRepository(
         return Page(list, pageSpecs.index, pageSpecs.size, total)
     }
 
-    private fun addSideDish(dish: DishRecord, sideDishId: String) {
+    private fun addSideDish(dish: Dish, sideDishId: String) {
         val record = this.dsl.newRecord(SIDE_DISH)
         record.mainDishId = dish.id
         record.sideDishId = sideDishId
-        record.timestamp = dish.timestamp
+        record.timestamp = now()
         this.dsl.executeInsert(record)
     }
 
-    private fun removeSideDish(dish: DishRecord, sideDishId: String) {
+    private fun removeSideDish(dish: Dish, sideDishId: String) {
         this.dsl.deleteFrom(SIDE_DISH)
             .where(SIDE_DISH.MAIN_DISH_ID.eq(dish.id))
             .and(SIDE_DISH.SIDE_DISH_ID.eq(sideDishId))
@@ -104,17 +114,17 @@ open class SqlDishRepository(
             .execute()
     }
 
-    private fun updateSideDishes(record: DishRecord, model: Dish) {
+    private fun updateSideDishes(model: Dish) {
         val existingSideDishIds = this.dsl.selectFrom(SIDE_DISH)
-            .where(SIDE_DISH.MAIN_DISH_ID.eq(record.id))
+            .where(SIDE_DISH.MAIN_DISH_ID.eq(model.id))
             .fetch()
             .map { it.sideDishId }
         val sideDishIds = model.sideDishes.map { it.id }
         existingSideDishIds
             .filter { !sideDishIds.contains(it) }
-            .forEach { this.removeSideDish(record, it) }
+            .forEach { this.removeSideDish(model, it) }
         sideDishIds
             .filter { !existingSideDishIds.contains(it) }
-            .forEach { this.addSideDish(record, it) }
+            .forEach { this.addSideDish(model, it) }
     }
 }

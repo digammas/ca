@@ -8,7 +8,9 @@ import co.digamma.ca.persistence.jooq.cookbook.tables.references.MEASUREMENT_UNI
 import co.digamma.ca.persistence.sql.SqlCrudRepository
 import org.jooq.DSLContext
 import org.jooq.Record
+import org.springframework.beans.factory.ObjectFactory
 import org.springframework.stereotype.Repository
+import java.time.Instant
 import java.util.logging.Logger
 
 fun toMeasurementUnit(record: Record): MeasurementUnit {
@@ -25,14 +27,16 @@ fun toMeasurementUnit(record: Record): MeasurementUnit {
 @Repository
 open class SqlMeasurementUnitRepository(
     dsl: DSLContext,
-    log: Logger = LoggerFactory.forClass()
+    instantFactory: ObjectFactory<Instant>,
+    log: Logger = LoggerFactory.forClass(),
 ) :
     SqlCrudRepository<MeasurementUnit, MeasurementUnitRecord>(
         MEASUREMENT_UNIT,
         MEASUREMENT_UNIT.ID,
         dsl,
         MeasurementUnit::class,
-        log
+        instantFactory,
+        log,
     ),
     MeasurementUnitRepository {
 

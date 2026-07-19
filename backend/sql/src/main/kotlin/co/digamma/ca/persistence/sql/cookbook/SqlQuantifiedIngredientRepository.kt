@@ -9,7 +9,9 @@ import co.digamma.ca.persistence.sql.SqlCrudRepository
 import org.jooq.DSLContext
 import org.jooq.Path
 import org.jooq.Record
+import org.springframework.beans.factory.ObjectFactory
 import org.springframework.stereotype.Repository
+import java.time.Instant
 import java.util.logging.Logger
 
 fun toQuantifiedIngredient(record: Record): QuantifiedIngredient {
@@ -29,14 +31,16 @@ fun toQuantifiedIngredient(record: Record): QuantifiedIngredient {
 @Repository
 open class SqlQuantifiedIngredientRepository(
     dsl: DSLContext,
-    log: Logger = LoggerFactory.forClass()
+    instantFactory: ObjectFactory<Instant>,
+    log: Logger = LoggerFactory.forClass(),
 ) :
     SqlCrudRepository<QuantifiedIngredient, QuantifiedIngredientRecord>(
         QUANTIFIED_INGREDIENT,
         QUANTIFIED_INGREDIENT.ID,
         dsl,
         QuantifiedIngredient::class,
-        log
+        instantFactory,
+        log,
     ),
     QuantifiedIngredientRepository {
 
