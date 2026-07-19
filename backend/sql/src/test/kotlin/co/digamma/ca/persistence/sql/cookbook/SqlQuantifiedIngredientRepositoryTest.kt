@@ -1,15 +1,14 @@
 package co.digamma.ca.persistence.sql.cookbook
 
-import co.digamma.ca.domain.api.cookbook.QuantifiedIngredient
 import co.digamma.ca.domain.spi.cookbook.IngredientRepository
 import co.digamma.ca.domain.spi.cookbook.MeasurementUnitRepository
 import co.digamma.ca.domain.spi.cookbook.QuantifiedIngredientRepository
 import co.digamma.ca.domain.spi.cookbook.RecipeRepository
+import co.digamma.ca.persistence.sql.PostgreSQLContainerExtension
 import co.digamma.ca.persistence.sql.food.SqlCourseRepository
 import co.digamma.ca.persistence.sql.food.SqlCuisineRepository
 import co.digamma.ca.persistence.sql.food.SqlDishRepository
 import co.digamma.ca.persistence.sql.food.SqlServingRepository
-import co.digamma.ca.persistence.sql.PostgreSQLContainerExtension
 import co.digamma.ca.persistence.sql.instantFactory
 import co.digamma.ca.persistence.sql.users.SqlUserRepository
 import co.digamma.ca.suites.cookbook.QuantifiedIngredientRepositoryTestBase
