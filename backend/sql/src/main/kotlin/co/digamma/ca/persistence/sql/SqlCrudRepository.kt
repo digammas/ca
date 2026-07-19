@@ -65,23 +65,33 @@ abstract class SqlCrudRepository<T : Model, R : UpdatableRecord<R>>(
             .execute()
     }
 
-    override fun create(model: T): T {
+    protected open fun createRecord(model: T): R {
         if (exists(model.id)) throw DuplicateKeyException("Model with ID ${model.id} already exists.")
         val record = this.toRecord(model)
         this.timestamp(record)
         this.dsl.executeInsert(record)
+        return record
+    }
+
+    override fun create(model: T): T {
+        this.createRecord(model)
         return model
     }
 
-    override fun update(model: T): T {
+    protected open fun updateRecord(model: T): R {
         if (!exists(model.id)) throw NotFoundException("Model with ID ${model.id} not found.")
         val record = this.toRecord(model)
         this.timestamp(record)
         this.dsl.executeUpdate(record)
+        return record
+    }
+
+    override fun update(model: T): T {
+        this.updateRecord(model)
         return model
     }
 
-    private fun exists(id: String): Boolean {
+    protected fun exists(id: String): Boolean {
         return this.dsl.select(this.idField)
             .from(this.table)
             .where(this.idField.eq(id))
