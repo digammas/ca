@@ -1,7 +1,5 @@
 package co.digamma.ca.domain.internal.cookbook
 
-import co.digamma.ca.domain.api.Page
-import co.digamma.ca.domain.api.PageSpecs
 import co.digamma.ca.domain.api.common.stereotypes.Singleton
 import co.digamma.ca.domain.api.cookbook.Step
 import co.digamma.ca.domain.api.cookbook.StepCreation
@@ -37,8 +35,8 @@ open class DomainStepService(
         recipe = existing.recipe,
     )
 
-    override fun retrieveByRecipe(recipeId: String, pageSpecs: PageSpecs?): Page<Step> {
-        return this.repository.retrieveByRecipe(recipeId, pageSpecs ?: this.defaultPageSpecs)
+    override fun retrieveByRecipe(recipeId: String): List<Step> {
+        return this.repository.retrieveByRecipe(recipeId)
     }
 }
 

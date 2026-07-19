@@ -1,7 +1,5 @@
 package co.digamma.ca.fixtures.inmem.cookbook
 
-import co.digamma.ca.domain.api.Page
-import co.digamma.ca.domain.api.PageSpecs
 import co.digamma.ca.domain.api.common.stereotypes.Singleton
 import co.digamma.ca.domain.api.cookbook.QuantifiedIngredient
 import co.digamma.ca.domain.spi.cookbook.QuantifiedIngredientRepository
@@ -12,15 +10,8 @@ class InMemQuantifiedIngredientRepository :
     InMemCrudRepository<QuantifiedIngredient>(),
     QuantifiedIngredientRepository {
 
-    override fun retrieveByRecipe(recipeId: String, pageSpecs: PageSpecs): Page<QuantifiedIngredient> {
-        val (index, size) = pageSpecs
-        val matches = this.retrieveAll().filter { it.recipe.id == recipeId }
-        val list = matches
-            .stream()
-            .skip(index * size.toLong())
-            .limit(size.toLong())
-            .toList()
-        return Page(list, index, matches.size)
+    override fun retrieveByRecipe(recipeId: String): List<QuantifiedIngredient> {
+        return this.retrieveAll().filter { it.recipe.id == recipeId }
     }
 }
 

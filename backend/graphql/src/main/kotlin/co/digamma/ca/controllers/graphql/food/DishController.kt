@@ -38,7 +38,7 @@ class DishController(
 
     @SchemaMapping
     fun sideDishes(dish: DishOutput): List<DishOutput> {
-        return this.service.retrieveSideDishes(dish.id).results
+        return this.service.retrieveSideDishes(dish.id)
             .map { it.toDishOutput() }
     }
 }

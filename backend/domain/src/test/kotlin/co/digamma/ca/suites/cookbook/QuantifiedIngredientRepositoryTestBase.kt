@@ -1,6 +1,5 @@
 package co.digamma.ca.suites.cookbook
 
-import co.digamma.ca.domain.api.PageSpecs
 import co.digamma.ca.domain.api.cookbook.QuantifiedIngredient
 import co.digamma.ca.domain.spi.cookbook.IngredientRepository
 import co.digamma.ca.domain.spi.cookbook.MeasurementUnitRepository
@@ -48,21 +47,26 @@ abstract class QuantifiedIngredientRepositoryTestBase : CrudRepositoryTestBase<Q
         recipe = model.recipe,
     )
 
-    private val pageSpecs = PageSpecs(0, 10)
+    @Test
+    fun `test retrieve by recipe empty`() {
+        val quantifiedIngredient = newModel()
+        val retrieved = sut.retrieveByRecipe(quantifiedIngredient.recipe.id)
+        assertTrue(retrieved.isEmpty())
+    }
 
     @Test
     fun `test retrieve by recipe`() {
         val quantifiedIngredient = sut.create(newModel())
+        val sibling = sut.create(
+            givenQuantifiedIngredient().copy(
+                recipe = quantifiedIngredient.recipe,
+                ingredient = quantifiedIngredient.ingredient,
+                unit = quantifiedIngredient.unit,
+            )
+        )
         sut.create(newModel())
-        val retrieved = sut.retrieveByRecipe(quantifiedIngredient.recipe.id, pageSpecs)
-        assertEquals(listOf(quantifiedIngredient.id), retrieved.results.map { it.id })
-    }
-
-    @Test
-    fun `test retrieve by recipe empty`() {
-        val quantifiedIngredient = newModel()
-        val retrieved = sut.retrieveByRecipe(quantifiedIngredient.recipe.id, pageSpecs)
-        assertTrue(retrieved.results.isEmpty())
+        val retrieved = sut.retrieveByRecipe(quantifiedIngredient.recipe.id)
+        assertEquals(setOf(quantifiedIngredient.id, sibling.id), retrieved.map { it.id }.toSet())
     }
 }
 

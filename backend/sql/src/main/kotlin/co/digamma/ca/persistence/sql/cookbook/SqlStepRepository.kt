@@ -1,7 +1,5 @@
 package co.digamma.ca.persistence.sql.cookbook
 
-import co.digamma.ca.domain.api.Page
-import co.digamma.ca.domain.api.PageSpecs
 import co.digamma.ca.domain.api.common.utils.LoggerFactory
 import co.digamma.ca.domain.api.cookbook.Step
 import co.digamma.ca.domain.spi.cookbook.StepRepository
@@ -58,16 +56,10 @@ open class SqlStepRepository(
 
     override fun toModel(record: Record) = toStep(record)
 
-    override fun retrieveByRecipe(recipeId: String, pageSpecs: PageSpecs): Page<Step> {
-        val total = this.dsl.selectCount().from(STEP)
+    override fun retrieveByRecipe(recipeId: String): List<Step> {
+        return this.dsl.select().from(this.joinedTable)
             .where(STEP.RECIPE_ID.eq(recipeId))
-            .fetchOne(0, Int::class.java)!!
-        val list = this.dsl.select().from(this.joinedTable)
-            .where(STEP.RECIPE_ID.eq(recipeId))
-            .offset(pageSpecs.index * pageSpecs.size)
-            .limit(pageSpecs.size)
             .fetch(this::toModel)
-        return Page(list, pageSpecs.index, pageSpecs.size, total)
     }
 }
 

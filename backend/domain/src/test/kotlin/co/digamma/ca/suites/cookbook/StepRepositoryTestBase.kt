@@ -1,6 +1,5 @@
 package co.digamma.ca.suites.cookbook
 
-import co.digamma.ca.domain.api.PageSpecs
 import co.digamma.ca.domain.api.cookbook.Step
 import co.digamma.ca.domain.spi.cookbook.RecipeRepository
 import co.digamma.ca.domain.spi.cookbook.StepRepository
@@ -43,21 +42,20 @@ abstract class StepRepositoryTestBase : CrudRepositoryTestBase<Step>() {
         recipe = model.recipe,
     )
 
-    private val pageSpecs = PageSpecs(0, 10)
-
     @Test
     fun `test retrieve by recipe`() {
         val step = sut.create(newModel())
+        val sibling = sut.create(givenStep().copy(recipe = step.recipe))
         sut.create(newModel())
-        val retrieved = sut.retrieveByRecipe(step.recipe.id, pageSpecs)
-        assertEquals(listOf(step.id), retrieved.results.map { it.id })
+        val retrieved = sut.retrieveByRecipe(step.recipe.id)
+        assertEquals(setOf(step.id, sibling.id), retrieved.map { it.id }.toSet())
     }
 
     @Test
     fun `test retrieve by recipe empty`() {
         val step = newModel()
-        val retrieved = sut.retrieveByRecipe(step.recipe.id, pageSpecs)
-        assertTrue(retrieved.results.isEmpty())
+        val retrieved = sut.retrieveByRecipe(step.recipe.id)
+        assertTrue(retrieved.isEmpty())
     }
 }
 

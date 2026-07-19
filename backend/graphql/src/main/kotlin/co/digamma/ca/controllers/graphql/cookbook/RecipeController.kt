@@ -47,13 +47,13 @@ class RecipeController(
 
     @SchemaMapping
     fun steps(recipe: RecipeOutput): List<StepOutput> {
-        return this.stepService.retrieveByRecipe(recipe.id).results
+        return this.stepService.retrieveByRecipe(recipe.id)
             .map { it.toStepOutput() }
     }
 
     @SchemaMapping
     fun ingredients(recipe: RecipeOutput): List<QuantifiedIngredientOutput> {
-        return this.quantifiedIngredientService.retrieveByRecipe(recipe.id).results
+        return this.quantifiedIngredientService.retrieveByRecipe(recipe.id)
             .map { it.toQuantifiedIngredientOutput() }
     }
 }

@@ -60,7 +60,7 @@ class DomainDishServiceTest {
         val sideDish = givenPersistedDish()
         val dish = createDish(sideDishIds = listOf(sideDish.id))
         val sideDishes = sut.retrieveSideDishes(dish.id)
-        assertEquals(listOf(sideDish.id), sideDishes.results.map { it.id })
+        assertEquals(listOf(sideDish.id), sideDishes.map { it.id })
     }
 
     @Test
@@ -71,7 +71,7 @@ class DomainDishServiceTest {
         val dish = createDish(sideDishIds = listOf(kept.id, removed.id))
         sut.update(dishModification(dish.id, sideDishIds = listOf(kept.id, added.id)))
         val sideDishes = sut.retrieveSideDishes(dish.id)
-        assertEquals(setOf(kept.id, added.id), sideDishes.results.map { it.id }.toSet())
+        assertEquals(setOf(kept.id, added.id), sideDishes.map { it.id }.toSet())
     }
 
     @Test
@@ -80,6 +80,6 @@ class DomainDishServiceTest {
         val dish = createDish(sideDishIds = listOf(sideDish.id))
         sut.update(dishModification(dish.id, sideDishIds = null))
         val sideDishes = sut.retrieveSideDishes(dish.id)
-        assertEquals(listOf(sideDish.id), sideDishes.results.map { it.id })
+        assertEquals(listOf(sideDish.id), sideDishes.map { it.id })
     }
 }

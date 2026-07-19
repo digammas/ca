@@ -1,13 +1,11 @@
 package co.digamma.ca.domain.api.food
 
 import co.digamma.ca.domain.api.CrudService
-import co.digamma.ca.domain.api.Page
-import co.digamma.ca.domain.api.PageSpecs
 import co.digamma.ca.domain.api.model.ModelReference
 import java.util.Locale
 
 interface DishService : CrudService<Dish, DishCreation, DishModification> {
-    fun retrieveSideDishes(dishId: String, pageSpecs: PageSpecs? = null): Page<Dish>
+    fun retrieveSideDishes(dishId: String): List<Dish>
 }
 
 interface DishMutation {

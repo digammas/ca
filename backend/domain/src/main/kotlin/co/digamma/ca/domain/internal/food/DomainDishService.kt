@@ -1,7 +1,5 @@
 package co.digamma.ca.domain.internal.food
 
-import co.digamma.ca.domain.api.Page
-import co.digamma.ca.domain.api.PageSpecs
 import co.digamma.ca.domain.api.common.stereotypes.Singleton
 import co.digamma.ca.domain.api.food.Dish
 import co.digamma.ca.domain.api.food.DishCreation
@@ -51,7 +49,7 @@ open class DomainDishService(
             ?: existing.sideDishes,
     )
 
-    override fun retrieveSideDishes(dishId: String, pageSpecs: PageSpecs?): Page<Dish> {
-        return this.repository.retrieveSideDishes(dishId, pageSpecs ?: this.defaultPageSpecs)
+    override fun retrieveSideDishes(dishId: String): List<Dish> {
+        return this.repository.retrieveSideDishes(dishId)
     }
 }

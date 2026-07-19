@@ -1,7 +1,5 @@
 package co.digamma.ca.persistence.sql.food
 
-import co.digamma.ca.domain.api.Page
-import co.digamma.ca.domain.api.PageSpecs
 import co.digamma.ca.domain.api.common.NotFoundException
 import co.digamma.ca.domain.api.common.utils.LoggerFactory
 import co.digamma.ca.domain.api.food.Dish
@@ -78,24 +76,15 @@ open class SqlDishRepository(
         }
     }
 
-    override fun retrieveSideDishes(dishId: String, pageSpecs: PageSpecs): Page<Dish> {
+    override fun retrieveSideDishes(dishId: String): List<Dish> {
         if (!this.exists(dishId)) {
             throw NotFoundException("No dish with ID $dishId found.")
         }
-        val total = this.dsl.selectCount().from(SIDE_DISH)
-            .where(SIDE_DISH.MAIN_DISH_ID.eq(dishId))
-            .fetchOne(0, Int::class.java)!!
-        if (total == 0) {
-            return Page(emptyList(), pageSpecs.index, pageSpecs.size)
-        }
-        val list = this.dsl.select().from(SIDE_DISH)
+        return this.dsl.select().from(SIDE_DISH)
             .join(DISH)
             .on(SIDE_DISH.SIDE_DISH_ID.eq(DISH.ID))
             .where(SIDE_DISH.MAIN_DISH_ID.eq(dishId))
-            .offset(pageSpecs.index * pageSpecs.size)
-            .limit(pageSpecs.size)
             .fetch(::toModel)
-        return Page(list, pageSpecs.index, pageSpecs.size, total)
     }
 
     private fun addSideDish(dish: Dish, sideDishId: String) {
