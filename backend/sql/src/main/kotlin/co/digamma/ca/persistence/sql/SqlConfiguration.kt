@@ -13,7 +13,7 @@ open class SqlConfiguration {
     @Bean
     open fun jooqConfigurationCustomizer() = DefaultConfigurationCustomizer {
         with(it.settings()) {
-            // Required to avoid case-sensitivity issues due to H2 being used for code generation from chang logs
+            // Required to avoid case-sensitivity issues due to H2 being used for code generation from change logs
             renderQuotedNames = RenderQuotedNames.EXPLICIT_DEFAULT_UNQUOTED
             // Required to allow mapping into Kotlin classes
             isMapConstructorParameterNamesInKotlin = true

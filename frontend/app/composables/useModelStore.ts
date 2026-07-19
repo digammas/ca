@@ -109,10 +109,10 @@ export function useModelStore<T extends LocalizedModel, C = Creation<T>>(
             client.writeQuery({query, data, overwrite: true});
         }
         return createModel({creation: {...creation, locale: "en"}}, {
-            update: !updateCacheOnSuccess ? undefined : (catche, result) => {
+            update: !updateCacheOnSuccess ? undefined : (cache, result) => {
                 // This assumes that all creation mutation returned value is aliased `created` in all queries
                 const {created} = result.data;
-                catche.updateQuery({query}, (data) => model ?
+                cache.updateQuery({query}, (data) => model ?
                     updateInResult(data, created, model.id) :
                     addToResult(data, created));
             },
@@ -135,10 +135,10 @@ export function useModelStore<T extends LocalizedModel, C = Creation<T>>(
             client.writeQuery({query, data, overwrite: true});
         }
         return updateModel({modification}, {
-            update: !updateCacheOnSuccess ? undefined : (catche, result) => {
+            update: !updateCacheOnSuccess ? undefined : (cache, result) => {
                 // This assumes that all update mutation returned value is aliased `updated` in all queries
                 const {updated} = result.data;
-                catche.updateQuery({query}, (data) => updateInResult(data, updated));
+                cache.updateQuery({query}, (data) => updateInResult(data, updated));
             },
             refetchQueries: !refetch ? undefined : [query],
         });
