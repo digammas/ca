@@ -1,9 +1,13 @@
 package co.digamma.ca.domain.api.cookbook
 
 import co.digamma.ca.domain.api.CrudService
+import co.digamma.ca.domain.api.Page
+import co.digamma.ca.domain.api.PageSpecs
 import co.digamma.ca.domain.api.model.ModelReference
 
-interface StepService: CrudService<Step, StepCreation, StepModification>
+interface StepService : CrudService<Step, StepCreation, StepModification> {
+    fun retrieveByRecipe(recipeId: String, pageSpecs: PageSpecs? = null): Page<Step>
+}
 
 interface StepMutation {
     val description: String?

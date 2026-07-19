@@ -1,10 +1,15 @@
 package co.digamma.ca.domain.api.cookbook
 
 import co.digamma.ca.domain.api.CrudService
+import co.digamma.ca.domain.api.Page
+import co.digamma.ca.domain.api.PageSpecs
 import co.digamma.ca.domain.api.model.ModelReference
 
-interface QuantifiedIngredientService:
-    CrudService<QuantifiedIngredient, QuantifiedIngredientCreation, QuantifiedIngredientModification>
+interface QuantifiedIngredientService :
+    CrudService<QuantifiedIngredient, QuantifiedIngredientCreation, QuantifiedIngredientModification> {
+
+    fun retrieveByRecipe(recipeId: String, pageSpecs: PageSpecs? = null): Page<QuantifiedIngredient>
+}
 
 interface QuantifiedIngredientMutation {
     val measurementUnitId: String?

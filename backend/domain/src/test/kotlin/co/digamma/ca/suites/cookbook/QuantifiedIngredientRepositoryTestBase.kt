@@ -1,5 +1,6 @@
 package co.digamma.ca.suites.cookbook
 
+import co.digamma.ca.domain.api.PageSpecs
 import co.digamma.ca.domain.api.cookbook.QuantifiedIngredient
 import co.digamma.ca.domain.spi.cookbook.IngredientRepository
 import co.digamma.ca.domain.spi.cookbook.MeasurementUnitRepository
@@ -12,6 +13,9 @@ import co.digamma.ca.domain.spi.food.ServingRepository
 import co.digamma.ca.domain.spi.users.UserRepository
 import co.digamma.ca.suites.food.givenQuantifiedIngredient
 import co.digamma.ca.suites.persistence.CrudRepositoryTestBase
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Test
 
 abstract class QuantifiedIngredientRepositoryTestBase : CrudRepositoryTestBase<QuantifiedIngredient>() {
 
@@ -43,5 +47,22 @@ abstract class QuantifiedIngredientRepositoryTestBase : CrudRepositoryTestBase<Q
         unit = model.unit,
         recipe = model.recipe,
     )
+
+    private val pageSpecs = PageSpecs(0, 10)
+
+    @Test
+    fun `test retrieve by recipe`() {
+        val quantifiedIngredient = sut.create(newModel())
+        sut.create(newModel())
+        val retrieved = sut.retrieveByRecipe(quantifiedIngredient.recipe.id, pageSpecs)
+        assertEquals(listOf(quantifiedIngredient.id), retrieved.results.map { it.id })
+    }
+
+    @Test
+    fun `test retrieve by recipe empty`() {
+        val quantifiedIngredient = newModel()
+        val retrieved = sut.retrieveByRecipe(quantifiedIngredient.recipe.id, pageSpecs)
+        assertTrue(retrieved.results.isEmpty())
+    }
 }
 
