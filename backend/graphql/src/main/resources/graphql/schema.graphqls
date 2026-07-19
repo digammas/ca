@@ -69,7 +69,11 @@ type Mutation {
     deleteQuantifiedIngredient(id: ID!): Boolean
 }
 
-interface LocalizedModel {
+interface Model {
+    id: ID!
+}
+
+interface LocalizedModel implements Model {
     id: ID!
     locale: String!
 }
@@ -80,7 +84,7 @@ interface Connection {
 }
 
 interface Edge {
-    node: LocalizedModel!
+    node: Model!
     cursor: String
 }
 
@@ -103,7 +107,7 @@ type PageInfo {
     hasNextPage: Boolean
 }
 
-type ImageOutput {
+type ImageOutput implements Model {
     id: ID!
     url: String!
     description: String!
@@ -115,7 +119,7 @@ input ImageCreation {
     description: String!
 }
 
-type CourseOutput implements LocalizedModel {
+type CourseOutput implements LocalizedModel & Model {
     id: ID!
     locale: String!
     name: String!
@@ -141,7 +145,7 @@ input CourseModification {
     name: String!
 }
 
-type CuisineOutput implements LocalizedModel {
+type CuisineOutput implements LocalizedModel & Model {
     id: ID!
     locale: String!
     name: String!
@@ -167,7 +171,7 @@ input CuisineModification {
     name: String!
 }
 
-type ServingOutput implements LocalizedModel {
+type ServingOutput implements LocalizedModel & Model {
     id: ID!
     locale: String!
     name: String!
@@ -193,7 +197,7 @@ input ServingModification {
     name: String
 }
 
-type DishOutput implements LocalizedModel {
+type DishOutput implements LocalizedModel & Model {
     id: ID!
     locale: String!
     name: String!
@@ -224,7 +228,7 @@ input DishCreation {
     sideDishes: [String!]
 }
 
-type IngredientOutput implements LocalizedModel {
+type IngredientOutput implements LocalizedModel & Model {
     id: ID!
     locale: String!
     name: String!
@@ -262,7 +266,7 @@ enum Dimension {
     WEIGHT
 }
 
-type MeasurementUnitOutput implements LocalizedModel {
+type MeasurementUnitOutput implements LocalizedModel & Model {
     id: ID!
     locale: String!
     name: String!
@@ -291,7 +295,7 @@ input MeasurementUnitModification {
     dimension: Dimension
 }
 
-type RecipeOutput implements LocalizedModel {
+type RecipeOutput implements LocalizedModel & Model {
     id: ID!
     locale: String!
     dish: DishOutput!
@@ -334,7 +338,7 @@ input RecipeModification {
     timeToServe: Int
 }
 
-type StepOutput implements LocalizedModel {
+type StepOutput implements LocalizedModel & Model {
     id: ID!
     locale: String!
     description: String!
@@ -366,7 +370,7 @@ input StepModification {
     order: Int
 }
 
-type QuantifiedIngredientOutput {
+type QuantifiedIngredientOutput implements Model {
     id: ID!
     ingredient: IngredientOutput!
     quantity: Float!
@@ -374,12 +378,12 @@ type QuantifiedIngredientOutput {
     recipe: RecipeOutput!
 }
 
-type QuantifiedIngredientOutputEdge {
+type QuantifiedIngredientOutputEdge implements Edge {
     node: QuantifiedIngredientOutput!
     cursor: String
 }
 
-type QuantifiedIngredientOutputConnection {
+type QuantifiedIngredientOutputConnection implements Connection {
     edges: [QuantifiedIngredientOutputEdge!]!
     pageInfo: PageInfo
 }
