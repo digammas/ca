@@ -118,6 +118,23 @@ private fun createQuantifiedIngredientDocument(
     }
 """
 
+private const val LIST_QUANTIFIED_INGREDIENTS_DOCUMENT = """
+    query {
+        quantifiedIngredients {
+            edges {
+                cursor
+                node {
+                    id
+                    quantity
+                }
+            }
+            pageInfo {
+                hasNextPage
+            }
+        }
+    }
+"""
+
 private const val GET_QUANTIFIED_INGREDIENT_DOCUMENT = $$"""
     query GetQuantifiedIngredient($id: ID!) {
         quantifiedIngredient(id: $id) {
@@ -273,6 +290,16 @@ class QuantifiedIngredientControllerTest : ControllerTestBase {
             .execute()
             .path("data.createQuantifiedIngredient.id")
             .hasValue()
+    }
+
+    @Test
+    fun quantifiedIngredients() {
+        val createdId = createQuantifiedIngredientId(createRecipeId(), createIngredientId(), createMeasurementUnitId())
+        tester.document(LIST_QUANTIFIED_INGREDIENTS_DOCUMENT)
+            .execute()
+            .path("data.quantifiedIngredients.edges[*].node.id")
+            .entityList(String::class.java)
+            .contains(createdId)
     }
 
     @Test
