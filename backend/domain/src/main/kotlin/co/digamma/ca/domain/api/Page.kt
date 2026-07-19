@@ -11,6 +11,8 @@ data class Page<T>(
         index: Int,
         totalPages: Int,
     ) : this(results, index, results.size, totalPages)
+
+    fun <R> map(mapper: (T) -> R): Page<R> = Page(results.map(mapper), index, size, totalPages)
 }
 
 data class PageSpecs(
