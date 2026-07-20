@@ -12,4 +12,14 @@ class InMemDishRepository : InMemCrudRepository<Dish>(), DishRepository {
         val dish = this.retrieve(dishId) ?: throw NotFoundException.of(dishId)
         return dish.sideDishes
     }
+
+    override fun countSideDishes(dishId: String): Int {
+        val dish = this.retrieve(dishId) ?: throw NotFoundException.of(dishId)
+        return dish.sideDishes.size
+    }
+
+    override fun countMainDishes(dishId: String): Int {
+        this.retrieve(dishId) ?: throw NotFoundException.of(dishId)
+        return this.retrieveAll().count { dish -> dish.sideDishes.any { it.id == dishId } }
+    }
 }

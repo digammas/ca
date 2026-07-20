@@ -5,4 +5,6 @@ import co.digamma.ca.domain.spi.CrudRepository
 
 interface DishRepository : CrudRepository<Dish> {
     fun retrieveSideDishes(dishId: String): List<Dish>
+    fun countSideDishes(dishId: String): Int
+    fun countMainDishes(dishId: String): Int
 }

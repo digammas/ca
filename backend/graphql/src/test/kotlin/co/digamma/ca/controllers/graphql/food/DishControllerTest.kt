@@ -342,6 +342,27 @@ class DishControllerTest : ControllerTestBase {
     }
 
     @Test
+    fun createDishWithSideDishesFailsWhenCandidateAlreadyHasSideDishes() {
+        val courseId = createCourseId()
+        val cuisineId = createCuisineId()
+        val servingId = createServingId()
+        val leaf = createDishId(courseId, cuisineId, servingId)
+        val mainWithSideDish = tester
+            .document(createDishWithSideDishesDocument(courseId, cuisineId, servingId, leaf))
+            .execute()
+            .path("data.createDish.id")
+            .hasValue()
+            .entity(String::class.java)
+            .get()
+
+        tester.document(createDishWithSideDishesDocument(courseId, cuisineId, servingId, mainWithSideDish))
+            .execute()
+            .errors()
+            .expect { it.errorType.toString() == "BAD_REQUEST" }
+            .verify()
+    }
+
+    @Test
     fun updateDishName() {
         val courseId = createCourseId()
         val cuisineId = createCuisineId()
@@ -426,6 +447,39 @@ class DishControllerTest : ControllerTestBase {
             .entityList(String::class.java)
             .hasSize(2)
             .contains(kept, added)
+    }
+
+    @Test
+    fun updateDishFailsWhenDishIsAlreadyUsedAsSideDish() {
+        val courseId = createCourseId()
+        val cuisineId = createCuisineId()
+        val servingId = createServingId()
+        val sideDishId = createDishId(courseId, cuisineId, servingId)
+        tester.document(createDishWithSideDishesDocument(courseId, cuisineId, servingId, sideDishId))
+            .execute()
+            .path("data.createDish.id")
+            .hasValue()
+        val other = createDishId(courseId, cuisineId, servingId)
+
+        tester.document(updateDishSideDishesDocument(sideDishId, listOf(other)))
+            .execute()
+            .errors()
+            .expect { it.errorType.toString() == "BAD_REQUEST" }
+            .verify()
+    }
+
+    @Test
+    fun updateDishFailsWhenListingItselfAsSideDish() {
+        val courseId = createCourseId()
+        val cuisineId = createCuisineId()
+        val servingId = createServingId()
+        val createdId = createDishId(courseId, cuisineId, servingId)
+
+        tester.document(updateDishSideDishesDocument(createdId, listOf(createdId)))
+            .execute()
+            .errors()
+            .expect { it.errorType.toString() == "BAD_REQUEST" }
+            .verify()
     }
 
     @Test

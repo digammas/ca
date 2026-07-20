@@ -81,10 +81,28 @@ open class SqlDishRepository(
             throw NotFoundException("No dish with ID $dishId found.")
         }
         return this.dsl.select().from(SIDE_DISH)
-            .join(DISH)
+            .join(this.joinedTable)
             .on(SIDE_DISH.SIDE_DISH_ID.eq(DISH.ID))
             .where(SIDE_DISH.MAIN_DISH_ID.eq(dishId))
             .fetch(::toModel)
+    }
+
+    override fun countSideDishes(dishId: String): Int {
+        if (!this.exists(dishId)) {
+            throw NotFoundException("No dish with ID $dishId found.")
+        }
+        return this.dsl.selectCount().from(SIDE_DISH)
+            .where(SIDE_DISH.MAIN_DISH_ID.eq(dishId))
+            .fetchOne(0, Int::class.java)!!
+    }
+
+    override fun countMainDishes(dishId: String): Int {
+        if (!this.exists(dishId)) {
+            throw NotFoundException("No dish with ID $dishId found.")
+        }
+        return this.dsl.selectCount().from(SIDE_DISH)
+            .where(SIDE_DISH.SIDE_DISH_ID.eq(dishId))
+            .fetchOne(0, Int::class.java)!!
     }
 
     private fun addSideDish(dish: Dish, sideDishId: String) {

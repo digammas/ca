@@ -1,5 +1,6 @@
 package co.digamma.ca.domain.internal.food
 
+import co.digamma.ca.domain.api.common.BadInput
 import co.digamma.ca.domain.api.common.stereotypes.Singleton
 import co.digamma.ca.domain.api.food.Dish
 import co.digamma.ca.domain.api.food.DishCreation
@@ -21,6 +22,16 @@ open class DomainDishService(
     private val servingRepository: ServingRepository,
     private val imageRepository: ImageRepository,
 ) : DefaultCurdService<Dish, DishCreation, DishModification>(), DishService {
+
+    override fun create(creation: DishCreation): Dish {
+        validateSideDishIds(null, creation.sideDishIds)
+        return super.create(creation)
+    }
+
+    override fun update(modification: DishModification): Dish {
+        modification.sideDishIds?.let { validateSideDishIds(modification.id, it) }
+        return super.update(modification)
+    }
 
     override fun toModel(creation: DishCreation) = Dish(
         id = generateId(),
@@ -51,5 +62,22 @@ open class DomainDishService(
 
     override fun retrieveSideDishes(dishId: String): List<Dish> {
         return this.repository.retrieveSideDishes(dishId)
+    }
+
+    private fun validateSideDishIds(dishId: String?, sideDishIds: List<String>) {
+        if (sideDishIds.isEmpty()) {
+            return
+        }
+        if (dishId != null && this.repository.countMainDishes(dishId) > 0) {
+            throw BadInput("Dish $dishId is already a side dish and cannot have side dishes of its own.")
+        }
+        if (sideDishIds.any { it == dishId }) {
+            throw BadInput("A dish cannot be one of its own side dishes.")
+        }
+        sideDishIds.find {
+            this.repository.countSideDishes(it) > 0
+        }?.let {
+            throw BadInput("Dish $it already has side dishes and cannot be used as a side dish.")
+        }
     }
 }

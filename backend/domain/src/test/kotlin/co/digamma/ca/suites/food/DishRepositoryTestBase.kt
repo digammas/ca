@@ -76,4 +76,46 @@ abstract class DishRepositoryTestBase : CrudRepositoryTestBase<Dish>() {
         val retrieved = sut.retrieveSideDishes(dish.id)
         assertEquals(setOf(kept.id, added.id), retrieved.map { it.id }.toSet())
     }
+
+    @Test
+    fun `test count side dishes`() {
+        val first = newSideDish()
+        val second = newSideDish()
+        val dish = sut.create(newModel().copy(sideDishes = listOf(first, second)))
+        assertEquals(2, sut.countSideDishes(dish.id))
+    }
+
+    @Test
+    fun `test count side dishes empty`() {
+        val dish = sut.create(newModel())
+        assertEquals(0, sut.countSideDishes(dish.id))
+    }
+
+    @Test
+    fun `test count side dishes not found`() {
+        assertThrows(NotFoundException::class.java) {
+            sut.countSideDishes("not-found")
+        }
+    }
+
+    @Test
+    fun `test count main dishes`() {
+        val sideDish = newSideDish()
+        sut.create(newModel().copy(sideDishes = listOf(sideDish)))
+        sut.create(newModel().copy(sideDishes = listOf(sideDish)))
+        assertEquals(2, sut.countMainDishes(sideDish.id))
+    }
+
+    @Test
+    fun `test count main dishes empty`() {
+        val dish = sut.create(newModel())
+        assertEquals(0, sut.countMainDishes(dish.id))
+    }
+
+    @Test
+    fun `test count main dishes not found`() {
+        assertThrows(NotFoundException::class.java) {
+            sut.countMainDishes("not-found")
+        }
+    }
 }
