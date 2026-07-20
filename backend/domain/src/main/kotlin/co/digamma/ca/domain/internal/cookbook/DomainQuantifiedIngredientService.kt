@@ -1,5 +1,6 @@
 package co.digamma.ca.domain.internal.cookbook
 
+import co.digamma.ca.domain.api.common.BadInput
 import co.digamma.ca.domain.api.common.stereotypes.Singleton
 import co.digamma.ca.domain.api.cookbook.QuantifiedIngredient
 import co.digamma.ca.domain.api.cookbook.QuantifiedIngredientCreation
@@ -22,7 +23,7 @@ open class DomainQuantifiedIngredientService(
     QuantifiedIngredientService {
 
     override fun toModel(creation: QuantifiedIngredientCreation): QuantifiedIngredient {
-        val recipeId = creation.recipeId ?: throw IllegalArgumentException("recipeId is required")
+        val recipeId = creation.recipeId ?: throw BadInput("recipeId is required")
         return QuantifiedIngredient(
             id = generateId(),
             ingredient = ingredientRepository.retrieveOrThrow(creation.ingredientId),

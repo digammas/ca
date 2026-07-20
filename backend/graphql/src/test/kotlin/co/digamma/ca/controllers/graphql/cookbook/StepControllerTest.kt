@@ -87,6 +87,17 @@ private fun createStepDocument(recipeId: String) = """
     }
 """
 
+private const val CREATE_STEP_WITHOUT_RECIPE_DOCUMENT = """
+    mutation {
+        createStep(creation: {
+            description: "$DESCRIPTION",
+            estimatedTime: $ESTIMATED_TIME,
+        }) {
+            id
+        }
+    }
+"""
+
 private const val GET_STEP_DOCUMENT = $$"""
     query GetStep($id: ID!) {
         step(id: $id) {
@@ -212,6 +223,15 @@ class StepControllerTest : ControllerTestBase {
             .execute()
             .path("data.createStep.id")
             .hasValue()
+    }
+
+    @Test
+    fun createStepWithoutRecipeFails() {
+        tester.document(CREATE_STEP_WITHOUT_RECIPE_DOCUMENT)
+            .execute()
+            .errors()
+            .expect { it.errorType.toString() == "BAD_REQUEST" }
+            .verify()
     }
 
     @Test

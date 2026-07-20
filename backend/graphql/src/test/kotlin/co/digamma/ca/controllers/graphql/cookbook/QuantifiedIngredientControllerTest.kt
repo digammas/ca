@@ -118,6 +118,18 @@ private fun createQuantifiedIngredientDocument(
     }
 """
 
+private fun createQuantifiedIngredientWithoutRecipeDocument(ingredientId: String, measurementUnitId: String) = """
+    mutation {
+        createQuantifiedIngredient(creation: {
+            ingredientId: "$ingredientId",
+            measurementUnitId: "$measurementUnitId",
+            quantity: $QUANTITY,
+        }) {
+            id
+        }
+    }
+"""
+
 private const val LIST_QUANTIFIED_INGREDIENTS_DOCUMENT = """
     query {
         quantifiedIngredients {
@@ -300,6 +312,16 @@ class QuantifiedIngredientControllerTest : ControllerTestBase {
             .path("data.quantifiedIngredients.edges[*].node.id")
             .entityList(String::class.java)
             .contains(createdId)
+    }
+
+    @Test
+    fun createQuantifiedIngredientWithoutRecipeFails() {
+        val document = createQuantifiedIngredientWithoutRecipeDocument(createIngredientId(), createMeasurementUnitId())
+        tester.document(document)
+            .execute()
+            .errors()
+            .expect { it.errorType.toString() == "BAD_REQUEST" }
+            .verify()
     }
 
     @Test

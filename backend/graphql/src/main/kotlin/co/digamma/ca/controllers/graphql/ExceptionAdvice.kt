@@ -1,5 +1,6 @@
 package co.digamma.ca.controllers.graphql
 
+import co.digamma.ca.domain.api.common.BadInput
 import co.digamma.ca.domain.api.common.DuplicateKeyException
 import co.digamma.ca.domain.api.common.NotFoundException
 import graphql.ErrorClassification
@@ -17,6 +18,9 @@ class ExceptionAdvice {
 
     @GraphQlExceptionHandler
     fun handle(ex: DuplicateKeyException, env: DataFetchingEnvironment) = error(ErrorType.CONFLICT, ex, env)
+
+    @GraphQlExceptionHandler
+    fun handle(ex: BadInput, env: DataFetchingEnvironment) = error(ErrorType.BAD_REQUEST, ex, env)
 
     @GraphQlExceptionHandler
     fun handle(ex: Throwable, env: DataFetchingEnvironment) = error(ErrorType.INTERNAL_ERROR, ex, env)

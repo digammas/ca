@@ -1,5 +1,6 @@
 package co.digamma.ca.domain.internal.cookbook
 
+import co.digamma.ca.domain.api.common.BadInput
 import co.digamma.ca.domain.api.common.stereotypes.Singleton
 import co.digamma.ca.domain.api.cookbook.Step
 import co.digamma.ca.domain.api.cookbook.StepCreation
@@ -16,7 +17,7 @@ open class DomainStepService(
 ) : DefaultCurdService<Step, StepCreation, StepModification>(), StepService {
 
     override fun toModel(creation: StepCreation): Step {
-        val recipeId = creation.recipeId ?: throw IllegalArgumentException("recipeId is required")
+        val recipeId = creation.recipeId ?: throw BadInput("recipeId is required")
         val recipe = recipeRepository.retrieveOrThrow(recipeId)
         return Step(
             id = generateId(),

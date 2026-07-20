@@ -1,7 +1,6 @@
 package co.digamma.ca.domain.api.common
 
-open class DomainException(
+class BadInput(
     message: String?,
     cause: Throwable? = null,
-) : RuntimeException(message, cause)
-
+) : DomainException(message, cause)

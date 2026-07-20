@@ -2,7 +2,7 @@ package co.digamma.ca.domain.api.common
 
 class NotFoundException(
     message: String?,
-    cause: Throwable? = null
+    cause: Throwable? = null,
 ) : DomainException(message, cause) {
 
     companion object {
