@@ -1,7 +1,7 @@
 package co.digamma.ca.controllers.graphql
 
-import co.digamma.ca.domain.api.Page
-import co.digamma.ca.domain.api.PageSpecs
+import co.digamma.ca.domain.api.common.Page
+import co.digamma.ca.domain.api.common.PageSpecs
 import graphql.relay.Connection
 import graphql.relay.DefaultConnection
 import graphql.relay.DefaultConnectionCursor

@@ -1,4 +1,4 @@
-package co.digamma.ca.domain.api
+package co.digamma.ca.domain.api.common
 
 data class Page<T>(
     val results: List<T>,
@@ -14,9 +14,4 @@ data class Page<T>(
 
     fun <R> map(mapper: (T) -> R): Page<R> = Page(results.map(mapper), index, size, totalPages)
 }
-
-data class PageSpecs(
-    val index: Int,
-    val size: Int,
-)
 

@@ -1,8 +1,8 @@
 package co.digamma.ca.domain.internal
 
 import co.digamma.ca.domain.api.CrudService
-import co.digamma.ca.domain.api.Page
-import co.digamma.ca.domain.api.PageSpecs
+import co.digamma.ca.domain.api.common.Page
+import co.digamma.ca.domain.api.common.PageSpecs
 import co.digamma.ca.domain.api.common.NotFoundException
 import co.digamma.ca.domain.api.model.Model
 import co.digamma.ca.domain.api.model.ModelReference

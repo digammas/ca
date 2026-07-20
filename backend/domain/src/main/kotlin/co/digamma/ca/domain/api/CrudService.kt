@@ -1,5 +1,7 @@
 package co.digamma.ca.domain.api
 
+import co.digamma.ca.domain.api.common.Page
+import co.digamma.ca.domain.api.common.PageSpecs
 import co.digamma.ca.domain.api.model.Model
 
 interface RetrieveService<T : Model> {

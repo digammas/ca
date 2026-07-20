@@ -1,7 +1,7 @@
 package co.digamma.ca.domain.spi
 
-import co.digamma.ca.domain.api.Page
-import co.digamma.ca.domain.api.PageSpecs
+import co.digamma.ca.domain.api.common.Page
+import co.digamma.ca.domain.api.common.PageSpecs
 import co.digamma.ca.domain.api.model.Model
 
 interface RetrieveRepository<T : Model> {
