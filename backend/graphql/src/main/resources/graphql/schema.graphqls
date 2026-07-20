@@ -46,6 +46,7 @@ type Mutation {
     deleteServing(id: ID!): Boolean
 
     createDish(creation: DishCreation): DishOutput
+    updateDish(modification: DishModification): DishOutput
     deleteDish(id: ID!): Boolean
 
     createIngredient(creation: IngredientCreation): IngredientOutput
@@ -224,6 +225,16 @@ input DishCreation {
     courseId: String!
     cuisineId: String!
     servingId: String!
+    images: [String!]
+    sideDishes: [String!]
+}
+
+input DishModification {
+    id: ID!
+    name: String
+    courseId: String
+    cuisineId: String
+    servingId: String
     images: [String!]
     sideDishes: [String!]
 }

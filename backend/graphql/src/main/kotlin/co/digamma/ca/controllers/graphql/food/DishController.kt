@@ -36,6 +36,11 @@ class DishController(
         return service.create(creation.toDishCreation()).toDishOutput()
     }
 
+    @MutationMapping
+    fun updateDish(@Argument modification: DishModificationInput): DishOutput {
+        return service.update(modification.toDishModification()).toDishOutput()
+    }
+
     @SchemaMapping
     fun sideDishes(dish: DishOutput): List<DishOutput> {
         return this.service.retrieveSideDishes(dish.id)

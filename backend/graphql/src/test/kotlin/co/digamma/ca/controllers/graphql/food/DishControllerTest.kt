@@ -101,6 +101,62 @@ private fun createDishWithSideDishesDocument(
     }
 """
 
+private fun createDishWithSideDishesDocument(
+    courseId: String,
+    cuisineId: String,
+    servingId: String,
+    sideDishIds: List<String>,
+) = """
+    mutation {
+        createDish(creation: {
+            locale: "$LOCALE",
+            name: "$NAME",
+            courseId: "$courseId",
+            cuisineId: "$cuisineId",
+            servingId: "$servingId",
+            sideDishes: [${sideDishIds.joinToString(", ") { "\"$it\"" }}],
+        }) {
+            id
+        }
+    }
+"""
+
+private const val UPDATED_NAME = "Fried Chicken"
+
+private fun updateDishNameDocument(id: String) = """
+    mutation {
+        updateDish(modification: {
+            id: "$id",
+            name: "$UPDATED_NAME",
+        }) {
+            id
+            name
+        }
+    }
+"""
+
+private fun updateDishImagesDocument(id: String, imageId: String) = """
+    mutation {
+        updateDish(modification: {
+            id: "$id",
+            images: ["$imageId"],
+        }) {
+            id
+        }
+    }
+"""
+
+private fun updateDishSideDishesDocument(id: String, sideDishIds: List<String>) = """
+    mutation {
+        updateDish(modification: {
+            id: "$id",
+            sideDishes: [${sideDishIds.joinToString(", ") { "\"$it\"" }}],
+        }) {
+            id
+        }
+    }
+"""
+
 private const val GET_DISH_DOCUMENT = $$"""
     query GetDish($id: ID!) {
         dish(id: $id) {
@@ -283,6 +339,93 @@ class DishControllerTest : ControllerTestBase {
             .path("data.dish.sideDishes[0].id")
             .entity(String::class.java)
             .isEqualTo(sideDishId)
+    }
+
+    @Test
+    fun updateDishName() {
+        val courseId = createCourseId()
+        val cuisineId = createCuisineId()
+        val servingId = createServingId()
+        val createdId = createDishId(courseId, cuisineId, servingId)
+
+        tester.document(updateDishNameDocument(createdId))
+            .execute()
+            .path("data.updateDish") {
+                it
+                    .path("id").entity(String::class.java).isEqualTo(createdId)
+                    .path("name").entity(String::class.java).isEqualTo(UPDATED_NAME)
+            }
+
+        tester.document(GET_DISH_DOCUMENT)
+            .variables(mapOf("id" to createdId))
+            .execute()
+            .path("data.dish") {
+                it
+                    .path("name").entity(String::class.java).isEqualTo(UPDATED_NAME)
+                    .path("course.id").entity(String::class.java).isEqualTo(courseId)
+                    .path("cuisine.id").entity(String::class.java).isEqualTo(cuisineId)
+                    .path("serving.id").entity(String::class.java).isEqualTo(servingId)
+            }
+    }
+
+    @Test
+    fun updateDishReplacesImages() {
+        val courseId = createCourseId()
+        val cuisineId = createCuisineId()
+        val servingId = createServingId()
+        val oldImageId = createImageId()
+        val newImageId = createImageId()
+
+        val createdId = tester.document(createDishWithImagesDocument(courseId, cuisineId, servingId, oldImageId))
+            .execute()
+            .path("data.createDish.id")
+            .hasValue()
+            .entity(String::class.java)
+            .get()
+
+        tester.document(updateDishImagesDocument(createdId, newImageId))
+            .execute()
+            .path("data.updateDish.id")
+            .hasValue()
+
+        tester.document(GET_DISH_DOCUMENT)
+            .variables(mapOf("id" to createdId))
+            .execute()
+            .path("data.dish.images[*].id")
+            .entityList(String::class.java)
+            .hasSize(1)
+            .contains(newImageId)
+    }
+
+    @Test
+    fun updateDishReplacesSideDishes() {
+        val courseId = createCourseId()
+        val cuisineId = createCuisineId()
+        val servingId = createServingId()
+        val kept = createDishId(courseId, cuisineId, servingId)
+        val removed = createDishId(courseId, cuisineId, servingId)
+        val added = createDishId(courseId, cuisineId, servingId)
+
+        val createdId = tester
+            .document(createDishWithSideDishesDocument(courseId, cuisineId, servingId, listOf(kept, removed)))
+            .execute()
+            .path("data.createDish.id")
+            .hasValue()
+            .entity(String::class.java)
+            .get()
+
+        tester.document(updateDishSideDishesDocument(createdId, listOf(kept, added)))
+            .execute()
+            .path("data.updateDish.id")
+            .hasValue()
+
+        tester.document(GET_DISH_DOCUMENT)
+            .variables(mapOf("id" to createdId))
+            .execute()
+            .path("data.dish.sideDishes[*].id")
+            .entityList(String::class.java)
+            .hasSize(2)
+            .contains(kept, added)
     }
 
     @Test
