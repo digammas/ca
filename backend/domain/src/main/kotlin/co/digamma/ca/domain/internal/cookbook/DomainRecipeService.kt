@@ -2,7 +2,6 @@ package co.digamma.ca.domain.internal.cookbook
 
 import co.digamma.ca.domain.api.common.Timestamp
 import co.digamma.ca.domain.api.common.stereotypes.Singleton
-import co.digamma.ca.domain.api.common.stereotypes.Transactional
 import co.digamma.ca.domain.api.cookbook.QuantifiedIngredient
 import co.digamma.ca.domain.api.cookbook.QuantifiedIngredientCreation
 import co.digamma.ca.domain.api.cookbook.Recipe
@@ -23,7 +22,6 @@ import co.digamma.ca.domain.spi.media.ImageRepository
 import co.digamma.ca.domain.spi.users.UserRepository
 
 @Singleton
-@Transactional
 open class DomainRecipeService(
     override val repository: RecipeRepository,
     private val dishRepository: DishRepository,

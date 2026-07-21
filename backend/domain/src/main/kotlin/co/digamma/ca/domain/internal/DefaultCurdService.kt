@@ -4,11 +4,13 @@ import co.digamma.ca.domain.api.CrudService
 import co.digamma.ca.domain.api.common.Page
 import co.digamma.ca.domain.api.common.PageSpecs
 import co.digamma.ca.domain.api.common.NotFoundException
+import co.digamma.ca.domain.api.common.stereotypes.Transactional
 import co.digamma.ca.domain.api.model.Model
 import co.digamma.ca.domain.api.model.ModelReference
 import co.digamma.ca.domain.spi.CrudRepository
 import co.digamma.ca.domain.spi.RetrieveRepository
 
+@Transactional
 abstract class DefaultCurdService<T : Model, C, M : ModelReference<T>> : CrudService<T, C, M> {
 
     protected abstract val repository: CrudRepository<T>

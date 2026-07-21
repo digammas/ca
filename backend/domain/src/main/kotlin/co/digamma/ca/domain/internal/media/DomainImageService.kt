@@ -9,7 +9,7 @@ import co.digamma.ca.domain.internal.DefaultCurdService
 import co.digamma.ca.domain.spi.media.ImageRepository
 
 @Singleton
-class DomainImageService(
+open class DomainImageService(
     override val repository: ImageRepository
 ) : DefaultCurdService<Image, ImageCreation, ImageModification>(), ImageService {
 
