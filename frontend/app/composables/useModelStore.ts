@@ -1,6 +1,7 @@
 import type {DocumentNode} from "graphql/language";
 import {useApolloClient, useMutation} from "@vue/apollo-composable";
 import type {Connection, Creation, Edge, LocalizedModel, Model, Modification} from "~/model/common";
+import type {ApolloClient, Unmasked} from "@apollo/client/core";
 
 type QueryResult<T extends LocalizedModel> = {models: Connection<T>};
 
@@ -25,31 +26,42 @@ function mergeOptions(options: Options): Required<Options> {
     };
 }
 
+function defaultFromModification<T, M>(source: M): T {
+    return {
+        locale: "en",
+        ...source,
+    } as T;
+}
+
+function defaultFromCreation<T, C>(source: C): T {
+    return {
+        locale: "en",
+        id: crypto.randomUUID(),
+        ...source,
+    } as T;
+}
+
+/**
+ * Write a query, asserting that data is unmasked.
+ */
+function writeQuery<T>(
+    client: ApolloClient<unknown>,
+    query: DocumentNode,
+    data: T,
+) {
+    client.writeQuery({query, data: data as Unmasked<T>, overwrite: true});
+}
+
 export function useModelStore<T extends LocalizedModel, M = Modification<T>, C = Creation<T>>(
     query: DocumentNode,
     createMutation: DocumentNode,
     updateMutation: DocumentNode,
     removeMutation: DocumentNode,
-    fromModification: Mapper<S, T> | (M extends Modification<T> ? undefined : never),
-    fromCreation: Mapper<S, T> | (C extends Creation<T> ? undefined : never),
-)
-export function useModelStore<T extends LocalizedModel, C = Creation<T>>(
-    query: DocumentNode,
-    createMutation: DocumentNode,
-    updateMutation: DocumentNode,
-    removeMutation: DocumentNode,
-    fromModificationOrUndefined: Mapper<M, T> | undefined,
-    fromCreationOrUndefined: Mapper<C, T> | undefined,
+    fromModificationOrUndefined: Mapper<M, T> | (M extends Modification<T> ? undefined : never),
+    fromCreationOrUndefined: Mapper<C, T> | (C extends Creation<T> ? undefined : never),
 ) {
-    const fromModification: Mapper<M, T> = fromModificationOrUndefined ?? ((source) => ({
-        locale: "en",
-        ...source,
-    }));
-    const fromCreation: Mapper<C, T> = fromCreationOrUndefined ?? ((source) => ({
-        locale: "en",
-        id: crypto.randomUUID(),
-        ...source,
-    }));
+    const fromModification: Mapper<M, T> = fromModificationOrUndefined ?? defaultFromModification;
+    const fromCreation: Mapper<C, T> = fromCreationOrUndefined ?? defaultFromCreation;
     const {result, error, loading} = useAsyncQuery<QueryResult<T>>(query);
 
     function updateInResult(
@@ -73,13 +85,20 @@ export function useModelStore<T extends LocalizedModel, C = Creation<T>>(
         original: QueryResult<T>,
         model: T,
     ): QueryResult<T> {
+        const cursor = String(original.models.edges.length);
         return {
             models: {
                 edges: [
                     ...original.models.edges,
-                    {node: model},
+                    {
+                        node: model,
+                        cursor,
+                    },
                 ],
-                pageInfo: original.models.pageInfo,
+                pageInfo: {
+                    ...original.models.pageInfo,
+                    endCursor: cursor,
+                },
             }
         };
     }
@@ -106,7 +125,7 @@ export function useModelStore<T extends LocalizedModel, C = Creation<T>>(
             const result = client.readQuery({query});
             model = fromCreation(creation);
             const data = addToResult(result, model);
-            client.writeQuery({query, data, overwrite: true});
+            writeQuery(client, query, data);
         }
         return createModel({creation: {...creation, locale: "en"}}, {
             update: !updateCacheOnSuccess ? undefined : (cache, result) => {
@@ -132,7 +151,7 @@ export function useModelStore<T extends LocalizedModel, C = Creation<T>>(
             const client = resolveClient();
             const result = client.readQuery({query});
             const data = updateInResult(result, model);
-            client.writeQuery({query, data, overwrite: true});
+            writeQuery(client, query, data);
         }
         return updateModel({modification}, {
             update: !updateCacheOnSuccess ? undefined : (cache, result) => {
