@@ -123,17 +123,22 @@ export function useModelStore<T extends LocalizedModel, M = Modification<T>, C =
             const {resolveClient} = useApolloClient()
             const client = resolveClient();
             const result = client.readQuery({query});
-            model = fromCreation(creation);
-            const data = addToResult(result, model);
-            writeQuery(client, query, data);
+            if (result) {
+                model = fromCreation(creation);
+                const data = addToResult(result, model);
+                writeQuery(client, query, data);
+            }
         }
         return createModel({creation: {...creation, locale: "en"}}, {
             update: !updateCacheOnSuccess ? undefined : (cache, result) => {
                 // This assumes that all creation mutation returned value is aliased `created` in all queries
                 const {created} = result.data;
-                cache.updateQuery({query}, (data) => model ?
-                    updateInResult(data, created, model.id) :
-                    addToResult(data, created));
+                cache.updateQuery({query}, (data) => data && (
+                    model ?
+                        updateInResult(data, created, model.id) :
+                        addToResult(data, created)
+                    )
+                );
             },
             refetchQueries: !refetch ? undefined : [query],
         });
@@ -150,14 +155,16 @@ export function useModelStore<T extends LocalizedModel, M = Modification<T>, C =
             const {resolveClient} = useApolloClient()
             const client = resolveClient();
             const result = client.readQuery({query});
-            const data = updateInResult(result, model);
-            writeQuery(client, query, data);
+            if (result) {
+                const data = updateInResult(result, model);
+                writeQuery(client, query, data);
+            }
         }
         return updateModel({modification}, {
             update: !updateCacheOnSuccess ? undefined : (cache, result) => {
                 // This assumes that all update mutation returned value is aliased `updated` in all queries
                 const {updated} = result.data;
-                cache.updateQuery({query}, (data) => updateInResult(data, updated));
+                cache.updateQuery({query}, (data) => data && updateInResult(data, updated));
             },
             refetchQueries: !refetch ? undefined : [query],
         });
