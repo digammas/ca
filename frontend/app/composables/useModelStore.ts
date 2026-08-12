@@ -1,7 +1,7 @@
 import type {DocumentNode} from "graphql/language";
 import {useApolloClient, useMutation} from "@vue/apollo-composable";
 import type {Connection, Creation, Edge, LocalizedModel, Model, Modification} from "~/model/common";
-import type {ApolloClient, Unmasked} from "@apollo/client/core";
+import type {Unmasked} from "@apollo/client/core";
 
 type QueryResult<T extends LocalizedModel> = {models: Connection<T>};
 
@@ -39,17 +39,6 @@ function defaultFromCreation<T, C>(source: C): T {
         id: crypto.randomUUID(),
         ...source,
     } as T;
-}
-
-/**
- * Write a query, asserting that data is unmasked.
- */
-function writeQuery<T>(
-    client: ApolloClient<unknown>,
-    query: DocumentNode,
-    data: T,
-) {
-    client.writeQuery({query, data: data as Unmasked<T>, overwrite: true});
 }
 
 export function useModelStore<T extends LocalizedModel, M = Modification<T>, C = Creation<T>>(
@@ -125,8 +114,8 @@ export function useModelStore<T extends LocalizedModel, M = Modification<T>, C =
             const result = client.readQuery({query});
             if (result) {
                 model = fromCreation(creation);
-                const data = addToResult(result, model);
-                writeQuery(client, query, data);
+                const data = addToResult(result, model) as Unmasked<QueryResult<T>>;
+                client.writeQuery<QueryResult<T>>({query, data, overwrite: true});
             }
         }
         return createModel({creation: {...creation, locale: "en"}}, {
@@ -156,8 +145,8 @@ export function useModelStore<T extends LocalizedModel, M = Modification<T>, C =
             const client = resolveClient();
             const result = client.readQuery({query});
             if (result) {
-                const data = updateInResult(result, model);
-                writeQuery(client, query, data);
+                const data = updateInResult(result, model) as Unmasked<QueryResult<T>>;
+                client.writeQuery<QueryResult<T>>({query, data, overwrite: true});
             }
         }
         return updateModel({modification}, {
