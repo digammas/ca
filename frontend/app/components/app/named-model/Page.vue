@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type {DocumentNode} from "graphql/language";
 import {useModelStore} from "~/composables/useModelStore";
+import type {NamedModel} from "~/model/common";
 
 type Props = {
   query: DocumentNode,
@@ -25,7 +26,7 @@ const {
   error,
   loading,
 
-} = useModelStore(
+} = useModelStore<NamedModel>(
     query,
     createMutation,
     updateMutation,

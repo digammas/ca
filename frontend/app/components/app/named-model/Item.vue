@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type {Model, Modification, NamedModel} from "~/model/common";
+import type {UiIconButton} from "#components";
 
 type Props = {
   item: NamedModel,
@@ -15,7 +16,7 @@ const emit = defineEmits<Emits>();
 const editing = ref(false);
 const editingText = ref<string>(item.name);
 const input = ref<HTMLInputElement>();
-const confirmButton = ref<UiIconButton>();
+const confirmButton = ref<InstanceType<typeof UiIconButton>>();
 
 function startEditing() {
   editing.value = true;

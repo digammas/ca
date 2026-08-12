@@ -57,8 +57,8 @@ export function useModelStore<T extends LocalizedModel, M = Modification<T>, C =
     createMutation: DocumentNode,
     updateMutation: DocumentNode,
     removeMutation: DocumentNode,
-    fromModificationOrUndefined: Mapper<M, T> | (M extends Modification<T> ? undefined : never),
-    fromCreationOrUndefined: Mapper<C, T> | (C extends Creation<T> ? undefined : never),
+    fromModificationOrUndefined?: Mapper<M, T> | (M extends Modification<T> ? undefined : never),
+    fromCreationOrUndefined?: Mapper<C, T> | (C extends Creation<T> ? undefined : never),
 ) {
     const fromModification: Mapper<M, T> = fromModificationOrUndefined ?? defaultFromModification;
     const fromCreation: Mapper<C, T> = fromCreationOrUndefined ?? defaultFromCreation;
